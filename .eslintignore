@@ -1,0 +1,11 @@
+/node_modules
+/dist
+**/dist
+**/esm
+/script
+.eslintrc.js
+/playground
+rollup.config.js
+rollup.base.config.js
+commitlint.config.js
+/packages/manager

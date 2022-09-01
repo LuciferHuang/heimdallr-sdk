@@ -1,0 +1,22 @@
+{
+  "name": "@heimdallr-sdk/page-crash",
+  "version": "0.0.1",
+  "license": "ISC",
+  "main": "dist/page-crash.umd.js",
+  "module": "esm/index.js",
+  "types": "esm/index.d.ts",
+  "files": [
+    "dist",
+    "esm"
+  ],
+  "scripts": {
+    "dev": "rollup --config rollup.config.dev.js -w",
+    "build": "run-p build:bundle build:esm",
+    "build:bundle": "rimraf dist && rollup --config",
+    "build:esm": "rimraf esm && tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@heimdallr-sdk/types": "0.0.1",
+    "@heimdallr-sdk/utils": "0.0.1"
+  }
+}

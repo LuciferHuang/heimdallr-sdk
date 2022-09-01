@@ -1,0 +1,58 @@
+import {
+  BasePluginType,
+  BrowserBreadcrumbTypes,
+  ConsoleDataMsgType,
+  ConsoleMsgType,
+  ConsoleTypes,
+  EventTypes,
+  ReportDataType
+} from '@heimdallr-sdk/types';
+import { formatDate, generateUUID, replaceOld } from '@heimdallr-sdk/utils';
+
+const PLUGIN_NAME = 'consolePlugin';
+
+const consolePlugin: BasePluginType = {
+  name: PLUGIN_NAME,
+  monitor(notify: (eventName: string, data: ConsoleDataMsgType) => void) {
+    const logType = ['log', 'info', 'warn', 'error', 'assert'];
+    if (!window.console) {
+      return;
+    }
+    const { debug } = this.context;
+    logType.forEach((level: ConsoleTypes) => {
+      replaceOld(window.console, level, function (originalConsole: () => any): Function {
+        return function (...args: any[]): void {
+          if (originalConsole) {
+            notify(PLUGIN_NAME, {
+              args,
+              level
+            });
+            if (debug) {
+              originalConsole.apply(window.console, args);
+            }
+          }
+        };
+      });
+    });
+  },
+  transform(collectedData: ConsoleDataMsgType): ReportDataType<ConsoleMsgType> {
+    const id = generateUUID();
+    // 添加用户行为栈
+    this.breadcrumb.unshift({
+      eventId: id,
+      type: BrowserBreadcrumbTypes.CONSOLE,
+      data: collectedData
+    });
+    return {
+      id,
+      time: formatDate(),
+      type: EventTypes.CONSOLE,
+      data: {
+        sub_type: collectedData.level,
+        ...collectedData
+      }
+    };
+  }
+};
+
+export default consolePlugin;

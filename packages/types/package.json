@@ -1,0 +1,14 @@
+{
+  "name": "@heimdallr-sdk/types",
+  "version": "0.0.1",
+  "license": "ISC",
+  "main": "esm/index.js",
+  "module": "esm/index.js",
+  "types": "esm/index.d.ts",
+  "files": [
+    "esm"
+  ],
+  "scripts": {
+    "build": "rimraf esm && tsc -p tsconfig.json"
+  }
+}
