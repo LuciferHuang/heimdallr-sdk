@@ -69,7 +69,7 @@ const errorPlugin: BasePluginType = {
       };
     }
     // 代码错误
-    const { message, lineno, colno } = data as ErrorEvent;
+    const { message, lineno, colno, filename } = data as ErrorEvent;
     // 上报用户行为栈
     this.breadcrumb.unshift({
       eventId: id,
@@ -86,7 +86,8 @@ const errorPlugin: BasePluginType = {
         sub_type: BrowserErrorTypes.CODEERROR,
         message,
         lineno,
-        colno
+        colno,
+        filename
       }
     };
   }

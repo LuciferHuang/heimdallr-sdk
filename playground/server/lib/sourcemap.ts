@@ -2,21 +2,34 @@ import fs from 'fs';
 import path from 'path';
 import { SourceMapConsumer } from 'source-map';
 
-type uploadOptions = {
+interface UploadOptionType {
   lineno: number;
   colno: number;
-};
+  filename: string;
+  folder: string;
+}
+
+export interface SourcemapReturnType {
+  status: boolean;
+  msg: string;
+  data?: any;
+}
 
 class TrySourceMap {
-  options: uploadOptions;
+  options: UploadOptionType;
 
-  constructor(options: uploadOptions) {
+  constructor(options: UploadOptionType) {
     this.options = options;
   }
 
-  async find() {
+  async find(): Promise<SourcemapReturnType> {
     try {
-      const rawSourceMapText = fs.readFileSync(path.join(__dirname, `__test__/main.bundle.js.map`), {
+      const { lineno, colno, filename, folder } = this.options;
+      if (!folder || !filename) {
+        throw new Error('missing filename or folder');
+      }
+
+      const rawSourceMapText = fs.readFileSync(path.join(__dirname, `${folder}/${filename}.map`), {
         encoding: 'utf8'
       });
 
@@ -24,7 +37,6 @@ class TrySourceMap {
 
       // @ts-ignore
       const position = await SourceMapConsumer.with(rawSourceMap, null, (consumer) => {
-        const { lineno, colno } = this.options;
         return consumer.originalPositionFor({
           line: lineno,
           column: colno
@@ -33,24 +45,38 @@ class TrySourceMap {
       console.log('position=================');
       console.log(position);
       const { source, line, column, name } = position;
-      if (source) {
-        const index = rawSourceMap.sources.findIndex((i) => path.join(i) === path.join(source));
-        if (index > -1) {
-          const lines = rawSourceMap.sourcesContent[index].split('\n');
-          if (line) {
-            return {
-              ret: 0,
-              msg: 'success',
-              data: lines[line - 1]
-            };
-          }
-        }
+      if (!source) {
+        return {
+          status: true,
+          msg: 'success',
+          data: position
+        };
       }
+      const index = rawSourceMap.sources.findIndex((i) => path.join(i) === path.join(source));
+      if (index <= -1) {
+        return {
+          status: true,
+          msg: 'success',
+          data: position
+        };
+      }
+      const lines = rawSourceMap.sourcesContent[index].split('\n');
+      if (line) {
+        return {
+          status: true,
+          msg: 'success',
+          data: lines[line - 1]
+        };
+      }
+      return {
+        status: true,
+        msg: 'success',
+        data: lines
+      };
     } catch (error) {
       return {
-        ret: -1,
-        msg: 'failed',
-        error
+        status: false,
+        msg: error.message || JSON.stringify(error)
       };
     }
   }

@@ -4,23 +4,7 @@
         <meta charset="utf-8" />
         <title>Webpack App</title>
     </head>
-    <script async src="/browser-dist/browser.iife.js"></script>
-    <script>
-        window.__HEIMDALLR_OPTIONS__ = {
-            // id: 1314,
-            // url: 'http://localhost:8888/',
-            dsn: {
-                host: 'localhost:8888',
-                init: '/errors/sendMsg',
-                err: 'errors/sendMsg'
-            },
-            app: {
-                name: 'testSourceMap',
-                leader: 'wby',
-                desc: 'test proj'
-            },
-        };
-    </script>
+    <script src="./dist/main.bundle.js"></script>
     <body>
         <h1>Hello world!</h1>
         <h2>Tip: Check your console</h2>

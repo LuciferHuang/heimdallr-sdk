@@ -1,7 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-// import formidable from 'formidable';
-import TrySourceMap from '../lib/sourcemap';
+import TrySourceMap, { SourcemapReturnType } from '../lib/sourcemap';
 /**
  * 接收上传文件
  * @param req
@@ -26,9 +25,9 @@ export function upload(req, res) {
     const rs = fs.createReadStream(file.path);
     const ws = fs.createWriteStream(path.join(dirnameNew, filename));
     rs.pipe(ws);
-    rs.on('end', function() {
+    rs.on('end', function () {
       res.send({ code: 0, msg: 'success' });
-    })
+    });
   } catch (error) {
     res.send({ code: -1, msg: error.message || JSON.stringify(error) });
   }
@@ -39,14 +38,28 @@ export function upload(req, res) {
  * @param res
  */
 export function search(req, res) {
-  const { lineno: line, colno: col } = req.fields;
+  const { lineno: line, colno: col, filename, appname } = req.fields;
   if (!line || !col) {
     res.send({ ret: -1, msg: 'missing lineno or colno' });
   }
   let sourceMap = new TrySourceMap({
     lineno: Number(line),
-    colno: Number(col)
+    colno: Number(col),
+    folder: appname,
+    filename
   });
-  sourceMap.find();
-  res.end('发送成功');
+  sourceMap.find().then((response: SourcemapReturnType) => {
+    const { status, data, msg } = response;
+    if (!status) {
+      res.send({
+        code: -1,
+        msg
+      });
+    }
+    res.send({
+      code: 0,
+      msg: 'success',
+      data
+    });
+  });
 }

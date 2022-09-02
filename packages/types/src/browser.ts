@@ -6,6 +6,7 @@ export interface CodeErrorDataType {
   message: string;
   lineno: number;
   colno: number;
+  filename: string;
 }
 
 export interface CodeErrorType extends ReportDataMsgType,CodeErrorDataType {}
