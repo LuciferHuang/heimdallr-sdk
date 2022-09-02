@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "@heimdallr-sdk/types": "0.0.1",
-    "axios": "^0.27.2",
-    "form-data": "^4.0.0"
+    "request": "^2.88.2"
   }
 }

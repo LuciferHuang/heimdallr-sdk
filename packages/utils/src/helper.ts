@@ -82,22 +82,32 @@ export function replaceOld(source: IAnyObject, name: string, replacement: (...ar
 }
 
 export function objDeepCopy(obj: any) {
-  // 对null进行处理
   if (obj === null) return null;
-  // 如果是值类型，直接返回值
   if (typeof obj !== 'object') return obj;
-  // 对Date对象进行处理
-  if (obj.constructor === Date) return new Date(obj);
-  // 对RegExp对象进行处理
-  if (obj.constructor === RegExp) return new RegExp(obj);
-  // 拷贝其构造器，获取该对象的原型，使原型也继承下来
   const newObj = new obj.constructor();
-  for (const key in obj) {
-    // 防止遍历时,拷贝到__proto__的可见属性
+  const isObject = (target) => (typeof target === 'object' ? (target === obj ? newObj : objDeepCopy(target)) : target);
+  if (obj.constructor === Date) return new Date(obj);
+  if (obj.constructor === RegExp) return new RegExp(obj);
+  if (obj.constructor === Map) {
+    const temp = new Map();
+    obj.forEach((val, key) => {
+      temp.set(isObject(key), isObject(val));
+    });
+    return temp;
+  }
+  if (obj.constructor === Set) {
+    const temp = new Set();
+    obj.forEach((item) => {
+      temp.add(isObject(item));
+    });
+    return temp;
+  }
+  const keys = [...Object.keys(obj), ...Object.getOwnPropertySymbols(obj)];
+  for (const key of keys) {
     // eslint-disable-next-line no-prototype-builtins
     if (obj.hasOwnProperty(key)) {
       const val = obj[key];
-      newObj[key] = typeof val === 'object' ? this.objDeepCopy(val) : val;
+      newObj[key] = typeof val === 'object' ? objDeepCopy(val) : val;
     }
   }
   return newObj;

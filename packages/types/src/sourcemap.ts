@@ -6,6 +6,6 @@ export interface SourcemapOptionType {
 }
 
 export interface ResponseType {
-  ret: number;
+  code: number;
   msg: string;
 }

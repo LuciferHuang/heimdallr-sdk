@@ -23,8 +23,12 @@ export function upload(req, res) {
     if (!fs.existsSync(dirnameNew)) {
       fs.mkdirSync(dirnameNew);
     }
-    fs.renameSync(file.path, path.join(dirnameNew, filename));
-    res.send({ code: 0, msg: 'success' });
+    const rs = fs.createReadStream(file.path);
+    const ws = fs.createWriteStream(path.join(dirnameNew, filename));
+    rs.pipe(ws);
+    rs.on('end', function() {
+      res.send({ code: 0, msg: 'success' });
+    })
   } catch (error) {
     res.send({ code: -1, msg: error.message || JSON.stringify(error) });
   }

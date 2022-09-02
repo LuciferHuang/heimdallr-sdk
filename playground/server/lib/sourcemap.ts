@@ -22,6 +22,7 @@ class TrySourceMap {
 
       const rawSourceMap = JSON.parse(rawSourceMapText);
 
+      // @ts-ignore
       const position = await SourceMapConsumer.with(rawSourceMap, null, (consumer) => {
         const { lineno, colno } = this.options;
         return consumer.originalPositionFor({

@@ -1,8 +1,7 @@
 import { SourcemapOptionType, ResponseType } from '@heimdallr-sdk/types';
 import path from 'path';
 import fs from 'fs';
-import FormData from 'form-data';
-import axios from 'axios';
+import request from 'request';
 
 const TAG = '[sourcemap-upload-webpack-plugin]: ';
 
@@ -24,8 +23,8 @@ class UploadSourceMapPlugin<O extends SourcemapOptionType> {
       }
       for (const file of list) {
         try {
-          const { ret, msg } = await this.upload(path.join(outputPath, file));
-          if (ret !== 0) {
+          const { code, msg } = await this.upload(path.join(outputPath, file));
+          if (code !== 0) {
             console.error(TAG, msg);
           }
         } catch (err) {
@@ -36,43 +35,60 @@ class UploadSourceMapPlugin<O extends SourcemapOptionType> {
     });
   }
 
-  upload(file: string): Promise<ResponseType> {
+  upload(filePath: string): Promise<ResponseType> {
     return new Promise((resolve, rejected) => {
-      const { url, folder, errcode = 'ret', errmsg = 'msg' } = this.options;
+      const { url, folder, errcode = 'code', errmsg = 'msg' } = this.options;
       if (!url || !folder) {
-        rejected({ ret: -1, msg: 'missing url or folder in options' });
+        rejected({ code: -1, msg: 'missing url or folder in options' });
       }
 
-      const contentText = fs.createReadStream(file);
-      const filename = path.basename(file);
+      const fileStream = fs.createReadStream(filePath);
+      const filename = path.basename(filePath);
 
-      const formData = new FormData();
-      formData.append('dirname', folder);
-      formData.append('filename', filename);
-      formData.append('file', contentText);
+      const config = {
+        method: 'POST',
+        url,
+        headers: {},
+        formData: {
+          file: {
+            value: fileStream,
+            options: {
+              filename: filePath,
+              contentType: null
+            }
+          },
+          dirname: folder,
+          filename
+        }
+      };
 
-      axios
-        .post(url, formData, {
-          headers: formData.getHeaders()
-        })
-        .then(({ data }) => {
+      request(config, function (err, { body }) {
+        if (err) {
+          rejected({
+            code: -1,
+            msg: err.message || err
+          });
+          return;
+        }
+        try {
+          const data = JSON.parse(body);
           const code = data[errcode];
           const result = {
-            ret: (code || code === 0) ? code : -1,
+            code: code || code === 0 ? code : -1,
             msg: data[errmsg] || '未知错误'
           };
-          if (result.ret === 0) {
+          if (result.code === 0) {
             resolve(result);
           } else {
             rejected(result);
           }
-        })
-        .catch((err) => {
+        } catch (error) {
           rejected({
-            ret: -1,
-            msg: err.message || err
+            code: -1,
+            msg: error.message || error
           });
-        });
+        }
+      });
     });
   }
 }
