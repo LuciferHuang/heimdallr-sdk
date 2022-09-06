@@ -23,12 +23,30 @@ export function generateUUID(): string {
 }
 
 /**
- * 上报
+ * post上报
  * @param req
  * @param res
  */
-export async function upload(req, res) {
+export async function uploadPost(req, res) {
   const param = (req as any).fields;
+  uploadCtrl(res, param);
+}
+/**
+ * get上报
+ * @param req
+ * @param res
+ */
+export async function uploadGet(req, res) {
+  const param = (req as any).query;
+  uploadCtrl(res, param);
+}
+
+/**
+ * 上报主逻辑
+ * @param res
+ * @param param 请求参数
+ */
+async function uploadCtrl(res, param) {
   const { appID, id, time, type, data: paramData, breadcrumb: breadcrumbJson = '[]', path, language, userAgent, pageTitle } = param;
   if (!id || !appID) {
     res.send(failResponse('missing id or appID'));
@@ -94,6 +112,7 @@ export async function upload(req, res) {
     res.send(failResponse(err.message || JSON.stringify(err)));
   }
 }
+
 /**
  * 列表
  * @param req

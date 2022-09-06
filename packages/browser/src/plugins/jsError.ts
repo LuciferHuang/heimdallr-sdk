@@ -74,7 +74,12 @@ const errorPlugin: BasePluginType = {
     this.breadcrumb.unshift({
       eventId: id,
       type: BrowserBreadcrumbTypes.CODE_ERROR,
-      data: data
+      data: {
+        message,
+        lineno,
+        colno,
+        filename
+      }
     });
     const breadcrumb = this.breadcrumb.getStack();
     return {

@@ -1,5 +1,5 @@
 import { BrowserBreadcrumbTypes, BrowserErrorTypes, CrashErrorType, EventTypes } from '@heimdallr-sdk/types';
-import { formatDate, post } from '@heimdallr-sdk/utils';
+import { formatDate, get } from '@heimdallr-sdk/utils';
 
 // 运行在 serviceWorker
 
@@ -38,7 +38,8 @@ class PageCrashWorker {
 
   checkCrash(data: CrashErrorType) {
     const now = Date.now();
-    const { sendUrl, href } = data;
+    const { sendUrl, clientInfo } = data;
+    const href = clientInfo.path;
     for (const id in this.pages) {
       const page = this.pages[id];
       if (now - page.t > this.CRASH_THRESHOLD) {
@@ -54,11 +55,12 @@ class PageCrashWorker {
           ...this.stack
         ];
         // 上报 crash
-        post(sendUrl, {
+        get(sendUrl, {
           id,
           time: formatDate(),
           type: EventTypes.ERROR,
           breadcrumb,
+          ...clientInfo,
           data: {
             sub_type: BrowserErrorTypes.PAGECRASH,
             href

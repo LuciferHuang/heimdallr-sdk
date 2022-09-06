@@ -1,7 +1,7 @@
 import express from 'express';
 import { resolve } from 'path';
 import { init as projInit, list as projList } from '../controller/projCtrl';
-import { upload as logUpload, list as logList, detail as logDetail } from '../controller/logCtrl';
+import { uploadPost as logPostUpload, uploadGet as logGetUpload, list as logList, detail as logDetail } from '../controller/logCtrl';
 import { upload as smUpload, search as smSearch } from '../controller/sourcemapCtrl';
 
 const resolveDirname = (target: string) => resolve(__dirname, target);
@@ -11,7 +11,8 @@ const router = express.Router(); // 创建路由对象
 router.get('/project/init', projInit);
 router.get('/project/list', projList);
 
-router.post('/log/upload', logUpload);
+router.post('/log/upload', logPostUpload);
+router.get('/log/upload', logGetUpload);
 router.get('/log/list', logList);
 router.get('/log/detail', logDetail);
 

@@ -27,9 +27,18 @@ export interface PromiseErrorDataType {
 
 export interface PromiseErrorType extends ReportDataMsgType, PromiseErrorDataType {}
 
+export interface clientInfoType {
+  appID: string;
+  pageTitle: string;
+  path: string;
+  language: string;
+  userAgent: string
+}
+
 export interface CrashErrorType extends ReportDataMsgType, LinkMsgDataType {
   sendUrl: string;
   stack: BreadcrumbPushData[];
+  clientInfo: clientInfoType
 }
 
 export interface DomDataMsgType {
