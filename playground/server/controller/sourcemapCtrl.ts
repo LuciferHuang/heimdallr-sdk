@@ -38,9 +38,15 @@ export function upload(req, res) {
  * @param res
  */
 export function search(req, res) {
-  const { lineno: line, colno: col, filename, appname } = req.fields;
+  const query = { ...req.query };
+  const { lineno: line, colno: col, filename, appname } = query;
   if (!line || !col) {
     res.send({ ret: -1, msg: 'missing lineno or colno' });
+    return;
+  }
+  if (!filename || !appname) {
+    res.send({ ret: -1, msg: 'missing filename or appname' });
+    return;
   }
   let sourceMap = new TrySourceMap({
     lineno: Number(line),
@@ -55,6 +61,7 @@ export function search(req, res) {
         code: -1,
         msg
       });
+      return;
     }
     res.send({
       code: 0,

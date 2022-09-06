@@ -37,9 +37,9 @@ class UploadSourceMapPlugin<O extends SourcemapOptionType> {
 
   upload(filePath: string): Promise<ResponseType> {
     return new Promise((resolve, rejected) => {
-      const { url, folder, errcode = 'code', errmsg = 'msg' } = this.options;
-      if (!url || !folder) {
-        rejected({ code: -1, msg: 'missing url or folder in options' });
+      const { url, appname, errcode = 'code', errmsg = 'msg' } = this.options;
+      if (!url || !appname) {
+        rejected({ code: -1, msg: 'missing url or appname in options' });
       }
 
       const fileStream = fs.createReadStream(filePath);
@@ -57,7 +57,7 @@ class UploadSourceMapPlugin<O extends SourcemapOptionType> {
               contentType: null
             }
           },
-          dirname: folder,
+          dirname: appname,
           filename
         }
       };

@@ -1,6 +1,6 @@
 export interface SourcemapOptionType {
   url: string;
-  folder: string;
+  appname: string;
   errcode?: string;
   errmsg?: string;
 }

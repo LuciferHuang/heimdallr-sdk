@@ -29,7 +29,7 @@ class TrySourceMap {
         throw new Error('missing filename or folder');
       }
 
-      const rawSourceMapText = fs.readFileSync(path.join(__dirname, `${folder}/${filename}.map`), {
+      const rawSourceMapText = fs.readFileSync(path.join(__dirname, '../', `tempSourceMap/${folder}/${filename}.map`), {
         encoding: 'utf8'
       });
 
@@ -44,7 +44,7 @@ class TrySourceMap {
       });
       console.log('position=================');
       console.log(position);
-      const { source, line, column, name } = position;
+      const { source, line } = position;
       if (!source) {
         return {
           status: true,

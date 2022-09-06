@@ -16,7 +16,7 @@ const config = {
   },
   plugins: [
     new UploadSourceMapPlugin({
-      folder: '__test__',
+      appname: 'playgroundAPP',
       url: `http://localhost:8888/sourcemap/upload`
     })
   ],
