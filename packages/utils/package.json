@@ -2,7 +2,7 @@
     "name": "@heimdallr-sdk/utils",
     "version": "0.0.1",
     "license": "ISC",
-    "main": "dist/utils.umd.js",
+    "main": "dist/utils.esm.js",
     "module": "esm/index.js",
     "types": "esm/index.d.ts",
     "files": [

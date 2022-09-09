@@ -21,10 +21,6 @@ export interface BaseOptionsType {
    */
   enabled?: boolean;
   /**
-   * 节流阈值
-   */
-  throttleDelayTime?: number;
-  /**
    * 插件
    */
   plugins?: BasePluginType[];
@@ -52,6 +48,10 @@ export interface CustomerOptionType {
 }
 
 export interface BrowserOptionsType extends BaseOptionsType {
+  /**
+   * 节流阈值
+   */
+  throttleDelayTime?: number;
   /**
    * vue 实例
    */

@@ -1,7 +1,4 @@
 # `core`
 
-> TODO: description
-
-## Usage
-
+> sdk 核心包，对外暴露 Core 类，sdk内部使用，不建议也不需要引入到你的项目中
 

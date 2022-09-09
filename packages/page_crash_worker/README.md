@@ -1,9 +1,8 @@
 # `page-crash`
 
-> TODO: description
+> 页面崩溃的 Web Worker 脚本
 
 ## Usage
 
 ```
-// TODO: DEMONSTRATE API
 ```

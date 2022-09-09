@@ -2,7 +2,7 @@
   "name": "@heimdallr-sdk/sourcemap-upload-webpack-plugin",
   "version": "0.0.1",
   "license": "ISC",
-  "main": "dist/sourcemap-upload-webpack-plugin.umd.js",
+  "main": "dist/sourcemap-upload-webpack-plugin.esm.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
   "files": [

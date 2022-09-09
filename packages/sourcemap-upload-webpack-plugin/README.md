@@ -1,12 +1,26 @@
+# `sourcemap-upload-webpack-plugin`
+
+> webpack 插件，上传 sourcemap 文件
+
+## Options
+
+|名称|类型|描述|默认值|
+|-|-|-|-|
+|url|String|文件上传接口地址|-|
+|appname|String|应用名称（需与注册sdk时的应用名称一致）|-|
+|errcode|String|接口判断依据字段|code|
+|errmsg|String|接口错误信息字段|msg|
+
 ## Usage
 
 ```js
 import UploadSourceMapPlugin from "@heimdallr-sdk/sourcemap-upload-webpack-plugin";
-
-config.plugins = [
+const config = {
+  plugins: [
     new UploadSourceMapPlugin({
-        folder: '__test__',
-        url: `http://localhost:8888/uploadFile`
+      appname: 'playgroundAPP',
+      url: `http://localhost:8888/sourcemap/upload`
     })
-]
+  ]
+}
 ```

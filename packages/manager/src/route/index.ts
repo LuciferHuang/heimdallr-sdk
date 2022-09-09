@@ -8,7 +8,6 @@ const routes = [
   {
     path: "/",
     redirect: "/login",
-    component: null,
   },
   {
     path: "/login",
@@ -24,5 +23,6 @@ const routes = [
 
 export const router = createRouter({
   history: createWebHashHistory(),
+  // @ts-ignore
   routes: routes,
 });

@@ -71,6 +71,8 @@ const init = (options: BrowserOptionsType) => {
   client.use([jsErrorPlugin, promiseErrorPlugin, lifeCyclePlugin, ...plugins]);
 };
 
+export default init;
+
 if (window.__HEIMDALLR_OPTIONS__) {
   init(window.__HEIMDALLR_OPTIONS__);
 }

@@ -3,7 +3,7 @@ import { formatDate, get } from '@heimdallr-sdk/utils';
 
 // 运行在 serviceWorker
 
-const TAG = '[page-crash-worker]:';
+const TAG = '[@heimdallr-sdk/page-crash-worker]:';
 
 class PageCrashWorker {
   private readonly CHECK_CRASH_INTERVAL = 10 * 1000; // 每 10s 检查一次

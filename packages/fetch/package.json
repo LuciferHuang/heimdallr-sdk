@@ -2,7 +2,7 @@
   "name": "@heimdallr-sdk/fetch",
   "version": "0.0.1",
   "license": "ISC",
-  "main": "dist/fetch.umd.js",
+  "main": "dist/fetch.esm.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
   "files": [

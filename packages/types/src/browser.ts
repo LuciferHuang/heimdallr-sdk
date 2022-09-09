@@ -99,7 +99,7 @@ export interface IAnyMsgType extends ReportDataMsgType {
   [key: string]: any;
 }
 
-export const enum BrowserBreadcrumbTypes {
+export enum BrowserBreadcrumbTypes {
   ROUTE = 'Route',
   CLICK = 'UI.Click',
   CONSOLE = 'Console',

@@ -5,7 +5,7 @@ import { generateUUID, getStore } from '@heimdallr-sdk/utils';
 
 const PLUGIN_NAME = BrowserErrorTypes.PAGECRASH;
 
-const Tag = `[@frontendmonitor-${PLUGIN_NAME}]: `;
+const Tag = `[@heimdallr-sdk/${PLUGIN_NAME}]: `;
 
 const PageCrashPlugin: BasePluginType = {
   name: PLUGIN_NAME,

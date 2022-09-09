@@ -2,7 +2,6 @@ import { formatDate, generateUUID } from '@heimdallr-sdk/utils';
 import {
   UnknownFunc,
   BasePluginType,
-  BrowserErrorTypes,
   ViewModel,
   VueReportDataType,
   ReportDataType,
@@ -12,7 +11,7 @@ import {
 
 const PLUGIN_NAME = 'vuePlugin';
 
-const Tag = `[@frontendmonitor-${PLUGIN_NAME}]: `;
+const Tag = `[@heimdallr-sdk/${PLUGIN_NAME}]: `;
 
 const VuePlugin: BasePluginType = {
   name: PLUGIN_NAME,
