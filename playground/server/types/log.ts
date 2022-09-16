@@ -1,6 +1,6 @@
 export interface LogItem {
   id?: string;
-  ascription: string;
+  ascription_id: string;
   breadcrumb: string;
   otime: string;
   type: string;

@@ -4,13 +4,31 @@ import http from 'helper/http';
 import { DEFAULT_PAGE_SIZE } from 'config/others';
 import { copy, cusToRefs, formatDate } from 'helper/utils';
 
+interface BreadcrumbType {
+  time: string;
+  type: string;
+  data: any;
+}
+
+export interface DetailType {
+  path?: string;
+  type?: string;
+  sub_type?: string;
+  ascription_name?: string;
+  ctime?: string;
+  page_title?: string;
+  user_agent?: string;
+  data?: any;
+  breadcrumb?: BreadcrumbType[];
+}
+
 export default function useListTable() {
   const state = reactive({
     tableData: [],
     form: {},
     allItems: 0,
-    isDrawerShow: false,
-    detail: {}
+    detail: {},
+    isDrawerShow: false
   });
   // 翻页
   const page = { index: 1, size: DEFAULT_PAGE_SIZE };
@@ -90,8 +108,8 @@ export default function useListTable() {
         // 弹出详情
         state.detail = {};
         http
-        .get(`/log/detail?id=${id}`)
-        .then((res: any) => {
+          .get(`/log/detail?id=${id}`)
+          .then((res: any) => {
             state.isDrawerShow = true;
             state.detail = res;
           })
@@ -102,7 +120,7 @@ export default function useListTable() {
     }
   }
   // tag类型
-  function tagTypeFilter (type) {
+  function tagTypeFilter(type) {
     switch (type) {
       case 'error':
         return 'danger';
@@ -116,8 +134,12 @@ export default function useListTable() {
         return '';
     }
   }
+  function getDetail() {
+    return state.detail as DetailType || {};
+  }
   return {
     state,
+    getDetail,
     loadData,
     pageHandle,
     selectHandle,

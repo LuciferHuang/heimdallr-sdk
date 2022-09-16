@@ -1,4 +1,4 @@
-import { toRefs } from "vue";
+import { toRefs } from 'vue';
 
 /**
  * 获取当前时间之前或之后的日期
@@ -6,10 +6,7 @@ import { toRefs } from "vue";
  * @param {string} format - 日期格式
  * @return {Array<string>}
  */
-export const getDateRange = (
-  index: number,
-  format: string = "yyyy-MM-dd"
-): string[] => {
+export const getDateRange = (index: number, format = 'yyyy-MM-dd'): string[] => {
   const date = new Date();
   const newDate = new Date();
   const minuts = date.getTime() + 1000 * 60 * 60 * 24 * index;
@@ -35,16 +32,13 @@ export const formatDate = (Dtime: Date | string, format = 'yyyy-MM-dd hh:mm:ss')
   if (Dtime instanceof Date) {
     date = Dtime;
     if (/(y+)/.test(format)) {
-      format = format.replace(
-        RegExp.$1,
-        `${Dtime.getFullYear()}`.substr(4 - RegExp.$1.length)
-      );
+      format = format.replace(RegExp.$1, `${Dtime.getFullYear()}`.substr(4 - RegExp.$1.length));
     }
   } else {
     if (/(y+)/.test(format)) {
       date = new Date(parseInt(Dtime.slice(6, 19)));
-      if (!date || date.toUTCString() === "Invalid Date") {
-        return "";
+      if (!date || date.toUTCString() === 'Invalid Date') {
+        return '';
       }
     } else {
       date = new Date();
@@ -57,7 +51,7 @@ export const formatDate = (Dtime: Date | string, format = 'yyyy-MM-dd hh:mm:ss')
     m: date.getMinutes(), // 分
     s: date.getSeconds(), // 秒
     q: Math.floor((date.getMonth() + 3) / 3), // 季度
-    S: date.getMilliseconds(), // 毫秒
+    S: date.getMilliseconds() // 毫秒
   };
   format = format.replace(/([yMdhmsqS])+/g, (all, t) => {
     let v = map[t];
@@ -67,7 +61,7 @@ export const formatDate = (Dtime: Date | string, format = 'yyyy-MM-dd hh:mm:ss')
         v = v.substr(v.length - 2);
       }
       return v;
-    } else if (t === "y") {
+    } else if (t === 'y') {
       return `${date.getFullYear()}`.substr(4 - all.length);
     }
     return all;
@@ -122,7 +116,7 @@ export const getLocalStore = (key: string): any => {
     if (!str) {
       return str;
     }
-    let datas = "";
+    let datas = '';
     datas = JSON.parse(str);
     return datas;
   } catch (error) {
@@ -198,36 +192,42 @@ export const isHorizontalPic = (url: string): Promise<boolean> => {
  * @return {string|null}
  */
 export const getUrlKey = (name: string, url: string): string | null =>
-  decodeURIComponent(
-    (new RegExp(`[?|&]${name}=([^&;]+?)(&|#|;|$)`).exec(url) || [
-      ,
-      "",
-    ])[1].replace(/\+/g, "%20")
-  ) || null;
+  decodeURIComponent((new RegExp(`[?|&]${name}=([^&;]+?)(&|#|;|$)`).exec(url) || [, ''])[1].replace(/\+/g, '%20')) || null;
 
 /**
  * 深拷贝
  */
-export const objDeepCopy = (obj: any) => {
-  // 对null进行处理
+ export function objDeepCopy(obj: any) {
   if (obj === null) return null;
-  // 如果是值类型，直接返回值
-  if (typeof obj !== "object") return obj;
-  // 对Date对象进行处理
-  if (obj.constructor === Date) return new Date(obj);
-  // 对RegExp对象进行处理
-  if (obj.constructor === RegExp) return new RegExp(obj);
-  // 拷贝其构造器，获取该对象的原型，使原型也继承下来
+  if (typeof obj !== 'object') return obj;
   const newObj = new obj.constructor();
-  Object.keys(obj).forEach((key) => {
-    // 防止遍历时,拷贝到__proto__的可见属性
+  const isObject = (target) => (typeof target === 'object' ? (target === obj ? newObj : objDeepCopy(target)) : target);
+  if (obj.constructor === Date) return new Date(obj);
+  if (obj.constructor === RegExp) return new RegExp(obj);
+  if (obj.constructor === Map) {
+    const temp = new Map();
+    obj.forEach((val, key) => {
+      temp.set(isObject(key), isObject(val));
+    });
+    return temp;
+  }
+  if (obj.constructor === Set) {
+    const temp = new Set();
+    obj.forEach((item) => {
+      temp.add(isObject(item));
+    });
+    return temp;
+  }
+  const keys = [...Object.keys(obj), ...Object.getOwnPropertySymbols(obj)];
+  for (const key of keys) {
+    // eslint-disable-next-line no-prototype-builtins
     if (obj.hasOwnProperty(key)) {
       const val = obj[key];
-      newObj[key] = typeof val === "object" ? objDeepCopy(val) : val;
+      newObj[key] = typeof val === 'object' ? objDeepCopy(val) : val;
     }
-  });
+  }
   return newObj;
-};
+}
 
 /**
  * 拷贝文本
@@ -235,15 +235,14 @@ export const objDeepCopy = (obj: any) => {
  * @return {boolean} - 是否复制成功
  */
 export const copy = (text: string): boolean => {
-  const textArea = document.createElement("textarea");
+  const textArea = document.createElement('textarea');
   let success = false;
   textArea.value = text;
-  textArea.style.cssText =
-    "position:fixed;pointer-events:none;z-index:-9999;opacity:0;";
+  textArea.style.cssText = 'position:fixed;pointer-events:none;z-index:-9999;opacity:0;';
   document.body.appendChild(textArea);
   textArea.select();
   try {
-    success = document.execCommand("copy");
+    success = document.execCommand('copy');
   } catch (err) {
     console.log(err);
   }
@@ -258,17 +257,15 @@ export const copy = (text: string): boolean => {
  * @return {any}
  */
 export const parseValueByPath = (value: object | [], str: string): any => {
-  const path = str.split(".");
-  return path.length > 1
-    ? path.reduce((acc, cur: string) => acc[cur] || "", value)
-    : value[str];
+  const path = str.split('.');
+  return path.length > 1 ? path.reduce((acc, cur: string) => acc[cur] || '', value) : value[str];
 };
 
 /**
  * 图片读取失败处理函数
  */
 export const picerr = (event): void => {
-  const dsrc = "./imgs/img_broken.png";
+  const dsrc = '//i.postimg.cc/6pwsQsYc/afef4ca657.jpg';
   if (dsrc && dsrc !== event.target.src) {
     // 防止当默认图片也出错时，有死循环
     let tmpImage = new Image();

@@ -13,3 +13,10 @@ export interface ModelResponseType<O> {
 export interface IAnyObject {
   [key: string]: any
 }
+
+export interface ConditionType {
+  skip?: number;
+  take?: number;
+  orderBy?: IAnyObject[];
+  where?: IAnyObject
+}

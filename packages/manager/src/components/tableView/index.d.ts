@@ -1,5 +1,5 @@
-type ColumnType = "slot" | "operation";
-type ColumnPlugin = "copy" | "edit" | "translate" | "filter";
+type ColumnType = 'slot' | 'operation';
+type ColumnPlugin = 'copy' | 'edit' | 'translate' | 'filter';
 
 declare interface TranslateConfig {
   url: string;

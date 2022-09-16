@@ -1,7 +1,9 @@
-<template >
+<template>
   <div class="sider-bar" :class="{ mini: state.isCollapse }">
     <div class="sider-fold" @click="foldHandler">
-      <i class="el-icon-s-fold"></i>
+      <el-icon>
+        <Fold />
+      </el-icon>
     </div>
     <el-menu
       background-color="#42485b"
@@ -16,8 +18,10 @@
       <template v-for="(barItem, barIndex) in barList" :key="barIndex">
         <el-sub-menu :index="barItem.path" v-if="barItem.children">
           <template v-slot:title>
-            <i class="mficon" :class="barItem.icon"></i>
-            <span class="text">{{ $t(barItem.text) }}</span>
+            <el-icon class="mficon">
+              <component :is="barItem.icon"></component>
+            </el-icon>
+            <span class="text">{{ barItem.text }}</span>
           </template>
           <el-menu-item
             v-for="(subBarItem, subBarIndex) in barItem.children"
@@ -25,13 +29,15 @@
             :index="subBarItem.path"
             @click="activeHandle(subBarItem)"
           >
-            {{ $t(subBarItem.text) }}
+            {{ subBarItem.text }}
           </el-menu-item>
         </el-sub-menu>
         <el-menu-item v-if="!barItem.children" :index="barItem.path" @click="activeHandle(barItem)">
-          <i class="mficon" :class="barItem.icon"></i>
+          <el-icon class="mficon">
+            <component :is="barItem.icon"></component>
+          </el-icon>
           <template v-slot:title>
-            <span class="text">{{ $t(barItem.text) }}</span>
+            <span class="text">{{ barItem.text }}</span>
           </template>
         </el-menu-item>
       </template>
@@ -41,19 +47,46 @@
 <script lang="ts">
 import { defineComponent, onBeforeMount, reactive } from 'vue';
 import { useRoute } from 'vue-router';
-import { ElMenu, ElMenuItem, ElSubMenu } from 'element-plus';
-import { navList } from 'config/others';
+import { ElIcon, ElMenu, ElMenuItem, ElSubMenu } from 'element-plus';
 import { router } from '@/route';
 import { Nav } from '.';
+import { DataAnalysis, Files, Fold, Folder } from '@element-plus/icons-vue';
 
 export default defineComponent({
   components: {
+    ElIcon,
     ElMenu,
     ElMenuItem,
-    ElSubMenu
+    ElSubMenu,
+    Fold,
+    DataAnalysis,
+    Files,
+    Folder
   },
   setup() {
-    const barList: Nav[] = navList;
+    const barList: Nav[] = [
+      {
+        text: '数据统计',
+        icon: 'DataAnalysis',
+        path: '/home/view',
+        children: [
+          {
+            text: '基础数据',
+            path: '/home/view/basic'
+          }
+        ]
+      },
+      {
+        text: '项目管理',
+        icon: 'Folder',
+        path: '/home/projects/list'
+      },
+      {
+        text: '日志管理',
+        icon: 'Files',
+        path: '/home/log/list'
+      }
+    ];
     const state = reactive({
       isCollapse: false,
       defaultPath: '',
@@ -86,15 +119,15 @@ export default defineComponent({
 <style lang="scss">
 .mini {
   width: 50px !important;
+  .sider-fold .el-icon {
+    transform: rotate(180deg);
+  }
   .el-menu--collapse {
     width: 100% !important;
     .el-submenu__title,
     .el-menu-item .el-tooltip {
       padding: 0 15px !important;
     }
-  }
-  .el-icon-s-fold {
-    transform: rotate(180deg);
   }
 }
 .sider-bar {
@@ -114,8 +147,8 @@ export default defineComponent({
     color: #aeb9c2;
     line-height: 30px !important;
     cursor: pointer;
-    i {
-      font-size: 20px;
+    .el-icon {
+      font-size: 21px;
       display: inline-block;
       transition: 0.518s;
       vertical-align: middle;

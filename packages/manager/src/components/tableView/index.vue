@@ -57,8 +57,8 @@
             <el-button
               v-for="(btn, idx) in column.operates"
               :key="idx"
+              link
               class="opera-btn"
-              type="text"
               :style="operateBtnStyleFilter(btn, scope.row)"
               :class="btn.class"
               :size="btn.size"
@@ -103,7 +103,7 @@ import useFilter from "./hooks/useFilter";
 import useTranslate from "./hooks/useTranslate";
 import { ColumnConfig, BtnCondition } from "./index";
 
-export default defineComponent({
+export default /*#__PURE__*/ defineComponent({
   components: {
     ElTable,
     ElTableColumn,
@@ -181,12 +181,12 @@ export default defineComponent({
       state.config = config;
     }
     // 判断是否使用插件
-    function hasPlugins(column: ColumnConfig, feature) {
+    function hasPlugins(column: ColumnConfig, feature: string): boolean {
       const { plugins = [] } = column;
       return plugins.includes(feature);
     }
     // 按钮是否可用
-    function enableBtn(condition: BtnCondition, row) {
+    function enableBtn(condition: BtnCondition, row): boolean {
       if (Object.keys(condition).length > 0) {
         const { prop = "", arr = [] } = condition;
         return arr.indexOf(row[prop]) !== -1;
@@ -296,8 +296,6 @@ export default defineComponent({
   .el-table__header-wrapper th {
     color: #212121;
     background-color: #eff5ff;
-    padding-top: 0;
-    padding-bottom: 0;
   }
   .operate-btn-group {
     width: 100%;
@@ -307,6 +305,7 @@ export default defineComponent({
     user-select: none;
     .opera-btn {
       margin-bottom: 8px;
+      color: #409eff;
     }
   }
 }

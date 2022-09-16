@@ -2,7 +2,7 @@
   <el-select
     v-model="state.input"
     :multiple="multiple"
-    :placeholder="placeholder || $t('component.selectPlaceholder')"
+    :placeholder="placeholder || '请选择'"
     filterable
     clearable
     remote
@@ -24,7 +24,6 @@
 <script lang="ts">
 import { defineComponent, PropType, reactive, watch } from "vue";
 import { ElSelect, ElOption } from "element-plus";
-import { useI18n } from "vue-i18n";
 import { parseValueByPath } from "helper/utils";
 import http from "helper/http";
 import { InputConfig } from ".";
@@ -41,13 +40,13 @@ export default defineComponent({
     disabled: { type: Boolean, default: false },
     placeholder: { type: String, default: "" },
   },
-  emits: ["update:modelValue", "change"],
+  emits: ["update:modelValue", "input","change"],
   setup(props, { emit }) {
-    const { t } = useI18n();
     let state = reactive({ input: "", options: [], loading: false });
 
     function changeHandle() {
       emit("update:modelValue", state.input);
+      emit("input", state.input);
       emit("change", state.input);
     }
 
@@ -65,7 +64,7 @@ export default defineComponent({
       state.loading = true;
       const { config = {} } = props;
       const {
-        method,
+        method = 'get',
         searchKey,
         defaultParam = {},
         url: configUrl,
@@ -122,7 +121,7 @@ export default defineComponent({
       const map = targetData.map((obj) => {
         let remark = "";
         if (obj.remark) {
-          remark += `[${t("component.remark")}:${obj.remark}]`;
+          remark += `[备注:${obj.remark}]`;
         }
         const option = {
           label: showId ? `${obj[idKey]} - ${obj[nameKey]}` : obj[nameKey],

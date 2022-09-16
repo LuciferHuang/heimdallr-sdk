@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { ModelResponseType, ProjItem } from '../types';
+import { ConditionType, ModelResponseType, ProjItem } from '../types';
 
 class ProjModel {
   prisma: any;
@@ -45,17 +45,16 @@ class ProjModel {
   }
   async find(pindex: number = 1, psize: number = 1, query = {}, order?): Promise<ModelResponseType<ProjItem[]>> {
     try {
+      const condition: ConditionType = { where: query };
       const skip = (pindex - 1) * Number(psize);
-      let orderBy: any[] = [];
-      if (order) {
-        orderBy.push(order);
+      if (skip) {
+        condition.skip = skip;
+        condition.take = Number(psize);
       }
-      const result = await this.prisma.project.findMany({
-        skip,
-        take: Number(psize),
-        where: query,
-        orderBy
-      });
+      if (order) {
+        condition.orderBy = [order];
+      }
+      const result = await this.prisma.project.findMany(condition);
       return {
         status: true,
         data: result,

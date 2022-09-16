@@ -25,9 +25,9 @@
   <el-affix position="bottom" :offset="36">
     <div class="pagger" v-if="pagger">
       <span class="all-page">
-        {{ $t("component.totalPre") }}
+        共
         {{ allItems }}
-        {{ $t("component.totalEnd") }}
+        条数据
       </span>
       <el-pagination
         background

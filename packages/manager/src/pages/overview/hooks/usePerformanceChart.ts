@@ -4,21 +4,20 @@ import { getDateRange } from "helper/utils";
 
 export default function useViewerChart(
   id: string,
-  color: string[],
-  t: Function
+  color: string[]
 ) {
   const viewerTime = ref(7);
   const viewerOptions = [
     {
-      label: t("overview.week"),
+      label: '近7天',
       value: 7,
     },
     {
-      label: t("overview.month"),
+      label: '近30天',
       value: 30,
     },
   ];
-  async function onViewChange(val) {
+  function onViewChange(val) {
     const chart = echarts.init(document.getElementById(id));
     const dateRange = getDateRange(-val - 1, "MM-dd");
     chart.showLoading();
@@ -66,7 +65,7 @@ export default function useViewerChart(
         textStyle: {
           color: "#90979c",
         },
-        data: [t("overview.registors"), t("overview.tourist")],
+        data: ['index', 'task'],
       },
       calculable: true,
       xAxis: [
@@ -129,9 +128,9 @@ export default function useViewerChart(
       ],
       series: [
         {
-          name: t("overview.registors"),
+          name: '注册用户',
           type: "bar",
-          stack: t("overview.totalCount"),
+          stack: '总数',
           barMaxWidth: 28,
           barGap: "8%",
           itemStyle: {
@@ -151,9 +150,9 @@ export default function useViewerChart(
           data: registors,
         },
         {
-          name: t("overview.tourist"),
+          name: '游客',
           type: "bar",
-          stack: t("overview.totalCount"),
+          stack: '总数',
           itemStyle: {
             normal: {
               barBorderRadius: 0,
@@ -172,7 +171,7 @@ export default function useViewerChart(
           data: visitors,
         },
         {
-          name: t("overview.totalCount"),
+          name: '总数',
           type: "line",
           symbolSize: 10,
           symbol: "circle",

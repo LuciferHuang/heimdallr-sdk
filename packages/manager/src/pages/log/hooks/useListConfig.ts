@@ -4,8 +4,20 @@ import { ColumnConfig } from 'components/tableView';
 
 const filterFormItems: FilterItem[] = [
   {
+    renderType: 'smartbox',
+    label: '应用',
+    prop: 'ascription',
+    config: {
+      url: '/project/list?psize=20&pindex=1',
+      targetPath: 'list',
+      nameKey: 'name',
+      searchKey: 'name',
+      idKey: 'id'
+    }
+  },
+  {
     renderType: 'input',
-    label: 'ID',
+    label: '日志ID',
     prop: 'id'
   },
   {
@@ -42,17 +54,16 @@ const filterFormItems: FilterItem[] = [
         label: '用户上报'
       }
     ]
-  }
+  },
 ];
 
 const tableOprates: OperateBtn[] = [
   {
     cmd: 'copy',
     label: '批量复制ID',
-    size: 'small',
     position: 'left',
     plain: true,
-    icon: 'el-icon-document-copy'
+    icon: 'DocumentCopy'
   }
 ];
 
@@ -60,6 +71,7 @@ const tableConfig: ColumnConfig[] = [
   {
     prop: 'id',
     label: 'ID',
+    width: 320,
     plugins: ['copy']
   },
   {
@@ -72,6 +84,11 @@ const tableConfig: ColumnConfig[] = [
     prop: 'sub_type',
     width: 158,
     label: '子类型'
+  },
+  {
+    prop: 'ascription',
+    width: 158,
+    label: '应用'
   },
   {
     prop: 'data',

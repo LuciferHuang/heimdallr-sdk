@@ -1,7 +1,7 @@
 <template>
   <div class="login-wrap">
     <div class="loginBox">
-      <h2>{{ $t('name') }}</h2>
+      <h2>监控后台</h2>
       <el-form ref="formRef" :model="formProxy.form" :rules="rules">
         <el-form-item prop="user">
           <el-input
@@ -12,7 +12,7 @@
             @blur="userActive = !!formProxy.form.user"
             @keyup="keyNext($event)"
           ></el-input>
-          <label :class="{ 'active-label': userActive }" for="user">{{ $t('login.userName') }}</label>
+          <label :class="{ 'active-label': userActive }" for="user">用 户</label>
         </el-form-item>
         <el-form-item prop="pwd">
           <el-input
@@ -25,11 +25,11 @@
             @blur="pwdActive = !!formProxy.form.pwd"
             @keyup="keyEnter($event)"
           ></el-input>
-          <label :class="{ 'active-label': pwdActive }" for="password">{{ $t('login.passWord') }}</label>
+          <label :class="{ 'active-label': pwdActive }" for="password">密 码</label>
         </el-form-item>
       </el-form>
       <el-button type="primary" class="btn" :loading="loading" @click="login">
-        {{ $t('login.btnText') }}
+        登 录
         <span class="btn-border"></span>
         <span class="btn-border"></span>
         <span class="btn-border"></span>
@@ -50,7 +50,6 @@ import { USER_INFOR_KEY, USER_TOKEN_KEY } from 'config/others';
 import { getCookie, setCookie } from 'helper/utils';
 import { router } from '@/route';
 // import http from 'helper/http';
-import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
   components: {
@@ -117,14 +116,13 @@ export default defineComponent({
         this.login();
       }
     }
-    const { t } = useI18n();
     const validateUser = (rule, value, callback) => {
       if (validatePhone(value)) {
         callback();
         return true;
       }
-      callback(new Error(t('login.validatePhoneWarn')));
-      return new Error(t('login.validatePhoneWarn'));
+      callback(new Error('请输入正确的手机号'));
+      return new Error('请输入正确的手机号');
     };
     // 判断是否已登录
     const token = getCookie(USER_TOKEN_KEY);
@@ -136,7 +134,7 @@ export default defineComponent({
         user: [
           {
             required: true,
-            message: t('login.validatePhoneRequired'),
+            message: '请输入手机号',
             trigger: 'blur'
           },
           { validator: validateUser, trigger: 'blur' }
@@ -144,13 +142,13 @@ export default defineComponent({
         pwd: [
           {
             required: true,
-            message: t('login.validatePassportRequired'),
+            message: '请输入密码',
             trigger: 'blur'
           },
           {
             min: 12,
             max: 18,
-            message: t('login.validatePassportWarn'),
+            message: '密码长度为12到18个字符',
             trigger: 'blur'
           }
         ]
@@ -202,21 +200,23 @@ $light-color: #08d3f9;
         width: 100%;
         height: 100%;
         padding-top: 25px;
-        input {
-          font-size: 18px;
-          color: #fff;
+        .el-input__wrapper {
           background-color: transparent;
           border: none;
+          box-shadow: none;
+          input {
+            font-size: 18px;
+            color: #fff;
+          }
         }
         .el-input__suffix {
           height: unset;
           top: 25px;
         }
       }
-      // input:-webkit-autofill {
-      //   box-shadow: 0 0 0 1000px #0c1622 inset;
-      //   -webkit-text-fill-color: #fff;
-      // }
+      .el-form-item__error {
+        font-size: 14px;
+      }
       label {
         position: absolute;
         left: 0;
@@ -230,7 +230,7 @@ $light-color: #08d3f9;
       }
     }
     .btn {
-      padding: 10px 30px;
+      padding: 20px 40px;
       margin-top: 10px;
       color: $light-color;
       position: relative;

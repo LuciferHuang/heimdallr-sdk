@@ -1,35 +1,33 @@
 <template>
-  <el-popover
-    popper-class="copy-popover"
-    placement="bottom-start"
-    v-model:visible="show"
-    trigger="manual"
-  >
+  <el-popover popper-class="copy-popover" placement="bottom-start" :visible="show">
     <p class="copy-popover-tip">
-      <i class="el-icon-circle-check"></i>
-      {{ $t("component.copySuccess") }}
+      <el-icon class="success-icon"><CircleCheck /></el-icon>
+      已复制成功，可使用快捷键 CTRL+V 粘贴
     </p>
     <template #reference>
-      <i class="copy-btn el-icon-document-copy" :class="cusIconClass" @click="handleClick"> </i>
+      <el-icon class="copy-btn" @click="handleClick"><DocumentCopy /></el-icon>
     </template>
   </el-popover>
 </template>
 <script lang="ts">
-import { defineComponent, ref, watch } from "vue";
-import { ElPopover } from "element-plus";
-import { copy } from "helper/utils";
+import { defineComponent, ref, watch } from 'vue';
+import { ElPopover, ElIcon } from 'element-plus';
+import { copy as copyFunc } from 'helper/utils';
+import { CircleCheck, DocumentCopy } from '@element-plus/icons-vue';
 
 export default defineComponent({
   components: {
     ElPopover,
+    ElIcon,
+    CircleCheck,
+    DocumentCopy
   },
   props: {
     duration: { type: Number, default: 2000 },
-    copy: { type: String, default: "" },
-    cusIconClass: { type: String, default: "" },
-    callback: { default: null },
+    copy: { type: String, default: '' },
+    callback: { default: null }
   },
-  setup({ callback, duration }) {
+  setup({ callback, duration, copy }) {
     const show = ref(false);
     let timmerId = 0;
     watch(show, (value) => {
@@ -38,11 +36,11 @@ export default defineComponent({
       }
     });
     function handleClick() {
-      if (typeof callback === "function") {
+      if (typeof callback === 'function') {
         callback();
         return;
       }
-      copy(this.copy);
+      copyFunc(copy);
       successHandle();
     }
     function successHandle() {
@@ -55,9 +53,9 @@ export default defineComponent({
     }
     return {
       show,
-      handleClick,
+      handleClick
     };
-  },
+  }
 });
 </script>
 <style lang="scss">
@@ -80,7 +78,7 @@ export default defineComponent({
     display: flex;
     align-items: center;
     margin: 0;
-    .el-icon-circle-check {
+    .success-icon {
       margin-right: 5px;
       color: #67c23a;
       font: {

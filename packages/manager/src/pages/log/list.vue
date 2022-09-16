@@ -16,23 +16,23 @@
       @operate="operateHandle"
     ></page-table>
   </panel>
-  <el-drawer v-model="state.isDrawerShow" :title="state.detail.path">
+  <el-drawer v-model="state.isDrawerShow" :title="getDetail().path" size="45%">
     <el-descriptions title="详情" :column="2" border>
       <el-descriptions-item label="类型">
-        <el-tag :type="tagTypeFilter(state.detail.type)">{{ state.detail.type }}</el-tag>
+        <el-tag :type="tagTypeFilter(getDetail().type)">{{ getDetail().type }}</el-tag>
       </el-descriptions-item>
-      <el-descriptions-item label="子类">{{ state.detail.sub_type }}</el-descriptions-item>
-      <el-descriptions-item label="应用">{{ state.detail.ascription_name }}</el-descriptions-item>
-      <el-descriptions-item label="发生时间">{{ formatDate(new Date(state.detail.ctime)) }}</el-descriptions-item>
-      <el-descriptions-item label="页面标题">{{ state.detail.page_title }}</el-descriptions-item>
-      <el-descriptions-item label="页面路径">{{ state.detail.path }}</el-descriptions-item>
-      <el-descriptions-item label="userAgent">{{ state.detail.user_agent }}</el-descriptions-item>
-      <el-descriptions-item label="data">{{ state.detail.data }}</el-descriptions-item>
+      <el-descriptions-item label="子类">{{ getDetail().sub_type }}</el-descriptions-item>
+      <el-descriptions-item label="应用">{{ getDetail().ascription_name }}</el-descriptions-item>
+      <el-descriptions-item label="发生时间">{{ formatDate(new Date(getDetail().ctime)) }}</el-descriptions-item>
+      <el-descriptions-item label="页面标题">{{ getDetail().page_title }}</el-descriptions-item>
+      <el-descriptions-item label="页面路径">{{ getDetail().path }}</el-descriptions-item>
+      <el-descriptions-item label="userAgent">{{ getDetail().user_agent }}</el-descriptions-item>
+      <el-descriptions-item label="data">{{ getDetail().data }}</el-descriptions-item>
     </el-descriptions>
     <br />
     <el-timeline>
       <el-timeline-item
-        v-for="(item, index) in state.detail.breadcrumb"
+        v-for="(item, index) in getDetail().breadcrumb"
         :key="index"
         :timestamp="formatDate(new Date(parseInt(item.time)))"
       >
@@ -53,6 +53,7 @@ import useTableFeature from './hooks/useListTable';
 import { formatDate } from 'helper/utils';
 
 export default defineComponent({
+  name: 'logList',
   components: {
     ElAffix,
     ElDrawer,
@@ -75,7 +76,7 @@ export default defineComponent({
     return {
       ...useConfig(), // 引入配置
       ...tableFeature,
-      formatDate
+      formatDate,
     };
   }
 });

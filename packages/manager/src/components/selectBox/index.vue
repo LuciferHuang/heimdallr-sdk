@@ -3,14 +3,14 @@
     popper-class="select-box"
     v-model="input"
     :multiple="multiple"
-    :placeholder="placeholder || $t('component.selectPlaceholder')"
+    :placeholder="placeholder || '请选择'"
     clearable
     :filterable="filterable"
     :disabled="readonly"
     @change="changeHandle"
   >
     <el-checkbox class="select-all-check" v-if="all" v-model="allChecked">
-      {{ allChecked ? $t("component.cancelAll") : $t("component.checkAll") }}
+      {{ allChecked ? '取消全选' : '全选' }}
     </el-checkbox>
     <el-option
       v-for="select in optionsProxy.localOptions || []"
@@ -31,7 +31,6 @@ import {
   watch,
 } from "vue";
 import { ElSelect, ElOption, ElCheckbox } from "element-plus";
-import { useI18n } from "vue-i18n";
 import { Option } from "helper/types";
 import http from "helper/http";
 import { OptionConfig } from "./index";
@@ -57,7 +56,6 @@ export default defineComponent({
   },
   emits: ["input", "change"],
   setup(props, { emit }) {
-    const { t } = useI18n();
     let input = ref<string | Option[]>("");
     watch(
       () => props.value,
@@ -118,7 +116,7 @@ export default defineComponent({
       const map = res[targetPath].map((obj) => {
         let remark = "";
         if (obj.remark) {
-          remark += `[${t("component.remark")}:${obj.remark}]`;
+          remark += `[备注:${obj.remark}]`;
         }
         return {
           label: obj[nameKey],

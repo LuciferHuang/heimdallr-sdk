@@ -26,10 +26,9 @@ const tableOprates: OperateBtn[] = [
   {
     cmd: "copy",
     label: "批量复制ID",
-    size: "small",
     position: "left",
     plain: true,
-    icon: "el-icon-document-copy",
+    icon: "DocumentCopy",
   },
 ];
 

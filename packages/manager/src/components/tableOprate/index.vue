@@ -8,10 +8,13 @@
       :plain="btn.plain"
       :class="btn.class"
       :style="btn.style"
-      :icon="btn.icon"
       :size="btn.size"
       @click="handle(btn.cmd)"
     >
+      <el-icon>
+        <component :is="btn.icon"></component>
+      </el-icon>
+      &nbsp;
       {{ btn.label }}
     </el-button>
     <slot />
@@ -19,43 +22,47 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, PropType } from "vue";
-import { ElButton } from "element-plus";
-import { OperateBtn } from ".";
+import { defineComponent, PropType } from 'vue';
+import { ElButton, ElIcon } from 'element-plus';
+import { OperateBtn } from '.';
+import { DocumentCopy } from '@element-plus/icons-vue';
 
 export default defineComponent({
+  name: 'tableOprate',
   components: {
     ElButton,
+    ElIcon,
+    DocumentCopy
   },
   props: {
     buttonGrop: {
       type: Array as PropType<OperateBtn[]>,
-      default: () => [],
-    },
+      default: () => []
+    }
   },
-  emits: ["trigger"],
+  emits: ['trigger'],
   setup({ buttonGrop }, { emit }) {
     function initConfig() {
       buttonGrop.forEach((btn) => {
         const { position, style = {} } = btn;
         if (position) {
           const styleType = typeof style;
-          if (styleType === "string") {
+          if (styleType === 'string') {
             btn.style = `${style};float: ${position}`;
-          } else if (styleType === "object") {
+          } else if (styleType === 'object') {
             btn.style = { ...style, float: position };
           }
         }
       });
     }
     function handle(cmd: string) {
-      emit("trigger", cmd);
+      emit('trigger', cmd);
     }
     initConfig();
     return {
-      handle,
+      handle
     };
-  },
+  }
 });
 </script>
 <style lang="scss">

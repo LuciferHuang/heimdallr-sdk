@@ -4,7 +4,6 @@
       ref="filterForm"
       :inline="true"
       :model="proxy.form"
-      size="small"
       label-width="77px"
     >
       <el-form-item
@@ -20,7 +19,7 @@
           :placeholder="
             filter.placeholder
               ? filter.placeholder
-              : `${$t('component.inputPlaceholder')}${filter.label}`
+              : `请输入${filter.label}`
           "
           @input="changeHandle"
         ></el-input>
@@ -28,7 +27,7 @@
           v-if="filter.renderType == 'select'"
           v-model="proxy.form[filter.prop]"
           :multiple="(filter.config || {}).multiple"
-          :placeholder="filter.placeholder || $t('component.selectPlaceholder')"
+          :placeholder="filter.placeholder || '请选择'"
           :filterable="(filter.config || {}).filterable"
           :all="(filter.config || {}).all"
           :readonly="!!filter.readonly"
@@ -43,7 +42,7 @@
           :placeholder="
             filter.placeholder
               ? filter.placeholder
-              : `${$t('component.selectPlaceholder')}${filter.label}`
+              : `${'请选择'}${filter.label}`
           "
           :multiple="(filter.config || {}).multiple"
           :disabled="!!filter.readonly"
@@ -55,7 +54,7 @@
           :placeholder="
             filter.placeholder
               ? filter.placeholder
-              : $t('component.selectPlaceholder')
+              : '请选择'
           "
           v-model="proxy.form[filter.prop]"
           @change="changeHandle"
@@ -63,12 +62,8 @@
       </el-form-item>
     </el-form>
     <div class="filter-group-btn">
-      <el-button size="small" type="primary" @click="search">{{
-        $t("component.searchText")
-      }}</el-button>
-      <el-button size="small" @click="reset">{{
-        $t("component.resetText")
-      }}</el-button>
+      <el-button type="primary" @click="search">搜 索</el-button>
+      <el-button @click="reset">重 置</el-button>
     </div>
   </div>
 </template>
@@ -89,6 +84,7 @@ import { cusToRefs } from "helper/utils";
 import { FilterItem } from "components/filterGroup/index";
 
 export default defineComponent({
+  name: 'filterGroup',
   components: {
     ElForm,
     ElFormItem,
@@ -150,9 +146,6 @@ export default defineComponent({
   border-radius: 3px;
   box-shadow: 0 1px 7px 0 rgba(147, 162, 175, 0.2);
   user-select: none;
-  .el-input--small {
-    width: 203px;
-  }
   &-btn {
     margin-top: 18px;
     text-align: center;

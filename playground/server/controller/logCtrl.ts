@@ -27,7 +27,7 @@ export function generateUUID(): string {
  * @param req
  * @param res
  */
-export async function uploadPost(req, res) {
+export function uploadPost(req, res) {
   const param = (req as any).fields;
   uploadCtrl(res, param);
 }
@@ -36,7 +36,7 @@ export async function uploadPost(req, res) {
  * @param req
  * @param res
  */
-export async function uploadGet(req, res) {
+export function uploadGet(req, res) {
   const param = (req as any).query;
   uploadCtrl(res, param);
 }
@@ -74,7 +74,7 @@ async function uploadCtrl(res, param) {
     const { sub_type } = paramObj;
     delete paramObj.sub_type;
     const logInfo = {
-      ascription: appID,
+      ascription_id: appID,
       otime: time,
       type,
       sub_type,
@@ -149,10 +149,29 @@ export async function list(req, res) {
   }
   const { status, data, msg } = await logModel.find(pindex, psize, query, orderBy);
   if (status) {
+    const proj_ids = data?.map(({ ascription_id }) => ({ id: ascription_id }));
+    const {
+      status: proj_status,
+      data: proj_datas = [],
+      msg: proj_msg
+    } = await projModel.find(0, 0, {
+      OR: proj_ids
+    });
+    if (!proj_status) {
+      console.error(proj_msg);
+    }
+    const projMap = proj_datas.reduce((pre, cur) => {
+      const { id, name } = cur;
+      pre[id] = name;
+      return pre;
+    }, {});
     res.send(
       successResponse(
         {
-          list: data,
+          list: data?.map((ele) => ({
+            ...ele,
+            ascription: projMap[ele.ascription_id] || ele.ascription_id
+          })),
           total
         },
         msg
@@ -200,9 +219,9 @@ export async function detail(req, res) {
     }
     // 归属应用名称
     let ascription_name = '';
-    const [{ ascription }] = data || [];
-    if (ascription) {
-      const { status: prStatus, data: prData = [], msg: prMsg } = await projModel.find(1, 1, { id: ascription });
+    const [{ ascription_id }] = data || [];
+    if (ascription_id) {
+      const { status: prStatus, data: prData = [], msg: prMsg } = await projModel.find(1, 1, { id: ascription_id });
       if (!prStatus) {
         throw new Error(prMsg);
       }

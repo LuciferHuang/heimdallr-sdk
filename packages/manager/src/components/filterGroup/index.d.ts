@@ -14,6 +14,13 @@ type DateType =
   | " daterange"
   | "monthrange";
 
+export enum RenderType {
+  INPUT = 'input',
+  SELECT = 'select',
+  SMARTBOX = 'smartbox',
+  DATEPICKER = 'datepicker'
+}
+
 declare interface FilterConfig extends InputConfig {
   multiple?: boolean;
   type?: IDatePickerType;
@@ -25,7 +32,7 @@ declare interface FilterConfig extends InputConfig {
 export declare interface FilterItem {
   prop: string;
   label: string;
-  renderType: string;
+  renderType: RenderType;
   placeholder?: string;
   options?: Array<Option>;
   readonly?: boolean;

@@ -1,4 +1,4 @@
-export declare type ComponentSize = "small" | "large" | "medium" | "mini";
+export declare type ComponentSize = "small" | "large" | "default";
 export declare type BtnType =
   | "default"
   | "text"

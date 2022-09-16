@@ -2,55 +2,46 @@
   <div class="panel" :class="{ 'shadow-top': topShadow }">
     <div v-if="title" class="panel-hd">
       <h4 class="title">{{ title }}</h4>
-      <span v-if="plugins.includes('more')" class="sub-text" @click="more">{{
-        $t("component.more")
-      }}</span>
-      <span
-        v-if="plugins.includes('collapse')"
-        class="sub-text"
-        @click="collapse = !collapse"
-        >{{ collapse ? $t("component.unfold") : $t("component.fold") }}</span
-      >
+      <span v-if="plugins.includes('more')" class="sub-text" @click="more">查看更多</span>
+      <span v-if="plugins.includes('collapse')" class="sub-text" @click="collapse = !collapse">{{ collapse ? '展开' : '收起' }}</span>
     </div>
     <div class="panel-bd" :class="{ 'collapse-bd': collapse }">
-      <span
-        v-if="collapse"
-        class="collapse-bar el-icon-d-arrow-right"
-        :title="$t('component.unfoldBtn')"
-        @click="collapse = !collapse"
-      ></span>
+      <el-icon v-if="collapse" class="collapse-bar" @click="collapse = !collapse"><ArrowRightBold /></el-icon>
       <slot v-else />
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, PropType, ref } from "vue";
-import { ElMessage } from "element-plus";
-import { useI18n } from "vue-i18n";
-import { Plugin } from "./index";
+import { defineComponent, PropType, ref } from 'vue';
+import { ElIcon, ElMessage } from 'element-plus';
+import { Plugin } from './index';
+import { ArrowRightBold } from '@element-plus/icons-vue';
 
 export default defineComponent({
+  components: {
+    ElIcon,
+    ArrowRightBold
+  },
   props: {
-    title: { type: String, default: "" },
-    link: { type: String, default: "" },
+    title: { type: String, default: '' },
+    link: { type: String, default: '' },
     plugins: { type: Array as PropType<Plugin[]>, default: () => [] },
-    topShadow: { type: Boolean, default: false },
+    topShadow: { type: Boolean, default: false }
   },
   setup(props) {
-    const { t } = useI18n();
     const collapse = ref(false);
     function more() {
       const { link } = props;
       if (!link) {
-        ElMessage.warning(t("component.linkWarn"));
+        ElMessage.warning('链接地址不存在');
       }
       window.open(link);
     }
     return {
       collapse,
-      more,
+      more
     };
-  },
+  }
 });
 </script>
 <style lang="scss">
@@ -71,7 +62,7 @@ export default defineComponent({
       margin: 0;
       display: inline;
       &:before {
-        content: "";
+        content: '';
         width: 4px;
         height: 15px;
         position: absolute;
