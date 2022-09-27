@@ -50,7 +50,7 @@ export default defineComponent({
   background: #fff;
   border-radius: 3px;
   margin-bottom: 20px;
-  padding: 20px;
+  padding: 10px;
   position: relative;
   box-shadow: 0 3px 8px 0 #dfdfdf;
   &-hd {

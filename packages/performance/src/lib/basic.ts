@@ -1,3 +1,5 @@
+import { formatDecimal } from "@heimdallr-sdk/utils";
+
 interface BasicType {
   dnsSearch: number; // DNS 解析耗时
   tcpConnect: number; // TCP 连接耗时
@@ -41,21 +43,21 @@ export default function getBasic(): BasicType {
   const { startTime: fp } = performance.getEntriesByType('paint').find(({ name }) => name === 'first-paint') || {};
   const { startTime: fcp } = performance.getEntriesByType('paint').find(({ name }) => name === 'first-contentful-paint') || {};
   return {
-    dnsSearch: domainLookupEnd - domainLookupStart,
-    tcpConnect: connectEnd - connectStart,
-    sslConnect: connectEnd - secureConnectionStart,
-    request: responseStart - requestStart,
-    response: responseEnd - responseStart,
-    parseDomTree: domInteractive - responseEnd,
-    resource: loadEventStart - domContentLoadedEventEnd,
-    domReady: domContentLoadedEventEnd - fetchStart,
-    interactive: domInteractive - fetchStart,
-    complete: loadEventStart - fetchStart,
-    httpHead: transferSize - encodedBodySize,
-    redirect: redirectCount,
-    redirectTime: redirectEnd - redirectStart,
-    duration,
-    fp,
-    fcp
+    dnsSearch: formatDecimal(domainLookupEnd - domainLookupStart, 3),
+    tcpConnect: formatDecimal(connectEnd - connectStart, 3),
+    sslConnect: formatDecimal(connectEnd - secureConnectionStart, 3),
+    request: formatDecimal(responseStart - requestStart, 3),
+    response: formatDecimal(responseEnd - responseStart, 3),
+    parseDomTree: formatDecimal(domInteractive - responseEnd, 3),
+    resource: formatDecimal(loadEventStart - domContentLoadedEventEnd, 3),
+    domReady: formatDecimal(domContentLoadedEventEnd - fetchStart, 3),
+    interactive: formatDecimal(domInteractive - fetchStart, 3),
+    complete: formatDecimal(loadEventStart - fetchStart, 3),
+    httpHead: formatDecimal(transferSize - encodedBodySize, 3),
+    redirect: formatDecimal(redirectCount, 3),
+    redirectTime: formatDecimal(redirectEnd - redirectStart, 3),
+    duration: formatDecimal(duration, 3),
+    fp: formatDecimal(fp, 3),
+    fcp: formatDecimal(fcp, 3),
   };
 }

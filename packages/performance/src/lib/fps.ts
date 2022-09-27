@@ -1,3 +1,5 @@
+import { formatDecimal } from "@heimdallr-sdk/utils";
+
 class FpsTool {
   private lastTime: number;
   private frame: number;
@@ -26,7 +28,7 @@ class FpsTool {
     });
   }
   get(): number {
-    return this.fps;
+    return formatDecimal(this.fps, 3);
   }
   destroy() {
     cancelAnimationFrame(this.animationFramId);

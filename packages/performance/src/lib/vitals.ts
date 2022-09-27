@@ -1,3 +1,4 @@
+import { formatDecimal } from '@heimdallr-sdk/utils';
 import { getLCP, getFID, getCLS, Metric } from 'web-vitals';
 
 interface VitalsType {
@@ -35,9 +36,9 @@ export default function (): Promise<VitalsType> {
     Promise.all([fetchLcp(), fetchFid(), fetchCls()]).then((results) => {
       const [lcp, fid, cls] = results;
       rs({
-        lcp,
-        fid,
-        cls
+        lcp: formatDecimal(lcp, 3),
+        fid: formatDecimal(fid, 3),
+        cls: formatDecimal(cls, 3)
       });
     });
   });

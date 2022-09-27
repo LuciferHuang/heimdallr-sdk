@@ -1,3 +1,5 @@
+import { formatDecimal } from "@heimdallr-sdk/utils";
+
 const IGNORE_TAG_SET = ['SCRIPT', 'STYLE', 'META', 'HEAD', 'LINK'];
 
 const TAG_WEIGHT_MAP = {
@@ -152,7 +154,7 @@ export default class FMPTiming {
         this.initResourceMap();
         const resultSet = this.filterTheResultSet(tp.els);
         const fmpTiming = this.calResult(resultSet);
-        rs(fmpTiming);
+        rs(formatDecimal(fmpTiming, 3));
       } else {
         setTimeout(() => {
           this.calFinallScore().then((res) => {

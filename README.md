@@ -31,7 +31,7 @@ yarn
 
 构建单个包
 
-```
+```bash
 yarn workspace [packageName] build
 ```
 
@@ -42,11 +42,13 @@ yarn workspace [packageName] build
 ```
 
 构建所有包
+
 ```bash
 yarn build
 ```
+
 ## 使用
 
-```
+```js
 
 ```

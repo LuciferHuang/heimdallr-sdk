@@ -112,3 +112,14 @@ export function objDeepCopy(obj: any) {
   }
   return newObj;
 }
+
+export function formatDecimal(num: number, decimal: number): number {
+  let str = num.toString();
+  const index = str.indexOf('.');
+  if (index !== -1) {
+    str = str.substring(0, decimal + index + 1);
+  } else {
+    str = str.substring(0);
+  }
+  return parseFloat(str);
+}

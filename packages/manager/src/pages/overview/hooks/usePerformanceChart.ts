@@ -1,42 +1,52 @@
 import * as echarts from "echarts";
-import { ref } from "vue";
+import { reactive } from "vue";
 import { getDateRange } from "helper/utils";
+import http from "@/helper/http";
 
 export default function useViewerChart(
-  id: string,
   color: string[]
 ) {
-  const viewerTime = ref(7);
-  const viewerOptions = [
-    {
-      label: '近7天',
-      value: 7,
-    },
-    {
-      label: '近30天',
-      value: 30,
-    },
-  ];
-  function onViewChange(val) {
-    const chart = echarts.init(document.getElementById(id));
-    const dateRange = getDateRange(-val - 1, "MM-dd");
-    chart.showLoading();
+  const projList = reactive([]);
+  async function render() {
+    const res = await http.get('/statistic/proj');
+    // @ts-ignore
+    for (const proj of res) {
+      const { id, name } = proj;
+      if (id) {
+        const dateRange = getDateRange(-8, "MM-dd"); // 一周
+        projList.push({
+          id,
+          name,
+          options: getOptions(dateRange.slice(0, dateRange.length - 1))
+        });
+      }
+    }
     setTimeout(() => {
-      chart.setOption(getOptions(dateRange.slice(0, dateRange.length - 1)));
-      chart.hideLoading();
-    }, 888);
+      projList.forEach(({ id, options }) => {
+        const chart = echarts.init(document.getElementById(`${id}_chart`));
+        chart.showLoading();
+        setTimeout(() => {
+          chart.setOption(options);
+          chart.hideLoading();
+        }, 888);
+      });
+    });
   }
   // 图表
   function getOptions(xdatas: string[]) {
-    const registors = [];
-    const visitors = [];
+    const fmp = [];
+    const err = [];
+    const api = [];
     const total = [];
+    // mock
     xdatas.forEach(() => {
       const temp1 = Math.floor(Math.random() * 90 + 10);
-      registors.push(temp1);
+      fmp.push(temp1);
       const temp2 = Math.floor(Math.random() * 90 + 10);
-      visitors.push(temp2);
-      total.push(temp1 + temp2);
+      err.push(temp2);
+      const temp3 = Math.floor(Math.random() * 90 + 10);
+      api.push(temp3);
+      total.push(temp1 + temp2 + temp3);
     });
     return {
       color,
@@ -128,7 +138,7 @@ export default function useViewerChart(
       ],
       series: [
         {
-          name: '注册用户',
+          name: '异常数',
           type: "bar",
           stack: '总数',
           barMaxWidth: 28,
@@ -147,10 +157,10 @@ export default function useViewerChart(
               },
             },
           },
-          data: registors,
+          data: err,
         },
         {
-          name: '游客',
+          name: '慢页面',
           type: "bar",
           stack: '总数',
           itemStyle: {
@@ -168,7 +178,28 @@ export default function useViewerChart(
               },
             },
           },
-          data: visitors,
+          data: fmp,
+        },
+        {
+          name: '慢API',
+          type: "bar",
+          stack: '总数',
+          itemStyle: {
+            normal: {
+              barBorderRadius: 0,
+              label: {
+                show: true,
+                position: "inside",
+                textStyle: {
+                  color: "#fff",
+                },
+                formatter: function (p) {
+                  return p.value > 0 ? p.value : "";
+                },
+              },
+            },
+          },
+          data: api,
         },
         {
           name: '总数',
@@ -192,15 +223,8 @@ export default function useViewerChart(
       ],
     };
   }
-  function render() {
-    onViewChange(viewerTime.value);
-  }
   return {
-    render,
-    config: {
-      viewerTime,
-      viewerOptions,
-      onViewChange,
-    },
+    projList,
+    render
   };
 }
