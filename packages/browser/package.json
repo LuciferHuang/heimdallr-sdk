@@ -1,13 +1,29 @@
 {
   "name": "@heimdallr-sdk/browser",
   "version": "0.0.1",
-  "license": "ISC",
+  "description": "A SDK For Monitoring Browser Errors",
+  "license": "MIT",
+  "author": "Hlianfa",
   "main": "dist/browser.esm.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
   "files": [
     "dist",
     "esm"
+  ],
+  "homepage": "https://github.com/Hlianfa/heimdallr-sdk/blob/main/packages/browser/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hlianfa/heimdallr-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Hlianfa/heimdallr-sdk/issues"
+  },
+  "keywords": [
+    "heimdallr",
+    "sdk",
+    "browser",
+    "monitor"
   ],
   "scripts": {
     "dev": "rollup --config rollup.config.dev.js -w",

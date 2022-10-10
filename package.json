@@ -1,6 +1,9 @@
 {
   "name": "heimdallr-sdk",
   "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
+  "author": "Hlianfa",
   "workspaces": [
     "packages/*"
   ],
@@ -15,6 +18,19 @@
     "lint-staged": "lint-staged",
     "commitlint": "commitlint --config commitlint.config.js -e -V"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hlianfa/heimdallr-sdk.git"
+  },
+  "keywords": [
+    "heimdallr",
+    "error",
+    "performance",
+    "sourcemap",
+    "collect",
+    "broswer",
+    "vue"
+  ],
   "devDependencies": {
     "@commitlint/cli": "^17.0.3",
     "@commitlint/config-conventional": "^17.0.3",

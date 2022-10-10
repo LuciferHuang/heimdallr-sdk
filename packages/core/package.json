@@ -1,13 +1,28 @@
 {
   "name": "@heimdallr-sdk/core",
   "version": "0.0.1",
-  "license": "ISC",
+  "description": "@heimdallr-sdk/core",
+  "license": "MIT",
+  "author": "Hlianfa",
   "main": "dist/core.esm.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
   "files": [
     "dist",
     "esm"
+  ],
+  "homepage": "https://github.com/Hlianfa/heimdallr-sdk/blob/main/packages/core/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hlianfa/heimdallr-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Hlianfa/heimdallr-sdk/issues"
+  },
+  "keywords": [
+    "heimdallr",
+    "sdk",
+    "monitor"
   ],
   "scripts": {
     "dev": "rimraf dist && rollup --config --watch",

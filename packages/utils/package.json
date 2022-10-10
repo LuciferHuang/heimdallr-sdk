@@ -1,7 +1,9 @@
 {
   "name": "@heimdallr-sdk/utils",
   "version": "0.0.1",
-  "license": "ISC",
+  "description": "@heimdallr-sdk/utils",
+  "license": "MIT",
+  "author": "Hlianfa",
   "main": "dist/utils.esm.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
@@ -9,6 +11,14 @@
     "dist",
     "esm"
   ],
+  "homepage": "https://github.com/Hlianfa/heimdallr-sdk/blob/main/packages/utils/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hlianfa/heimdallr-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Hlianfa/heimdallr-sdk/issues"
+  },
   "scripts": {
     "dev": "rimraf dist && rollup --config --watch",
     "build": "run-p build:bundle build:esm",

@@ -1,11 +1,27 @@
 {
   "name": "@heimdallr-sdk/manager",
   "version": "0.0.1",
+  "description": "@heimdallr-sdk/manager",
+  "license": "MIT",
+  "author": "Hlianfa",
   "scripts": {
     "dev": "cross-env NODE_ENV=development vite",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview"
   },
+  "homepage": "https://github.com/Hlianfa/heimdallr-sdk/blob/main/packages/manager/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hlianfa/heimdallr-sdk.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Hlianfa/heimdallr-sdk/issues"
+  },
+  "keywords": [
+    "heimdallr",
+    "vue",
+    "manager"
+  ],
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.9",
     "axios": "^0.21.4",
