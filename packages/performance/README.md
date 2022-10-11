@@ -3,6 +3,7 @@
 > 性能监控sdk
 
 可监控以下指标
+
 - basic
     - dnsSearch: DNS 解析耗时
     - tcpConnect: TCP 连接耗时
@@ -39,6 +40,50 @@
 
 ## Usage
 
+### cdn
+
+```html
+<script src="[performance-dist]/performance.iife.js"></script>
+<script>
+    window.__HEIMDALLR_OPTIONS__ = {
+        dsn: {
+            host: 'localhost:8888',
+            init: '/project/init',
+            upload: '/log/upload'
+        },
+        app: {
+            name: 'playgroundAPP',
+            leader: 'test',
+            desc: 'test proj'
+        },
+        plugins: [
+            HEIMDALLR_PERFORMANCE,
+        ],
+        debug: true
+    };
+</script>
+<script async src="/browser-dist/browser.iife.js"></script>
 ```
 
+### npm
+
+```js
+import heimdallr from "@heimdallr-sdk/browser";
+import performancePlugin from "@heimdallr-sdk/performance";
+heimdallr({
+    dsn: {
+        host: 'localhost:8888',
+        init: '/project/init',
+        upload: '/log/upload'
+    },
+    app: {
+        name: 'playgroundAPP',
+        leader: 'test',
+        desc: 'test proj'
+    },
+    plugins: [
+        performancePlugin,
+    ],
+    debug: true
+});
 ```

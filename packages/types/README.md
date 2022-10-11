@@ -1,7 +1,3 @@
 # `types`
 
-> TODO: description
-
-## Usage
-
-
+> helmdallr-sdk type describe

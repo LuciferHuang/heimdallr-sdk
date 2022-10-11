@@ -21,6 +21,50 @@
 
 ## Usage
 
+### cdn
+
+```html
+<script src="[customer-dist]/customer.iife.js"></script>
+<script>
+    window.__HEIMDALLR_OPTIONS__ = {
+        dsn: {
+            host: 'localhost:8888',
+            init: '/project/init',
+            upload: '/log/upload'
+        },
+        app: {
+            name: 'playgroundAPP',
+            leader: 'test',
+            desc: 'test proj'
+        },
+        plugins: [
+            HEIMDALLR_CUSTOMER,
+        ],
+        debug: true
+    };
+</script>
+<script async src="/browser-dist/browser.iife.js"></script>
 ```
-// TODO: DEMONSTRATE API
+
+### npm
+
+```js
+import heimdallr from "@heimdallr-sdk/browser";
+import customerPlugin from "@heimdallr-sdk/customer";
+heimdallr({
+    dsn: {
+        host: 'localhost:8888',
+        init: '/project/init',
+        upload: '/log/upload'
+    },
+    app: {
+        name: 'playgroundAPP',
+        leader: 'test',
+        desc: 'test proj'
+    },
+    plugins: [
+        customerPlugin,
+    ],
+    debug: true
+});
 ```

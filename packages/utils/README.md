@@ -1,4 +1,3 @@
 # `utils`
 
-> tool sdk
-
+> tools sdk

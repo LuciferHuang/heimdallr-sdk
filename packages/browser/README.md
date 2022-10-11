@@ -3,6 +3,7 @@
 > 浏览器监控基座，内置错误捕获sdk
 
 可捕获错误类型
+
 - js错误
 - 资源加载错误
 - unhandledrejection
@@ -37,10 +38,9 @@
 
 ## Usage
 
-### CDN
+### cdn
 
 ```html
-<script src="/dom-dist/dom.iife.js"></script>
 <script>
     window.__HEIMDALLR_OPTIONS__ = {
         dsn: {
@@ -53,9 +53,6 @@
             leader: 'test',
             desc: 'test proj'
         },
-        plugins: [
-            HEIMDALLR_DOM,
-        ],
         debug: true
     };
 </script>
@@ -65,5 +62,18 @@
 ### npm
 
 ```js
-
+import heimdallr from "@heimdallr-sdk/browser";
+heimdallr({
+    dsn: {
+        host: 'localhost:8888',
+        init: '/project/init',
+        upload: '/log/upload'
+    },
+    app: {
+        name: 'playgroundAPP',
+        leader: 'test',
+        desc: 'test proj'
+    },
+    debug: true
+});
 ```
