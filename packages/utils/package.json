@@ -19,6 +19,9 @@
   "bugs": {
     "url": "https://github.com/Hlianfa/heimdallr-sdk/issues"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "rimraf dist && rollup --config --watch",
     "build": "run-p build:bundle build:esm",

@@ -22,6 +22,9 @@
     "vue",
     "manager"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@element-plus/icons-vue": "^2.0.9",
     "axios": "^0.21.4",

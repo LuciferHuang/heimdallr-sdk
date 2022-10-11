@@ -26,6 +26,9 @@
     "sourcemap",
     "webpack"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "rimraf dist && rollup --config --watch",
     "build": "run-p build:bundle build:esm",

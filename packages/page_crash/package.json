@@ -27,6 +27,9 @@
     "Web Workers",
     "monitor"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "dev": "rollup --config rollup.config.dev.js -w",
     "build": "run-p build:bundle build:esm",

@@ -18,6 +18,9 @@
   "bugs": {
     "url": "https://github.com/Hlianfa/heimdallr-sdk/issues"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "rimraf esm && tsc -p tsconfig.json"
   }
