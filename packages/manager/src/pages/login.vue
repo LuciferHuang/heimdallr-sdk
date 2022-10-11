@@ -10,8 +10,8 @@
             :disabled="loading"
             @focus="userActive = true"
             @blur="userActive = !!formProxy.form.user"
-            @keyup="keyNext($event)"
           ></el-input>
+            <!-- @keyup="keyNext($event)" -->
           <label :class="{ 'active-label': userActive }" for="user">用 户</label>
         </el-form-item>
         <el-form-item prop="pwd">
@@ -23,8 +23,8 @@
             :disabled="loading"
             @focus="pwdActive = true"
             @blur="pwdActive = !!formProxy.form.pwd"
-            @keyup="keyEnter($event)"
           ></el-input>
+            <!-- @keyup="keyEnter($event)" -->
           <label :class="{ 'active-label': pwdActive }" for="password">密 码</label>
         </el-form-item>
       </el-form>

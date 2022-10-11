@@ -11,13 +11,11 @@
   >
     <template #poster="scope">
       <el-popover trigger="hover" placement="right" popper-class="popover-img">
-        <img :src="scope.row.poster" @error="picerr($event)" />
+        <img :src="scope.row.poster"/>
+        <!-- <img :src="scope.row.poster" @error="picerr($event)" /> -->
         <template #reference>
-          <img
-            class="table-img"
-            @error="picerr($event)"
-            :src="scope.row.poster"
-          />
+          <img class="table-img" :src="scope.row.poster" />
+          <!-- <img class="table-img" @error="picerr($event)" :src="scope.row.poster" /> -->
         </template>
       </el-popover>
     </template>
@@ -42,63 +40,63 @@
   </el-affix>
 </template>
 <script lang="ts">
-import { defineComponent, watch, reactive, PropType } from "vue";
-import { ElPopover, ElPagination, ElAffix } from "element-plus";
-import { DEFAULT_PAGE_SIZE } from "config/others";
-import { picerr } from "helper/utils";
-import tableView from "components/tableView/index.vue";
-import { ColumnConfig } from "components/tableView/index";
+import { defineComponent, watch, reactive, PropType } from 'vue';
+import { ElPopover, ElPagination, ElAffix } from 'element-plus';
+import { DEFAULT_PAGE_SIZE } from 'config/others';
+import { picerr } from 'helper/utils';
+import tableView from 'components/tableView/index.vue';
+import { ColumnConfig } from 'components/tableView/index';
 
 export default defineComponent({
   components: {
     tableView,
     ElPopover,
     ElPagination,
-    ElAffix,
+    ElAffix
   },
   props: {
     pagger: {
       type: Boolean,
-      default: true,
+      default: true
     },
     allItems: {
       type: Number,
-      default: 0,
+      default: 0
     },
     pageConfig: {
       type: Array,
-      default: () => ["sizes", "prev", "pager", "next"],
+      default: () => ['sizes', 'prev', 'pager', 'next']
     },
     pageSizes: {
       type: Array as PropType<number[]>,
-      default: () => [20, 50, 100],
+      default: () => [20, 50, 100]
     },
     tableclass: {
       type: String,
-      default: "",
+      default: ''
     },
     tableConfig: {
       type: Array as PropType<ColumnConfig[]>,
-      default: () => [],
+      default: () => []
     },
     filterMap: {
       type: Object,
-      default: () => ({}),
+      default: () => ({})
     },
     selectable: {
       type: Boolean,
-      default: false,
+      default: false
     },
     datas: {
       type: Array,
-      default: () => [],
-    },
+      default: () => []
+    }
   },
-  emits: ["page", "selected", "sortChange", "operate"],
+  emits: ['page', 'selected', 'sortChange', 'operate'],
   setup(props, { emit }) {
     const state = reactive({
       tableData: [],
-      pageSize: DEFAULT_PAGE_SIZE,
+      pageSize: DEFAULT_PAGE_SIZE
     });
     watch(
       () => props.datas,
@@ -119,22 +117,22 @@ export default defineComponent({
       pageEmit();
     }
     function pageEmit() {
-      emit("page", {
+      emit('page', {
         pindex: pageIndex,
-        psize: state.pageSize,
+        psize: state.pageSize
       });
     }
     // 操作按钮点击事件
     function operateHandle(cmd, row) {
-      emit("operate", cmd, row);
+      emit('operate', cmd, row);
     }
     // 选择框
     function selectHandle(arr) {
-      emit("selected", arr);
+      emit('selected', arr);
     }
     // 排序
     function sortHandle(val) {
-      emit("sortChange", val);
+      emit('sortChange', val);
     }
     return {
       state,
@@ -143,9 +141,9 @@ export default defineComponent({
       operateHandle,
       selectHandle,
       sortHandle,
-      picerr,
+      picerr
     };
-  },
+  }
 });
 </script>
 <style lang="scss">

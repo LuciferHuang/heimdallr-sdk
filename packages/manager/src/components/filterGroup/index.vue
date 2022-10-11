@@ -21,7 +21,7 @@
               ? filter.placeholder
               : `请输入${filter.label}`
           "
-          @input="changeHandle"
+          @input="inputChangeHandle"
         ></el-input>
         <select-box
           v-if="filter.renderType == 'select'"
@@ -33,7 +33,7 @@
           :readonly="!!filter.readonly"
           :options="filter.options || []"
           :optionConfig="(filter.config || {}).optionConfig"
-          @input="changeHandle"
+          @input="inputChangeHandle"
         />
         <smart-box
           v-if="filter.renderType == 'smartbox'"
@@ -46,7 +46,7 @@
           "
           :multiple="(filter.config || {}).multiple"
           :disabled="!!filter.readonly"
-          @input="changeHandle"
+          @input="inputChangeHandle"
         />
         <el-date-picker
           v-if="filter.renderType == 'datepicker'"
@@ -126,15 +126,21 @@ export default defineComponent({
     function search() {
       emit("search", cusToRefs(proxy.form));
     }
-    function changeHandle() {
+    function inputChangeHandle(val: string) {
       emit("update:modelValue", proxy.form);
     }
+    function changeHandle(e: Event) {
+      emit("update:modelValue", proxy.form);
+      return e;
+    }
+
     return {
       proxy,
       filterForm,
       reset,
       search,
-      changeHandle,
+      inputChangeHandle,
+      changeHandle
     };
   },
 });

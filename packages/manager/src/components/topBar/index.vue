@@ -1,6 +1,6 @@
 <template>
   <header class="top-bar">
-    <div class="heade-left" @click="toIndex()">
+    <div class="heade-left" @click="toIndex">
       <el-icon><Watermelon /></el-icon>
       <span class="mg-l-8">监控后台</span>
     </div>
@@ -23,8 +23,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { ElPopover, ElDropdown, ElDropdownMenu, ElDropdownItem, ElIcon } from 'element-plus';
-import { delCookie, getCookie, setLocalStore } from 'helper/utils';
-import { LANG_KEY, USER_INFOR_KEY, USER_TOKEN_KEY } from 'config/others';
+import { delCookie, getCookie } from 'helper/utils';
+import { USER_INFOR_KEY, USER_TOKEN_KEY } from 'config/others';
 import { router } from '@/route';
 import { UserInfor } from '.';
 import { Avatar, Watermelon } from '@element-plus/icons-vue';
@@ -54,14 +54,16 @@ export default defineComponent({
       name: 'admin',
       sex: 0
     };
-    function toIndex() {
+    function toIndex(e: MouseEvent) {
       router.push('/home');
       location.reload();
+      return e;
     }
-    function quitLogin() {
+    function quitLogin(e: MouseEvent) {
       delCookie(USER_TOKEN_KEY);
       delCookie(USER_INFOR_KEY);
       router.push('/login');
+      return e;
     }
     return {
       userInfor,

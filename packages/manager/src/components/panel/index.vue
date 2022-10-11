@@ -3,10 +3,10 @@
     <div v-if="title" class="panel-hd">
       <h4 class="title">{{ title }}</h4>
       <span v-if="plugins.includes('more')" class="sub-text" @click="more">查看更多</span>
-      <span v-if="plugins.includes('collapse')" class="sub-text" @click="collapse = !collapse">{{ collapse ? '展开' : '收起' }}</span>
+      <span v-if="plugins.includes('collapse')" class="sub-text" @click="collapseHandle">{{ collapse ? '展开' : '收起' }}</span>
     </div>
     <div class="panel-bd" :class="{ 'collapse-bd': collapse }">
-      <el-icon v-if="collapse" class="collapse-bar" @click="collapse = !collapse"><ArrowRightBold /></el-icon>
+      <el-icon v-if="collapse" class="collapse-bar" @click="collapseHandle"><ArrowRightBold /></el-icon>
       <slot v-else />
     </div>
   </div>
@@ -30,16 +30,22 @@ export default defineComponent({
   },
   setup(props) {
     const collapse = ref(false);
-    function more() {
+    function more(e: MouseEvent) {
       const { link } = props;
       if (!link) {
         ElMessage.warning('链接地址不存在');
       }
       window.open(link);
+      return e;
+    }
+    function collapseHandle(e: MouseEvent) {
+      collapse.value = !collapse.value;
+      return e;
     }
     return {
       collapse,
-      more
+      more,
+      collapseHandle
     };
   }
 });

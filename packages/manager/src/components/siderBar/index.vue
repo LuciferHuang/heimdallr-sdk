@@ -93,8 +93,9 @@ export default defineComponent({
       defaultOpen: []
     });
 
-    function foldHandler() {
+    function foldHandler(e: MouseEvent) {
       state.isCollapse = !state.isCollapse;
+      return e;
     }
     function activeHandle(c) {
       const { path } = c;
