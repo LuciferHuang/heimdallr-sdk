@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/utils",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "@heimdallr-sdk/utils",
   "license": "MIT",
   "author": "Hlianfa",
@@ -29,6 +29,6 @@
     "build:esm": "rimraf esm && tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@heimdallr-sdk/types": "^0.0.1"
+    "@heimdallr-sdk/types": "^0.0.2"
   }
 }
