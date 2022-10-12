@@ -1,6 +1,6 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import json from "@rollup/plugin-json";
+import json from '@rollup/plugin-json';
 import { terser } from 'rollup-plugin-terser';
 import size from 'rollup-plugin-sizes';
 import esbuild from 'rollup-plugin-esbuild';
@@ -18,7 +18,7 @@ export const common = {
   output: {
     sourcemap: true,
     name: `HEIMDALLR_${name.toLocaleUpperCase()}`,
-    footer: '/* follow me on Github! @Hlianfa */',
+    footer: '/* follow me on Github! @Hlianfa */'
   },
   plugins: [
     esbuild({

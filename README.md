@@ -3,7 +3,7 @@
 node version: 16+
 npm script: yarn
 
-## 本地开发调试
+## Dev
 
 安装依赖
 
@@ -19,9 +19,9 @@ yarn dev
 
 sdk示例地址：[http://localhost:8888](http://localhost:8888)
 
-监控后台地址：[http://localhost:3000](http://localhost:3000)
+监控后台地址：[http://localhost:5173](http://localhost:5173)
 
-## 构建
+## Build
 
 安装依赖
 
@@ -45,10 +45,4 @@ yarn workspace [packageName] build
 
 ```bash
 yarn build
-```
-
-## 使用
-
-```js
-
 ```

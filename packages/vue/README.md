@@ -29,6 +29,7 @@
         plugins: [
             HEIMDALLR_VUE,
         ],
+        vue: VueInstance
         debug: true
     };
 </script>
@@ -54,6 +55,7 @@ heimdallr({
     plugins: [
         vuePlugin,
     ],
+    vue: VueInstance,
     debug: true
 });
 ```
