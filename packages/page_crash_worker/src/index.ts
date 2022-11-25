@@ -1,7 +1,7 @@
 import { BrowserBreadcrumbTypes, BrowserErrorTypes, CrashErrorType, EventTypes } from '@heimdallr-sdk/types';
 import { formatDate, get } from '@heimdallr-sdk/utils';
 
-// 运行在 serviceWorker
+// 运行在 webWorker
 
 const TAG = '[@heimdallr-sdk/page-crash-worker]:';
 
@@ -13,7 +13,7 @@ class PageCrashWorker {
   private stack = [];
 
   constructor() {
-    console.info(TAG, 'serviceWorker running');
+    console.info(TAG, 'webWorker running');
     this.init();
   }
 

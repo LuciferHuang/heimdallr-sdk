@@ -1,0 +1,39 @@
+datasource db {
+    provider = "mysql"
+    url      = "mysql://root:root@localhost:3306/test_base"
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model Log {
+    id            String   @unique
+    ctime         DateTime @updatedAt
+    otime         String
+    type          String
+    sub_type      String
+    ascription_id String
+    breadcrumb    String   @db.VarChar(255)
+    data          String
+    path          String
+    page_title    String
+    user_agent    String   @db.VarChar(255)
+    language      String
+}
+
+model Project {
+    id     String @unique
+    name   String @unique
+    leader String
+    desc   String
+    ctime  String
+}
+
+model BreadCrumb {
+    id       String @unique
+    event_id String
+    type     String
+    data     String
+    time     String
+}

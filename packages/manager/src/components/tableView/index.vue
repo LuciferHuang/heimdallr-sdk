@@ -7,6 +7,7 @@
     :class="tableclass"
     :row-key="rowKey"
     :border="border"
+    empty-text="暂无数据"
     @selection-change="handleSelectionChange"
     @sort-change="sortChange"
   >

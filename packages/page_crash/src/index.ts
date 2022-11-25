@@ -1,7 +1,7 @@
 import { BasePluginType, BrowserErrorTypes, StoreType } from '@heimdallr-sdk/types';
 import { generateUUID, getStore } from '@heimdallr-sdk/utils';
 
-// 脱离 发布订阅 方式，走 serviceWorker 方式
+// 脱离 发布订阅 方式，走 webWorker 方式
 
 const PLUGIN_NAME = BrowserErrorTypes.PAGECRASH;
 

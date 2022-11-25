@@ -4,6 +4,7 @@
   "description": "@heimdallr-sdk/manager",
   "license": "MIT",
   "author": "Hlianfa",
+  "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development vite",
     "build": "vue-tsc --noEmit && vite build",

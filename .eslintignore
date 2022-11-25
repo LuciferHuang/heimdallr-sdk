@@ -9,3 +9,5 @@ rollup.config.js
 rollup.base.config.js
 commitlint.config.js
 /packages/manager
+/packages/server
+/packages/cli

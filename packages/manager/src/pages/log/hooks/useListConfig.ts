@@ -6,7 +6,7 @@ const filterFormItems: FilterItem[] = [
   {
     renderType: 'smartbox',
     label: '应用',
-    prop: 'ascription',
+    prop: 'ascription_id',
     config: {
       url: '/project/list?psize=20&pindex=1',
       targetPath: 'list',

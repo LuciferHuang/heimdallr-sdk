@@ -4,7 +4,7 @@
   "description": "@heimdallr-sdk/page-crash-worker",
   "license": "MIT",
   "author": "Hlianfa",
-  "main": "dist/page-crash-worker.esm.js",
+  "main": "dist/page_crash_worker.iife.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
   "files": [
