@@ -1,4 +1,4 @@
-import { BasePluginType, BrowserErrorTypes, StoreType } from '@heimdallr-sdk/types';
+import { BasePluginType, BrowserErrorTypes, ClientInfoType, StoreKeyType, StoreType } from '@heimdallr-sdk/types';
 import { generateUUID, getStore } from '@heimdallr-sdk/utils';
 
 // 脱离 发布订阅 方式，走 webWorker 方式
@@ -18,17 +18,19 @@ const PageCrashPlugin: BasePluginType = {
       }
       const crashWorker = new Worker(pageCrashWorkerUrl);
       const HEARTBEAT_INTERVAL = 5 * 1000; // 5秒一次
-      const sessionId = generateUUID();
+      const workerSessionId = generateUUID();
       const { userAgent, language } = navigator;
       const { title } = document;
       const { href } = location;
-      const id = getStore(StoreType.LOCAL, this.storeAppIdKey);
-      const clientInfo = {
-        appID: id, // 应用id
-        pageTitle: title, // 页面标题
+      const id = getStore(StoreType.LOCAL, StoreKeyType.APP);
+      const sessionID = getStore(StoreType.LOCAL, StoreKeyType.SESSION);
+      const clientInfo: ClientInfoType = {
+        app_id: id, // 应用id
+        session_id: sessionID,
+        page_title: title, // 页面标题
         path: href, // 页面路径
         language, // 站点语言
-        userAgent // 浏览器标识
+        user_agent: userAgent // 浏览器标识
       };
       const data = {
         sendUrl: uploadUrl,
@@ -38,7 +40,7 @@ const PageCrashPlugin: BasePluginType = {
         const [lastOperate] = this.breadcrumb.getStack();
         crashWorker.postMessage({
           type: 'heartbeat',
-          id: sessionId,
+          id: workerSessionId,
           data: {
             stack: [lastOperate],
             ...data
@@ -49,7 +51,7 @@ const PageCrashPlugin: BasePluginType = {
         const [lastOperate] = this.breadcrumb.getStack();
         crashWorker.postMessage({
           type: 'unload',
-          id: sessionId,
+          id: workerSessionId,
           data: {
             stack: [lastOperate],
             ...data

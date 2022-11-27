@@ -10,6 +10,7 @@
   "scripts": {
     "build": "lerna run --stream --sort build",
     "dev": "lerna run --parallel dev",
+    "prisma": "npx prisma db push --schema ./packages/server/schema.prisma",
     "prepare": "husky install",
     "lint": "eslint packages",
     "lint-staged": "lint-staged",

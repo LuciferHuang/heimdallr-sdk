@@ -91,6 +91,12 @@ const tableConfig: ColumnConfig[] = [
     label: '应用'
   },
   {
+    prop: 'session_id',
+    width: 158,
+    label: '会话ID',
+    plugins: ['copy']
+  },
+  {
     prop: 'data',
     label: '上报信息'
   },

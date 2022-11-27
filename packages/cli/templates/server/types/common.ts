@@ -11,12 +11,18 @@ export interface ModelResponseType<O> {
 }
 
 export interface IAnyObject {
-  [key: string]: any
+  [key: string]: any;
 }
 
 export interface ConditionType {
   skip?: number;
   take?: number;
   orderBy?: IAnyObject[];
-  where?: IAnyObject
+  where?: IAnyObject;
+}
+
+export interface IPInfo {
+  ip: string;
+  error?: string;
+  region?: string;
 }

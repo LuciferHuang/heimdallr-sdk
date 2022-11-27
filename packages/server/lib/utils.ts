@@ -7,9 +7,37 @@ export function successResponse(data: any, msg: string): InterfaceResponseType<I
     msg
   };
 }
+
 export function failResponse(msg: string): InterfaceResponseType<IAnyObject> {
   return {
     code: -1,
     msg
   };
+}
+
+export function isMobileDevice(userAgentStr: string): Boolean {
+  const appTypeList = ['iphone', 'android', 'ipad', 'mobi'];
+  const userAgent = userAgentStr.toLocaleLowerCase();
+  let isMobile = false;
+  for (const type of appTypeList) {
+    if (userAgent.indexOf(type) > -1) {
+      isMobile = true;
+      break;
+    }
+  }
+  return isMobile
+}
+
+/**
+ * 生成UUID
+ * @return {string}  {string}
+ */
+ export function generateUUID(): string {
+  let d = new Date().getTime();
+  const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = (d + Math.random() * 16) % 16 | 0;
+    d = Math.floor(d / 16);
+    return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
+  });
+  return uuid;
 }

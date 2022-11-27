@@ -38,7 +38,6 @@ export abstract class Core<O extends BaseOptionsType> {
     const uploadUrl = formateUrlPath(host, upload);
 
     this.context = {
-      storeAppKey: 'HEIMDALLR_APP_ID',
       app,
       uploadUrl,
       initUrl,

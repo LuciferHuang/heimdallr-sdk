@@ -18,6 +18,7 @@
 |app|Object|应用信息|APPInfo|-|
 |enabled|Boolean|是否向后台发送事件|true/false|true|
 |maxBreadcrumbs|Number|面包屑最大层级|-|5|
+|userIdentify|Customer|用户标识|-|-|
 |plugins|Array|插件集合|-|-|
 
 ### DSN
@@ -35,6 +36,13 @@
 |name|String|应用名称|-|
 |leader|String|负责人|-|
 |desc|String|应用描述|-|
+
+### Customer
+
+|名称|类型|描述|可选值|
+|-|-|-|-|
+|name|string|业务字段名称|-|
+|postion|string|存储位置|local/session/cookie/global|
 
 ## Usage
 

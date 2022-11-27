@@ -1,3 +1,8 @@
+export enum StoreKeyType {
+  SESSION = 'HEIMDALLR_SDK_SESSION_ID',
+  APP = 'HEIMDALLR_SDK_APP_ID'
+}
+
 export enum MethodTypes {
   GET = 'GET',
   POST = 'POST',
@@ -76,4 +81,9 @@ export enum BrowserReportType {
 export enum PageLifeType {
   LOAD = 'enter',
   UNLOAD = 'leave'
+}
+
+export enum DeviceType {
+  MOBILE = 'mobile',
+  PC = 'pc'
 }

@@ -49,6 +49,10 @@ export interface CustomerOptionType {
 
 export interface BrowserOptionsType extends BaseOptionsType {
   /**
+   * 用户标识（已登录用户）
+   */
+  userIdentify?: CustomerOptionType;
+  /**
    * 节流阈值
    */
   throttleDelayTime?: number;

@@ -18,8 +18,12 @@ export interface LinkMsgDataType {
 export interface ResourceErrorType extends ReportDataMsgType, LinkMsgDataType {}
 
 export interface LifecycleDataType extends LinkMsgDataType {
-  type: PageLifeType
+  type: PageLifeType;
+  session_id: string;
+  user_id: string;
 }
+
+export interface LifeCycleMsgType extends ReportDataMsgType, LinkMsgDataType {}
 
 export interface PromiseErrorDataType {
   message?: string;
@@ -27,18 +31,23 @@ export interface PromiseErrorDataType {
 
 export interface PromiseErrorType extends ReportDataMsgType, PromiseErrorDataType {}
 
-export interface clientInfoType {
-  appID: string;
-  pageTitle: string;
+export interface ClientInfoType {
+  app_id: string;
+  session_id: string;
+  page_title: string;
   path: string;
   language: string;
-  userAgent: string
+  user_agent: string
+}
+
+export interface ReportPayloadDataType extends ClientInfoType{
+  [key: string]: any;
 }
 
 export interface CrashErrorType extends ReportDataMsgType, LinkMsgDataType {
   sendUrl: string;
   stack: BreadcrumbPushData[];
-  clientInfo: clientInfoType
+  clientInfo: ClientInfoType
 }
 
 export interface DomDataMsgType {

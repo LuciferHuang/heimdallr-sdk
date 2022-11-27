@@ -4,8 +4,8 @@ import formidable from 'express-formidable';
 import { create } from 'browser-sync';
 import router from './route';
 
-const port = 8081;
-const proxyPort = 8888;
+const port = 7777;
+const proxyPort = <%= server_port %>;
 
 const app = express();
 
@@ -21,8 +21,7 @@ app.listen(port, () => {
     ui: false,
     notify: true,
     proxy: `localhost:${port}`,
-    files: ['packages/**/dist/*.iife.js', 'playground/**/index.html'],
+    files: ['packages/**/dist/*.iife.js'],
     port: proxyPort
   });
 });
-

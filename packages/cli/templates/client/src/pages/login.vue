@@ -1,7 +1,7 @@
 <template>
   <div class="login-wrap">
     <div class="loginBox">
-      <h2>监控后台</h2>
+      <h2><%= name %></h2>
       <el-form ref="formRef" :model="formProxy.form" :rules="rules">
         <el-form-item prop="user">
           <el-input

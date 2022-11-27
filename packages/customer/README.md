@@ -40,6 +40,10 @@
         plugins: [
             HEIMDALLR_CUSTOMER,
         ],
+        customers: [{
+            name:'userid',
+            postion:'local'
+        }],
         debug: true
     };
 </script>
@@ -65,6 +69,10 @@ heimdallr({
     plugins: [
         customerPlugin,
     ],
+    customers: [{
+        name:'userid',
+        postion:'local'
+    }],
     debug: true
 });
 ```

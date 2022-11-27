@@ -23,7 +23,7 @@ const perPlugin: BasePluginType = {
   name: PLUGIN_NAME,
   monitor(notify: (pluginName: string, data: CollectedData) => void) {
     // 禁用标识
-    const { performancOff = [] } = this.options;
+    const { performancOff = [] } = this.getOptions();
 
     let fpsTool = new FPSTool();
     if (!performancOff.includes(PerformanceFeat.FPS)) {

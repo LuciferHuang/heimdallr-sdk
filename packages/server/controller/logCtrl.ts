@@ -1,26 +1,18 @@
-import { failResponse, successResponse } from '../lib/utils';
+import { failResponse, generateUUID, isMobileDevice, successResponse } from '../lib/utils';
 import ProjModel from '../models/projModel';
 import LogModel from '../models/logModel';
 import BreadCrumbModel from '../models/breadcrumbModel';
-import { BreadCrumb } from '../types';
+import { BreadCrumb, IPInfo, LogItem } from '../types';
+import { DeviceType, EventTypes, PageLifeType, ReportPayloadDataType } from '../../types/src';
+// import { DeviceType, EventTypes, PageLifeType, ReportPayloadDataType } from '@heimdallr-sdk/types';
+import SessionModel from '../models/sessionModel';
+
+const TAG = '[logCtrl]:';
 
 const projModel = new ProjModel();
 const logModel = new LogModel();
 const bcModel = new BreadCrumbModel();
-
-/**
- * 生成UUID
- * @return {string}  {string}
- */
-export function generateUUID(): string {
-  let d = new Date().getTime();
-  const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    const r = (d + Math.random() * 16) % 16 | 0;
-    d = Math.floor(d / 16);
-    return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
-  });
-  return uuid;
-}
+const sessionModel = new SessionModel();
 
 /**
  * post上报
@@ -29,7 +21,8 @@ export function generateUUID(): string {
  */
 export function uploadPost(req, res) {
   const param = (req as any).fields;
-  uploadCtrl(res, param);
+  const { ipInfo } = req;
+  uploadCtrl(res, param, ipInfo);
 }
 /**
  * get上报
@@ -38,7 +31,8 @@ export function uploadPost(req, res) {
  */
 export function uploadGet(req, res) {
   const param = (req as any).query;
-  uploadCtrl(res, param);
+  const { ipInfo } = req;
+  uploadCtrl(res, param, ipInfo);
 }
 
 /**
@@ -46,10 +40,22 @@ export function uploadGet(req, res) {
  * @param res
  * @param param 请求参数
  */
-async function uploadCtrl(res, param) {
-  const { appID, id, time, type, data: paramData, breadcrumb: breadcrumbJson = '[]', path, language, userAgent, pageTitle } = param;
-  if (!id || !appID) {
-    res.send(failResponse('missing id or appID'));
+async function uploadCtrl(res, param: ReportPayloadDataType, ipInfo: IPInfo) {
+  const {
+    app_id,
+    session_id,
+    id,
+    time,
+    type,
+    data: paramData,
+    breadcrumb: breadcrumbJson = '[]',
+    path,
+    language,
+    user_agent,
+    page_title
+  } = param;
+  if (!id || !app_id) {
+    res.send(failResponse('missing id or app_id'));
     return;
   }
   try {
@@ -69,12 +75,71 @@ async function uploadCtrl(res, param) {
         bcIds = bcs.map(({ id }) => id);
       }
     }
+
     // 将入参转为数据库存储结构
     const paramObj = JSON.parse(paramData);
-    const { sub_type } = paramObj;
+    const { sub_type, user_id = '' } = paramObj;
     delete paramObj.sub_type;
-    const logInfo = {
-      ascription_id: appID,
+
+    // session
+    if (type === EventTypes.LIFECYCLE) {
+      const { error, ip, region = '' } = ipInfo;
+      if (error) {
+        console.error(TAG, error);
+      }
+      let response = { status: false, msg: 'sub_type not found' };
+      switch (sub_type) {
+        case PageLifeType.LOAD:
+          response = await sessionModel.add([
+            {
+              id: session_id,
+              user_id: `${user_id}`,
+              ip,
+              province: region,
+              path,
+              page_title,
+              stay_time: 0,
+              terminal: isMobileDevice(user_agent) ? DeviceType.MOBILE : DeviceType.PC,
+              language,
+              etime: time,
+              ltime: ''
+            }
+          ]);
+          break;
+        case PageLifeType.UNLOAD:
+          {
+            const { data = [] } = await sessionModel.find(1, 5, { id: session_id });
+            const [ targetSession ] = data;
+            if (!targetSession || data.length > 1) {
+              throw new Error('session not found');
+            }
+            const { etime } = targetSession;
+            let stayTime = 0;
+            if (etime) {
+              stayTime = new Date(time).getTime() - new Date(etime).getTime();
+            }
+            response = await sessionModel.modify({ id: session_id }, {
+              stay_time: stayTime,
+              ltime: time,
+            });
+          }
+          break;
+
+        default:
+          break;
+      }
+      const { status, msg } = response;
+      if (!status) {
+        throw new Error(msg);
+      }
+      res.send(successResponse(null, msg));
+      // 页面生命周期时间不加log
+      return;
+    }
+
+    const logInfo: LogItem = {
+      ascription_id: app_id,
+      session_id,
       otime: time,
       type,
       sub_type,
@@ -82,8 +147,8 @@ async function uploadCtrl(res, param) {
       data: JSON.stringify(paramObj),
       path,
       language,
-      user_agent: userAgent,
-      page_title: pageTitle
+      user_agent,
+      page_title
     };
     const { data: count } = await logModel.count({ id });
     if (count) {

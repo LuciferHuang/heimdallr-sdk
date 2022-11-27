@@ -99,6 +99,12 @@ const SERVER_QS = [
     name: 'mysql_pwd',
     message: 'Mysql password ?',
     default: 'root'
+  },
+  {
+    type: 'input',
+    name: 'server_port',
+    message: 'Server port ?',
+    default: '8888'
   }
 ];
 

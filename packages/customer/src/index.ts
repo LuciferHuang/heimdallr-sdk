@@ -15,7 +15,7 @@ const PLUGIN_NAME = 'customerPlugin';
 const customerPlugin: BasePluginType = {
   name: PLUGIN_NAME,
   monitor(notify: (pluginName: string, collecteData: IAnyMsgType) => void) {
-    const { customers = [] } = this.options;
+    const { customers = [] } = this.getOptions();
     window.addEventListener('load', function () {
       // window挂载上报方法
       window['HEIMDALLR_REPORT'] = function (type: string, data: any) {

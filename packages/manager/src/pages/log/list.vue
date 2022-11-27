@@ -37,7 +37,7 @@
         :timestamp="formatDate(new Date(parseInt(item.time)))"
       >
         <el-tag>{{ item.type }}</el-tag>
-        {{ item.data }}
+        <p>{{ item.data }}</p>
       </el-timeline-item>
     </el-timeline>
   </el-drawer>

@@ -36,7 +36,6 @@ export interface ReportDataMsgType {
 
 export interface CoreContextType {
   app: AppInfoType;
-  storeAppKey: string;
   uploadUrl: string;
   initUrl: string;
   debug: boolean;

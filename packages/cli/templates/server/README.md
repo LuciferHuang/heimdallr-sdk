@@ -17,3 +17,5 @@ npm run dev
 ```
 
 默认地址：[http://localhost:8888](http://localhost:8888)
+
+（确保 3306、7777、8888 端口未被占用）

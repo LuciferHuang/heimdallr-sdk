@@ -50,7 +50,7 @@ import { useRoute } from 'vue-router';
 import { ElIcon, ElMenu, ElMenuItem, ElSubMenu } from 'element-plus';
 import { router } from '@/route';
 import { Nav } from '.';
-import { DataAnalysis, Files, Fold, Folder } from '@element-plus/icons-vue';
+import { DataAnalysis, Fold, FolderOpened, Postcard, Tickets } from '@element-plus/icons-vue';
 
 export default defineComponent({
   components: {
@@ -60,8 +60,9 @@ export default defineComponent({
     ElSubMenu,
     Fold,
     DataAnalysis,
-    Files,
-    Folder
+    FolderOpened,
+    Postcard,
+    Tickets
   },
   setup() {
     const barList: Nav[] = [
@@ -78,12 +79,17 @@ export default defineComponent({
       },
       {
         text: '项目管理',
-        icon: 'Folder',
+        icon: 'FolderOpened',
         path: '/home/projects/list'
       },
       {
+        text: '会话管理',
+        icon: 'Postcard',
+        path: '/home/session/list'
+      },
+      {
         text: '日志管理',
-        icon: 'Files',
+        icon: 'Tickets',
         path: '/home/log/list'
       }
     ];
