@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/sourcemap-upload-webpack-plugin",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A Plugin For Webpack Upload Sourcemap Files",
   "license": "MIT",
   "author": "LuciferHuang",
