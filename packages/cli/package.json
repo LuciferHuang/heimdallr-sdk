@@ -7,14 +7,14 @@
     "heimdallr-create": "index.js"
   },
   "license": "MIT",
-  "author": "Hlianfa",
-  "homepage": "https://github.com/Hlianfa/heimdallr-sdk/blob/main/packages/cli/README.md",
+  "author": "LuciferHuang",
+  "homepage": "https://github.com/LuciferHuang/heimdallr-sdk/blob/main/packages/cli/README.md",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Hlianfa/heimdallr-sdk.git"
+    "url": "git+https://github.com/LuciferHuang/heimdallr-sdk.git"
   },
   "bugs": {
-    "url": "https://github.com/Hlianfa/heimdallr-sdk/issues"
+    "url": "https://github.com/LuciferHuang/heimdallr-sdk/issues"
   },
   "keywords": [
     "heimdallr",

@@ -3,20 +3,20 @@
   "version": "0.0.3",
   "description": "@heimdallr-sdk/manager",
   "license": "MIT",
-  "author": "Hlianfa",
+  "author": "LuciferHuang",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development vite",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview"
   },
-  "homepage": "https://github.com/Hlianfa/heimdallr-sdk/blob/main/packages/manager/README.md",
+  "homepage": "https://github.com/LuciferHuang/heimdallr-sdk/blob/main/packages/manager/README.md",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Hlianfa/heimdallr-sdk.git"
+    "url": "git+https://github.com/LuciferHuang/heimdallr-sdk.git"
   },
   "bugs": {
-    "url": "https://github.com/Hlianfa/heimdallr-sdk/issues"
+    "url": "https://github.com/LuciferHuang/heimdallr-sdk/issues"
   },
   "keywords": [
     "heimdallr",

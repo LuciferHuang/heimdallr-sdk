@@ -18,7 +18,7 @@ export const common = {
   output: {
     sourcemap: true,
     name: `HEIMDALLR_${name.toLocaleUpperCase()}`,
-    footer: '/* follow me on Github! @Hlianfa */'
+    footer: '/* follow me on Github! @LuciferHuang */'
   },
   plugins: [
     esbuild({

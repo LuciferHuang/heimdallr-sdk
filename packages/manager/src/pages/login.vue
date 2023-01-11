@@ -37,7 +37,7 @@
       </el-button>
     </div>
     <div class="footer">
-      <p class="copy-right">Copyright &copy; 2021 &nbsp;Hlianfa</p>
+      <p class="copy-right">Copyright &copy; 2021 &nbsp;LuciferHuang</p>
     </div>
   </div>
 </template>

@@ -3,14 +3,16 @@ import cors from 'cors';
 import formidable from 'express-formidable';
 import { create } from 'browser-sync';
 import router from './route';
+import expressIp from "express-ip";
 
-const port = 7777;
+const port = <%= listen_port %>;
 const proxyPort = <%= server_port %>;
 
 const app = express();
 
 app.use(formidable());
 app.use(cors());
+app.use(expressIp().getIpInfoMiddleware);
 app.use(router);
 
 const bs = create();

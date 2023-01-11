@@ -102,6 +102,12 @@ const SERVER_QS = [
   },
   {
     type: 'input',
+    name: 'listen_port',
+    message: 'Server listen port ?',
+    default: '7777'
+  },
+  {
+    type: 'input',
     name: 'server_port',
     message: 'Server port ?',
     default: '8888'

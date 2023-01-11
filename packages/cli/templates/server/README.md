@@ -1,4 +1,4 @@
-# @heimdallr-sdk/server
+# <%= name %>
 
 > 监控后台服务
 
@@ -16,6 +16,6 @@ npm run prisma
 npm run dev
 ```
 
-默认地址：[http://localhost:8888](http://localhost:8888)
+默认地址：[http://localhost:<%= server_port %>](http://localhost:<%= server_port %>)
 
-（确保 3306、7777、8888 端口未被占用）
+（确保 <%= mysql_port %>、<%= listen_port %>、<%= server_port %> 端口未被占用）

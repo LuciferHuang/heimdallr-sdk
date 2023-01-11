@@ -26,3 +26,23 @@ export interface IPInfo {
   error?: string;
   region?: string;
 }
+
+export enum DeviceType {
+  MOBILE = 'mobile',
+  PC = 'pc'
+}
+export enum EventTypes {
+  API = 'api',
+  DOM = 'dom',
+  PERFORMANCE = 'performance',
+  ROUTE = 'route',
+  ERROR = 'error',
+  CONSOLE = 'console',
+  CUSTOMER = 'customer',
+  VUE = 'vue',
+  LIFECYCLE = 'lifeCycle'
+}
+export enum PageLifeType {
+  LOAD = 'enter',
+  UNLOAD = 'leave'
+}
