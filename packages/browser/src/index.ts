@@ -65,14 +65,12 @@ class Browser extends Core<BrowserOptionsType> {
 }
 
 const init = (options: BrowserOptionsType) => {
+  if (!options && window && window.__HEIMDALLR_OPTIONS__) {
+    options = window.__HEIMDALLR_OPTIONS__;
+  }
   const client = new Browser(options);
   const { plugins = [] } = options;
   client.use([jsErrorPlugin, promiseErrorPlugin, lifeCyclePlugin, ...plugins]);
 };
 
 export default init;
-
-// iife
-if (window && window.__HEIMDALLR_OPTIONS__) {
-  init(window.__HEIMDALLR_OPTIONS__);
-}
