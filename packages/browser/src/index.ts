@@ -72,6 +72,7 @@ const init = (options: BrowserOptionsType) => {
 
 export default init;
 
-if (window.__HEIMDALLR_OPTIONS__) {
+// iife
+if (window && window.__HEIMDALLR_OPTIONS__) {
   init(window.__HEIMDALLR_OPTIONS__);
 }
