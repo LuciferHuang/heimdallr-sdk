@@ -13,10 +13,6 @@ const TAG_WEIGHT_MAP = {
 
 const LIMIT = 1000;
 
-const WW = window.innerWidth;
-
-const WH = window.innerHeight;
-
 const DELAY = 500;
 
 interface ElTimeType {
@@ -39,6 +35,8 @@ export default class FMPTiming {
   flag: boolean;
   observer: MutationObserver;
   callbackCount: number;
+  WW: number;
+  WH: number;
   resourceMap: {};
   private readonly startTime: number;
 
@@ -51,6 +49,9 @@ export default class FMPTiming {
     this.observer = null;
     this.callbackCount = 1;
     this.resourceMap = {};
+
+    this.WW = window.innerWidth;
+    this.WH = window.innerHeight;
   }
 
   initObserver(): Promise<number> {
@@ -270,7 +271,7 @@ export default class FMPTiming {
     const { width, height, left, top } = node.getBoundingClientRect();
     let f = 1;
 
-    if (WH < top || WW < left) {
+    if (this.WH < top || this.WW < left) {
       // 不在可视viewport中
       f = 0;
     }
@@ -327,8 +328,8 @@ export default class FMPTiming {
     const { left, right, top, bottom, width, height } = node.getBoundingClientRect();
     const wl = 0;
     const wt = 0;
-    const wr = WW;
-    const wb = WH;
+    const wr = this.WW;
+    const wb = this.WH;
 
     const overlapX = right - left + (wr - wl) - (Math.max(right, wr) - Math.min(left, wl));
     if (overlapX <= 0) {
