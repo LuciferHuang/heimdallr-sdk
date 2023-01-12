@@ -29,6 +29,6 @@
     "build:esm": "rimraf esm && tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@heimdallr-sdk/types": "^0.0.4"
+    "@heimdallr-sdk/types": "^0.0.5"
   }
 }
