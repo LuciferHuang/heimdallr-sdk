@@ -1,3 +1,3 @@
-import { iifePackage } from '../../rollup.base.config';
+import { umdPackage, iifePackage } from '../../rollup.base.config';
 
-export default [iifePackage];
+export default [umdPackage, iifePackage];

@@ -1,10 +1,10 @@
 {
   "name": "@heimdallr-sdk/page-crash",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A Plugin For Browser SDK",
   "license": "MIT",
   "author": "LuciferHuang",
-  "main": "dist/page-crash.esm.js",
+  "main": "dist/page-crash.umd.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
   "files": [
@@ -37,7 +37,7 @@
     "build:esm": "rimraf esm && tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@heimdallr-sdk/types": "^0.0.3",
-    "@heimdallr-sdk/utils": "^0.0.2"
+    "@heimdallr-sdk/types": "^0.0.4",
+    "@heimdallr-sdk/utils": "^0.0.4"
   }
 }

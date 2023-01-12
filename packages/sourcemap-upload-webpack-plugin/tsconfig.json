@@ -2,7 +2,10 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
       "module": "es6",
-      "outDir": "esm"
+      "outDir": "esm",
+      "paths": {
+        "@heimdallr-sdk/types": ["../types/src"]
+      }
     },
     "include": ["src/**/*"]
   }

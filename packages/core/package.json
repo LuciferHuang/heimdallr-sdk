@@ -1,10 +1,10 @@
 {
   "name": "@heimdallr-sdk/core",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "@heimdallr-sdk/core",
   "license": "MIT",
   "author": "LuciferHuang",
-  "main": "dist/core.esm.js",
+  "main": "dist/core.umd.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
   "files": [
@@ -34,7 +34,7 @@
     "build:esm": "rimraf esm && tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@heimdallr-sdk/types": "^0.0.3",
-    "@heimdallr-sdk/utils": "^0.0.2"
+    "@heimdallr-sdk/types": "^0.0.4",
+    "@heimdallr-sdk/utils": "^0.0.4"
   }
 }

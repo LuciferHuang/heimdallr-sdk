@@ -23,19 +23,17 @@
     "sortablejs": "^1.14.0",
     "vue": "^3.2.40",
     "vue-router": "^4.0.11",
-    "@heimdallr-sdk/types": "^0.0.3"
+    "@heimdallr-sdk/types": "^0.0.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.6.0",
     "@vue/compiler-sfc": "^3.2.6",
     "cross-env": "^7.0.3",
-    "mockjs": "^1.1.0",
     "path": "^0.12.7",
     "sass": "^1.39.0",
     "sass-loader": "^13.0.2",
     "typescript": "^4.3.2",
-    "vite": "^3.1.7",
-    "vite-plugin-mock": "^2.9.6",
-    "vue-tsc": "^0.40.13"
+    "vite": "^2.5.2",
+    "vue-tsc": "^0.2.2"
   }
 }
