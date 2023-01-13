@@ -32,7 +32,6 @@
   },
   "dependencies": {
     "@prisma/client": "^4.8.1",
-    "@types/browser-sync": "^2.26.3",
     "@types/express": "^4.17.13",
     "@types/express-formidable": "^1.2.0",
     "cors": "^2.8.5",

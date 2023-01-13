@@ -50,7 +50,6 @@ export function xhr(method: MethodTypes, url: string, data: string): Promise<any
     try {
       const xhr = new XMLHttpRequest();
       xhr.open(method, url);
-      xhr.withCredentials = true;
       xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
       if (method === MethodTypes.POST) {
         xhr.send(data);
