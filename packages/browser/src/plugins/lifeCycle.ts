@@ -1,5 +1,5 @@
 import { BasePluginType, BrowserBreadcrumbTypes, CustomerOptionType, EventTypes, LifecycleDataType, LifeCycleMsgType, PageLifeType, ReportDataType, StoreKeyType, StoreType } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, getCookie, getStore, setStore } from '@heimdallr-sdk/utils';
+import { formatDate, generateUUID, getCookie, getStore, setStore, getDeepPropByDot } from '@heimdallr-sdk/utils';
 
 const PLUGIN_NAME = 'lifeCyclePlugin';
 
@@ -12,7 +12,7 @@ function getStoreUserId(userIdentify: CustomerOptionType) {
     case StoreType.COOKIE:
       return getCookie(name);
     case StoreType.GLOBAL:
-      return window[name];
+      return getDeepPropByDot(name, window);
     default:
       break;
   }

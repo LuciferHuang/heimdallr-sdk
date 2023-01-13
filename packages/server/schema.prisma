@@ -39,7 +39,7 @@ model Log {
     session_id    String
     ascription_id String
     breadcrumb    String   @db.VarChar(255)
-    data          String
+    data          String   @db.LongText
     path          String
     page_title    String
     user_agent    String   @db.VarChar(255)

@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/manager",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "@heimdallr-sdk/manager",
   "license": "MIT",
   "author": "LuciferHuang",
@@ -36,7 +36,7 @@
     "sortablejs": "^1.14.0",
     "vue": "^3.2.40",
     "vue-router": "^4.0.11",
-    "@heimdallr-sdk/types": "^0.0.5"
+    "@heimdallr-sdk/types": "^0.0.6"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.6.0",

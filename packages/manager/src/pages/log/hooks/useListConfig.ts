@@ -108,7 +108,7 @@ const tableConfig: ColumnConfig[] = [
     config: {
       sortParam: 'sort',
       orderParam: 'order',
-      sortVal: 'ctime',
+      sortVal: 'otime',
       ascVal: 'asc',
       descVal: 'desc'
     }

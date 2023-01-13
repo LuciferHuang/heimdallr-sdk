@@ -8,7 +8,7 @@ import {
   ReportDataType,
   StoreType
 } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, getCookie, getStore } from '@heimdallr-sdk/utils';
+import { formatDate, generateUUID, getCookie, getStore, getDeepPropByDot } from '@heimdallr-sdk/utils';
 
 const PLUGIN_NAME = 'customerPlugin';
 
@@ -40,7 +40,7 @@ const customerPlugin: BasePluginType = {
             customerData[name] = getCookie(name);
             break;
           case StoreType.GLOBAL:
-            customerData[name] = window[name];
+            customerData[name] = getDeepPropByDot(name, window);
             break;
 
           default:

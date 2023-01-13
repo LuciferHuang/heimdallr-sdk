@@ -62,12 +62,12 @@ async function totalGet(projId?: string): Promise<TotalResultType> {
     }, 0);
     return {
       proj: projId || '',
-      api: apiCount || -1,
+      api: apiCount,
       err: errorCount,
-      fmp: fmpCount || -1
+      fmp: fmpCount
     };
   } catch (error) {
-    console.error(error);
+    console.error('[server/statisticCtrl]: ', error);
     return {
       proj: projId || '',
       api: -1,

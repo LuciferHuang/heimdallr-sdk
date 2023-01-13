@@ -15,6 +15,7 @@
     <script src="/xhr-dist/xhr.iife.js"></script>
     <script async src="/browser-dist/browser.iife.js"></script>
     <script>
+      window.state = { a: {user:{name:"test"}}}
       window.__HEIMDALLR_OPTIONS__ = {
         dsn: {
           host: 'localhost:8888',
@@ -37,8 +38,8 @@
           HEIMDALLR_XHR
         ],
         userIdentify: {
-          name: 'userid',
-          postion: 'local'
+          name: 'state.a.user.name',
+          postion: 'global'
         },
         customers: [
           {

@@ -75,4 +75,4 @@ class PageCrashWorker {
   }
 }
 
-export default new PageCrashWorker();
+export default PageCrashWorker;

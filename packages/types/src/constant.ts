@@ -65,6 +65,8 @@ export enum CustomerTypes {
 
 export type BrowserSubTypes = BrowserErrorTypes | DomTypes | HttpTypes | ConsoleTypes | PerTypes | RouteTypes | CustomerTypes;
 
+export type StoreTypes = 'local' | 'session' | 'cookie' | 'global';
+
 export enum StoreType {
   LOCAL = 'local',
   SESSION = 'session',

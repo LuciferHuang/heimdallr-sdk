@@ -39,7 +39,12 @@ export default function useListTable() {
     loadData();
   }
   // 排序
-  let sortParams: any = {};
+  let sortParams: any = {
+    orderParam: 'order',
+    sortParam: 'sort',
+    sortVal: 'etime',
+    order: 'desc',
+  };
   function sortHandle(params) {
     sortParams = params;
     loadData();

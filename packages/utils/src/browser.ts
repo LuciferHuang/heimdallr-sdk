@@ -1,4 +1,4 @@
-import { StoreType } from "@heimdallr-sdk/types";
+import { StoreType, StoreTypes } from '@heimdallr-sdk/types';
 
 /**
  * 返回包含id、class、innerTextde字符串的标签
@@ -24,7 +24,7 @@ export function supportsHistory(): boolean {
   return !!window.history.pushState && !!window.history.replaceState;
 }
 
-function getStoreIns(type: StoreType) {
+function getStoreIns(type: StoreTypes) {
   let store = null;
   switch (type) {
     case StoreType.LOCAL:
@@ -41,13 +41,13 @@ function getStoreIns(type: StoreType) {
 
 /**
  * 读取 localStorage 或 sessionStorage
- * @param {StoreType} type
- * @param {string} key
+ * @param {StoreTypes} type
+ * @param {string} keyPath
  * @param {boolean} needParse 是否需要解析json串
  * @return
  */
-export function getStore(type: StoreType, key: string, needParse = true): any {
-  if (!type || !key) {
+export function getStore(type: StoreTypes, keyPath: string, needParse = true): any {
+  if (!type || !keyPath) {
     return '';
   }
   const store = getStoreIns(type);
@@ -56,9 +56,14 @@ export function getStore(type: StoreType, key: string, needParse = true): any {
   }
   let result = '';
   try {
+    const paths = keyPath.split('.');
+    const [key] = paths;
     result = store.getItem(key);
     if (needParse) {
       result = JSON.parse(result);
+      if (paths.length > 1) {
+        result = paths.slice(1).reduce((pre, cur) => pre[cur], result);
+      }
     }
   } catch (err) {
     console.error(err);
@@ -128,4 +133,17 @@ export function delCookie(key: string): void {
   if (cval != null) {
     document.cookie = `${key}=${cval};expires=${exp.toUTCString()}`;
   }
+}
+
+/**
+ * 获取对象属性值
+ * @param {string} keyPath 属性路径
+ * @param obj 目标对象
+ */
+export function getDeepPropByDot(keyPath: string, obj: Object): any {
+  if (!keyPath || !obj) {
+    return null;
+  }
+  const paths = keyPath.split('.');
+  return paths.reduce((pre, cur) => pre[cur] || obj, obj);
 }

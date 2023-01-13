@@ -1,5 +1,5 @@
 import { AppInfoType, Dsn } from './base';
-import { StoreType } from './constant';
+import { StoreTypes } from './constant';
 import { BasePluginType } from './plugin';
 import { VueInstance } from './vue';
 
@@ -44,7 +44,7 @@ export enum PerformanceFeat {
 
 export interface CustomerOptionType {
   name: string;
-  postion: StoreType;
+  postion: StoreTypes;
 }
 
 export interface BrowserOptionsType extends BaseOptionsType {
