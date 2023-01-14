@@ -63,7 +63,7 @@ export abstract class Core<O extends BaseOptionsType> {
           return;
         }
         if (enabled) {
-          nextTick(this.report, this, uploadUrl, datas);
+          nextTick(this.report, uploadUrl, datas);
         }
       };
       sub.watch(plugin.name, callback);
