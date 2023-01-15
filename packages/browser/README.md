@@ -61,6 +61,10 @@
             leader: 'test',
             desc: 'test proj'
         },
+        userIdentify: {
+            name: '__state__.a.0.user.id', // window.__state__ = { a: [{ user: { id:'123' } }] }
+            position: 'global'
+        },
         debug: true
     };
 </script>
@@ -81,6 +85,10 @@ heimdallr({
         name: 'playgroundAPP',
         leader: 'test',
         desc: 'test proj'
+    },
+    userIdentify: {
+        name: '__state__.a.0.user.id', // window.__state__ = { a: [{ user: { id:'123' } }] }
+        position: 'global'
     },
     debug: true
 });

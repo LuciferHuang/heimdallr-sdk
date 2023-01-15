@@ -11,7 +11,7 @@ export interface DomCollectedType {
 const domPlugin: BasePluginType = {
   name: PLUGIN_NAME,
   monitor(notify: (pluginName: string, collecteData: DomCollectedType) => void) {
-    const { throttleDelayTime = 2000 } = this.getOptions();
+    const { throttleDelayTime = 300 } = this.getOptions();
     const clickThrottle = throttle(notify, throttleDelayTime);
     document.addEventListener(
       'click',

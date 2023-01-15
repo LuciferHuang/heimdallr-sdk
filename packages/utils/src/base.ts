@@ -37,3 +37,15 @@ export function getUrlParam(name: string): string {
   }
   return '';
 }
+
+export const isNodeEnv = typeof process !== 'undefined' ? process : 0;
+
+export const isBrowserEnv = typeof window !== 'undefined' ? window : 0;
+
+/**
+ * 获取全局变量
+ */
+export function getGlobal() {
+  if (isBrowserEnv) return window;
+  if (isNodeEnv) return process;
+}

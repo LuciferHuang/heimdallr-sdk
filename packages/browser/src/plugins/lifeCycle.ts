@@ -1,4 +1,15 @@
-import { BasePluginType, BrowserBreadcrumbTypes, CustomerOptionType, EventTypes, LifecycleDataType, LifeCycleMsgType, PageLifeType, ReportDataType, StoreKeyType, StoreType } from '@heimdallr-sdk/types';
+import {
+  BasePluginType,
+  BrowserBreadcrumbTypes,
+  CustomerOptionType,
+  EventTypes,
+  LifecycleDataType,
+  LifeCycleMsgType,
+  PageLifeType,
+  ReportDataType,
+  StoreKeyType,
+  StoreType
+} from '@heimdallr-sdk/types';
 import { formatDate, generateUUID, getCookie, getStore, setStore, getDeepPropByDot } from '@heimdallr-sdk/utils';
 
 const PLUGIN_NAME = 'lifeCyclePlugin';
@@ -23,21 +34,30 @@ const LifeCyclePlugin: BasePluginType = {
   name: PLUGIN_NAME,
   monitor(notify: (eventName: string, data: LifecycleDataType) => void) {
     const { userIdentify = {} } = this.getOptions();
+    const { name: userPath, postion: userPosi } = userIdentify;
     window.addEventListener('load', function () {
       const sessionId = generateUUID();
       setStore(StoreType.LOCAL, StoreKeyType.SESSION, sessionId);
+      const user_id = getStoreUserId(userIdentify) || '';
+      if (userPath && userPosi && !user_id) {
+        console.warn('[@heimdallr-sdk/browser]:', `${userPath} does not exist on ${userPosi}`);
+      }
       notify(PLUGIN_NAME, {
         type: PageLifeType.LOAD,
         session_id: sessionId,
-        user_id: getStoreUserId(userIdentify),
+        user_id,
         href: this.location.href
       });
     });
     window.addEventListener('unload', function () {
+      const user_id = getStoreUserId(userIdentify) || '';
+      if (userPath && userPosi && !user_id) {
+        console.warn('[@heimdallr-sdk/browser]:', `${userPath} does not exist on ${userPosi}`);
+      }
       notify(PLUGIN_NAME, {
         type: PageLifeType.UNLOAD,
         session_id: getStore(StoreType.LOCAL, StoreKeyType.SESSION),
-        user_id: getStoreUserId(userIdentify),
+        user_id,
         href: this.location.href
       });
     });

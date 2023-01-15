@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/utils",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "@heimdallr-sdk/utils",
   "license": "MIT",
   "author": "LuciferHuang",
@@ -23,7 +23,7 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "rimraf dist && rollup --config --watch",
+    "dev": "rimraf dist && rollup --config rollup.config.dev.js -w",
     "build": "run-p build:bundle build:esm",
     "build:bundle": "rimraf dist && rollup --config",
     "build:esm": "rimraf esm && tsc -p tsconfig.json"

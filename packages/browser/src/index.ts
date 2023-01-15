@@ -1,6 +1,6 @@
 import { Breadcrumb, Core } from '@heimdallr-sdk/core';
 import { IAnyObject, BrowserOptionsType, BrowserReportType, StoreType, StoreKeyType, ReportPayloadDataType } from '@heimdallr-sdk/types';
-import { beacon, formatDate, generateUUID, get, getStore, imgRequest, setStore } from '@heimdallr-sdk/utils';
+import { beacon, formatDate, generateUUID, get, getStore, imgRequest, setStore, isBrowserEnv } from '@heimdallr-sdk/utils';
 // 基础插件
 import jsErrorPlugin from './plugins/jsError';
 import promiseErrorPlugin from './plugins/promiseError';
@@ -65,6 +65,10 @@ class Browser extends Core<BrowserOptionsType> {
 }
 
 const init = (options: BrowserOptionsType) => {
+  if (!isBrowserEnv) {
+    console.warn('[@heimdallr-sdk/browser]: 当前不是浏览器环境');
+    return;
+  }
   const client = new Browser(options);
   const { plugins = [] } = options;
   client.use([jsErrorPlugin, promiseErrorPlugin, lifeCyclePlugin, ...plugins]);

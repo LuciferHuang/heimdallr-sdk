@@ -11,7 +11,7 @@ const PageCrashPlugin: BasePluginType = {
   name: PLUGIN_NAME,
   monitor() {
     if (Worker) {
-      const { pageCrashWorkerUrl } = this.options;
+      const { pageCrashWorkerUrl } = this.getOptions();
       const { uploadUrl } = this.context;
       if (!pageCrashWorkerUrl) {
         console.warn(Tag, 'missing pageCrashWorkerUrl in options');

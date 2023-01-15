@@ -40,6 +40,7 @@ export default [{
   ...iifePackage,
   output: {
       ...iifePackage.output,
+      sourcemap: true,
       footer
   }
 }];

@@ -6,7 +6,7 @@
 
 |配置名称|类型|描述|默认值|
 |-|-|-|-|
-|throttleDelayTime|Number|节流阈值（ms）|2000|
+|throttleDelayTime|Number|节流阈值（ms）|300|
 
 ## Usage
 

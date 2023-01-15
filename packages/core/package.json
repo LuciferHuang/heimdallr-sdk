@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/core",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "@heimdallr-sdk/core",
   "license": "MIT",
   "author": "LuciferHuang",
@@ -28,13 +28,13 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "rimraf dist && rollup --config --watch",
+    "dev": "rimraf dist && rollup --config rollup.config.dev.js -w",
     "build": "run-p build:bundle build:esm",
     "build:bundle": "rimraf dist && rollup --config",
     "build:esm": "rimraf esm && tsc -p tsconfig.json"
   },
   "dependencies": {
     "@heimdallr-sdk/types": "^0.0.6",
-    "@heimdallr-sdk/utils": "^0.0.6"
+    "@heimdallr-sdk/utils": "^0.0.7"
   }
 }

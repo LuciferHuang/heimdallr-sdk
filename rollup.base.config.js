@@ -16,7 +16,6 @@ const name = path.basename(packageDir);
 export const common = {
   input: `${packageDir}/src/index.ts`,
   output: {
-    sourcemap: true,
     name: `HEIMDALLR_${name.toLocaleUpperCase()}`,
     footer: '/* follow me on Github! @LuciferHuang */'
   },
@@ -24,7 +23,6 @@ export const common = {
     esbuild({
       include: /\.[jt]sx?$/,
       exclude: /node_modules/,
-      sourceMap: true,
       minify: process.env.NODE_ENV === 'production',
       target: 'es2015',
       jsx: 'transform',

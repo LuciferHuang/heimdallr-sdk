@@ -26,6 +26,13 @@ iifePackage.plugins = [
     customResolver: nodeResolve({ extensions: ['.tsx', '.ts'] })
   })
 ];
+
+// 本地调试开启sourcemap
+iifePackage.output = {
+  ...iifePackage.output,
+  sourcemap: true
+};
+
 const footer = `if (HEIMDALLR_PAGE_CRASH_WORKER) {new HEIMDALLR_PAGE_CRASH_WORKER();}\n${iifePackage.output.footer}`;
 export default [{
   ...iifePackage,

@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/page-crash",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "A Plugin For Browser SDK",
   "license": "MIT",
   "author": "LuciferHuang",
@@ -38,6 +38,6 @@
   },
   "dependencies": {
     "@heimdallr-sdk/types": "^0.0.6",
-    "@heimdallr-sdk/utils": "^0.0.6"
+    "@heimdallr-sdk/utils": "^0.0.7"
   }
 }

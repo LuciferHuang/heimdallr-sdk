@@ -144,6 +144,16 @@ export function getDeepPropByDot(keyPath: string, obj: Object): any {
   if (!keyPath || !obj) {
     return null;
   }
+  const copyTarget = { ...obj };
   const paths = keyPath.split('.');
-  return paths.reduce((pre, cur) => pre[cur] || obj, obj);
+  let result = copyTarget;
+  for (const key of paths) {
+    const value = result[key];
+    if (!value) {
+      console.warn('[@heimdallr-sdk/utils]:', `${key} does not exist`);
+      return null;
+    }
+    result = value;
+  }
+  return result;
 }

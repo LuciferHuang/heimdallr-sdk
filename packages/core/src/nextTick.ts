@@ -38,12 +38,12 @@ function flushCallbacks() {
   }
 }
 
-export function nextTick(cb: Function, ...args: any[]) {
+export function nextTick(cb: Function, ctx: Object, ...args: any[]) {
   let _resolve;
   callbacks.push(() => {
     if (cb) {
       try {
-        cb(...args);
+        cb.call(ctx, ...args);
       } catch (e) {
         console.error(e);
       }
