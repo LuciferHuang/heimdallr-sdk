@@ -6,7 +6,19 @@
 
 在 window 上挂载了 `HEIMDALLR_REPORT` 方法，用于上报业务信息
 
-## Options
+## HEIMDALLR_REPORT
+
+```js
+/**
+ * @params {string} customerType - 自定义类型
+ * @params {any} data - 上报数据
+*/
+window.HEIMDALLR_REPORT(customerType, data);
+```
+
+## Auto Report
+
+### Options
 
 |配置名称|类型|描述|
 |-|-|-|
