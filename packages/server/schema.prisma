@@ -27,12 +27,12 @@ model Session {
     language   String
     etime      String
     ltime      String
-    ctime      DateTime @updatedAt
+    ctime      DateTime @default(now()) @updatedAt
 }
 
 model Log {
     id            String   @unique
-    ctime         DateTime @updatedAt
+    ctime         DateTime @default(now()) @updatedAt
     otime         String
     type          String
     sub_type      String
