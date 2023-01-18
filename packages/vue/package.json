@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/vue",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A Plugin For Browser SDK",
   "license": "MIT",
   "author": "LuciferHuang",

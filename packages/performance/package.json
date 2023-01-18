@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/performance",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A Plugin For Browser SDK",
   "license": "MIT",
   "author": "LuciferHuang",
