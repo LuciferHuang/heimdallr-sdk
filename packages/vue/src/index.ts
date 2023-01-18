@@ -34,10 +34,10 @@ const VuePlugin: BasePluginType = {
         sub_type: VueTypes.ERROR
       });
       if (debug) {
-        const message = `Error in ${lifecycleHook}: "${error && error.toString()}"`;
         if (typeof errorHandler === 'function') {
           (errorHandler as UnknownFunc).call(this.vm, error, vm, lifecycleHook);
         } else if (!silent) {
+          const message = `Error in ${lifecycleHook}: "${stack && stack.toString()}"`;
           console.error(`[Vue error]: ${message}`);
         }
       }

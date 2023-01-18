@@ -37,6 +37,6 @@
   },
   "dependencies": {
     "@heimdallr-sdk/types": "^0.0.7",
-    "@heimdallr-sdk/utils": "^0.0.8"
+    "@heimdallr-sdk/utils": "^0.0.9"
   }
 }

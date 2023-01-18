@@ -11,7 +11,7 @@ export const hasConsole = (): boolean => typeof console !== 'undefined';
  * @return {string}
  */
 export const formateUrlPath = (host: string, path: string): string =>
-  `//${host.replace(/^http(s|):\/\//, '')}/${path[0] === '/' ? path.substring(1) : path}`;
+  `//${(host || '').replace(/^http(s|):\/\//, '')}/${(path || '')[0] === '/' ? path.substring(1) : path}`;
 
 /**
  * 获取url路径地址
@@ -19,7 +19,7 @@ export const formateUrlPath = (host: string, path: string): string =>
  * @return {string}
  */
 export const getUrlPath = (url: string): string => {
-  const path = `${url.replace(/^http(s|):/, '').split('?')[0]}`;
+  const path = `${(url || '').replace(/^http(s|):/, '').split('?')[0]}`;
   const endIndex = path.length - 1;
   return path[endIndex] === '/' ? path.substring(0, endIndex) : path;
 };

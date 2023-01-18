@@ -5,6 +5,9 @@ import { StoreType, StoreTypes } from '@heimdallr-sdk/types';
  * @param target html节点
  */
 export function htmlElementAsString(target: HTMLElement): string {
+  if (!target) {
+    return null;
+  }
   const tagName = target.tagName.toLowerCase();
   if (tagName === 'body') {
     return null;

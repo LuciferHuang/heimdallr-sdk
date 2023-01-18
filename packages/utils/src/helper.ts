@@ -21,7 +21,7 @@ export function generateUUID(): string {
  * @return {string}
  */
 export const formatDate = (format = 'Y-M-D h:m:s', timestamp: number = Date.now()): string => {
-  const date = new Date(timestamp);
+  const date = new Date(timestamp || Date.now());
   const dateInfo = {
     Y: `${date.getFullYear()}`,
     M: `${date.getMonth() + 1}`,
@@ -31,7 +31,7 @@ export const formatDate = (format = 'Y-M-D h:m:s', timestamp: number = Date.now(
     s: date.getSeconds()
   };
   const formatNumber = (n) => (n > 10 ? n : '0' + n);
-  const res = format
+  const res = (format || 'Y-M-D h:m:s')
     .replace('Y', dateInfo.Y)
     .replace('M', dateInfo.M)
     .replace('D', dateInfo.D)
@@ -82,7 +82,7 @@ export function replaceOld(source: IAnyObject, name: string, replacement: (...ar
 }
 
 export function objDeepCopy(obj: any) {
-  if (obj === null) return null;
+  if (obj === null || obj === undefined) return null;
   if (typeof obj !== 'object') return obj;
   const newObj = new obj.constructor();
   const isObject = (target) => (typeof target === 'object' ? (target === obj ? newObj : objDeepCopy(target)) : target);
@@ -114,6 +114,9 @@ export function objDeepCopy(obj: any) {
 }
 
 export function formatDecimal(num: number, decimal: number): number {
+  if (!num) {
+    return num;
+  }
   let str = num.toString();
   const index = str.indexOf('.');
   if (index !== -1) {

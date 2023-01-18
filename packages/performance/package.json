@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@heimdallr-sdk/types": "^0.0.7",
-    "@heimdallr-sdk/utils": "^0.0.8",
+    "@heimdallr-sdk/utils": "^0.0.9",
     "web-vitals": "^2.1.4"
   }
 }
