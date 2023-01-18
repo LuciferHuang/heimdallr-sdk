@@ -29,8 +29,7 @@
         plugins: [
             HEIMDALLR_PAGE_CRASH,
         ],
-        pageCrashWorkerUrl: '[crash-worker-dist]/page_crash_worker.iife.js',
-        debug: true
+        pageCrashWorkerUrl: '[crash-worker-dist]/page_crash_worker.iife.js'
     };
 </script>
 <script async src="/browser-dist/browser.iife.js"></script>
@@ -55,7 +54,6 @@ heimdallr({
     plugins: [
         page_crashPlugin,
     ],
-    pageCrashWorkerUrl: '[crash-worker-dist]/page_crash_worker.iife.js',
-    debug: true
+    pageCrashWorkerUrl: '[crash-worker-dist]/page_crash_worker.iife.js'
 });
 ```

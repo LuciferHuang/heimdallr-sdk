@@ -30,7 +30,6 @@
             HEIMDALLR_VUE,
         ],
         vue: VueInstance
-        debug: true
     };
 </script>
 <script async src="/browser-dist/browser.iife.js"></script>
@@ -55,7 +54,6 @@ heimdallr({
     plugins: [
         vuePlugin,
     ],
-    vue: VueInstance,
-    debug: true
+    vue: VueInstance
 });
 ```

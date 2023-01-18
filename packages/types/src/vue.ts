@@ -1,3 +1,4 @@
+import { ReportDataMsgType } from './base';
 import { IAnyObject } from './common';
 
 export interface VueInstance {
@@ -23,7 +24,7 @@ export interface VueConfiguration {
   [key: string]: any;
 }
 
-export interface VueReportDataType {
+export interface VueReportDataType extends ReportDataMsgType {
   name: string;
   message: string;
   hook: string;

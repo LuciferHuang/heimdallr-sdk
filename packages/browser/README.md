@@ -20,6 +20,7 @@
 |maxBreadcrumbs|Number|面包屑最大层级|-|5|
 |userIdentify|Customer|用户标识|-|-|
 |plugins|Array|插件集合|-|-|
+|debug|Boolean|控制台是否显示报错|true/false|true|
 
 ### DSN
 
@@ -64,8 +65,7 @@
         userIdentify: {
             name: '__state__.a.0.user.id', // window.__state__ = { a: [{ user: { id:'123' } }] }
             position: 'global'
-        },
-        debug: true
+        }
     };
 </script>
 <script async src="/browser-dist/browser.iife.js"></script>
@@ -89,7 +89,6 @@ heimdallr({
     userIdentify: {
         name: '__state__.a.0.user.id', // window.__state__ = { a: [{ user: { id:'123' } }] }
         position: 'global'
-    },
-    debug: true
+    }
 });
 ```

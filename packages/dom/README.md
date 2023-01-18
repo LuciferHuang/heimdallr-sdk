@@ -53,7 +53,6 @@ heimdallr({
     },
     plugins: [
         domPlugin,
-    ],
-    debug: true
+    ]
 });
 ```

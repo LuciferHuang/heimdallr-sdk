@@ -89,3 +89,7 @@ export enum DeviceType {
   MOBILE = 'mobile',
   PC = 'pc'
 }
+
+export enum VueTypes {
+  ERROR = 'error'
+}

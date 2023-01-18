@@ -26,11 +26,14 @@ interface ResourceTarget {
 const errorPlugin: BasePluginType = {
   name: PLUGIN_NAME,
   monitor(notify: (eventName: string, data: CollectedType) => void) {
+    const { debug } = this.context;
     window.addEventListener(
       'error',
       (e: Event) => {
         e.preventDefault();
-        console.error(TAG, e);
+        if (debug) { 
+          console.error(TAG, e);
+        }
         notify(PLUGIN_NAME, {
           category: EventTypes.ERROR,
           data: e

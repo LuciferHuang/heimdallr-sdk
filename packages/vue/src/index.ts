@@ -6,7 +6,8 @@ import {
   VueReportDataType,
   ReportDataType,
   EventTypes,
-  BrowserBreadcrumbTypes
+  BrowserBreadcrumbTypes,
+  VueTypes
 } from '@heimdallr-sdk/types';
 
 const PLUGIN_NAME = 'vuePlugin';
@@ -17,6 +18,7 @@ const VuePlugin: BasePluginType = {
   name: PLUGIN_NAME,
   monitor(notify: (eventName: string, data: VueReportDataType) => void) {
     const { vue: vm } = this.getOptions();
+    const { debug } = this.context;
     if (!vm) {
       console.error(Tag, 'missing Vue in options');
       return;
@@ -28,9 +30,10 @@ const VuePlugin: BasePluginType = {
         name,
         message,
         hook: lifecycleHook,
-        stack
+        stack,
+        sub_type: VueTypes.ERROR
       });
-      if (this.debug) {
+      if (debug) {
         const message = `Error in ${lifecycleHook}: "${error && error.toString()}"`;
         if (typeof errorHandler === 'function') {
           (errorHandler as UnknownFunc).call(this.vm, error, vm, lifecycleHook);

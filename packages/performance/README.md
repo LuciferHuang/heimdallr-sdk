@@ -58,8 +58,7 @@
         },
         plugins: [
             HEIMDALLR_PERFORMANCE,
-        ],
-        debug: true
+        ]
     };
 </script>
 <script async src="/browser-dist/browser.iife.js"></script>
@@ -83,7 +82,6 @@ heimdallr({
     },
     plugins: [
         performancePlugin,
-    ],
-    debug: true
+    ]
 });
 ```

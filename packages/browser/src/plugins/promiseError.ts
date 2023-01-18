@@ -19,9 +19,12 @@ interface CollectedType {
 const PromiseErrorPlugin: BasePluginType = {
   name: PLUGIN_NAME,
   monitor(notify: (eventName: BrowserErrorTypes, data: CollectedType) => void) {
+    const { debug } = this.context;
     window.addEventListener('unhandledrejection', (e: PromiseRejectionEvent) => {
       e.preventDefault();
-      console.error(TAG, e);
+      if (debug) { 
+        console.error(TAG, e);
+      }
       notify(PLUGIN_NAME, {
         category: EventTypes.ERROR,
         data: e

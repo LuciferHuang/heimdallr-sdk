@@ -55,8 +55,7 @@ window.HEIMDALLR_REPORT(customerType, data);
         customers: [{
             name:'state.userid',
             postion:'local'
-        }],
-        debug: true
+        }]
     };
 </script>
 <script async src="/browser-dist/browser.iife.js"></script>
@@ -84,7 +83,6 @@ heimdallr({
     customers: [{
         name:'userid',
         postion:'local'
-    }],
-    debug: true
+    }]
 });
 ```

@@ -22,8 +22,7 @@
         },
         plugins: [
             HEIMDALLR_CONSOLE,
-        ],
-        debug: true
+        ]
     };
 </script>
 <script async src="/browser-dist/browser.iife.js"></script>
@@ -47,7 +46,6 @@ heimdallr({
     },
     plugins: [
         consolePlugin,
-    ],
-    debug: true
+    ]
 });
 ```

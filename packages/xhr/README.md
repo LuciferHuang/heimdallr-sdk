@@ -28,8 +28,7 @@
         },
         plugins: [
             HEIMDALLR_XHR,
-        ],
-        debug: true
+        ]
     };
 </script>
 <script async src="/browser-dist/browser.iife.js"></script>
@@ -53,7 +52,6 @@ heimdallr({
     },
     plugins: [
         xhrPlugin,
-    ],
-    debug: true
+    ]
 });
 ```
