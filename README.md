@@ -51,7 +51,7 @@ yarn workspace [packageName] build
 如：构建 browser 包
 
 ```bash
- yarn workspace @heimdallr-sdk/browser build
+yarn workspace @heimdallr-sdk/browser build
 ```
 
 构建所有包
