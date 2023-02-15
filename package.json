@@ -1,6 +1,6 @@
 {
   "name": "heimdallr-sdk",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": true,
   "license": "MIT",
   "author": "LuciferHuang",
@@ -15,7 +15,7 @@
     "lint": "eslint packages",
     "lint-staged": "lint-staged",
     "commitlint": "commitlint --config commitlint.config.js -e -V",
-    "publish": "lerna publish from-package"
+    "publish:lerna": "lerna publish from-package"
   },
   "repository": {
     "type": "git",
