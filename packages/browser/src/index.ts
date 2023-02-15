@@ -1,6 +1,7 @@
 import { Core } from '@heimdallr-sdk/core';
 import { IAnyObject, BrowserOptionsType, BrowserReportType, StoreType, StoreKeyType, BrowserReportPayloadDataType } from '@heimdallr-sdk/types';
 import { beacon, formatDate, generateUUID, get, getStore, imgRequest, setStore, isBrowserEnv } from '@heimdallr-sdk/utils';
+import { nextTick } from "./lib/nextTick";
 // 面包屑
 import { Breadcrumb } from './lib/breadcrumb';
 // 基础插件
@@ -63,6 +64,10 @@ class BrowserClient extends Core<BrowserOptionsType> {
       user_agent: userAgent, // 浏览器标识
       ...datas
     };
+  }
+
+  nextTick(cb: Function, ctx: Object, ...args: any[]) {
+    return nextTick(cb, ctx, ...args);
   }
 }
 

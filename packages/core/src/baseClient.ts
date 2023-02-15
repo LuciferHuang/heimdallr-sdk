@@ -1,6 +1,5 @@
 import { BaseOptionsType, BasePluginType, CoreContextType, IAnyObject } from '@heimdallr-sdk/types';
 import { formateUrlPath, objDeepCopy } from '@heimdallr-sdk/utils';
-import { nextTick } from './nextTick';
 import { Subscribe } from './subscribe';
 
 /**
@@ -62,7 +61,7 @@ export abstract class Core<O extends BaseOptionsType> {
           return;
         }
         if (enabled) {
-          nextTick(this.report, this, uploadUrl, datas);
+          this.nextTick(this.report, this, uploadUrl, datas);
         }
       };
       sub.watch(plugin.name, callback);
@@ -80,6 +79,11 @@ export abstract class Core<O extends BaseOptionsType> {
   getGlobal() {
     return this;
   }
+
+  /**
+   * 抽象方法，nextTick
+   */
+  abstract nextTick(cb: Function, ctx: Object, ...args: any[]): void;
 
   /**
    * 抽象方法，注册/初始化应用

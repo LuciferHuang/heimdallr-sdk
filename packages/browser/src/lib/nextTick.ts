@@ -1,9 +1,8 @@
 const callbacks = [];
 let pending = false;
-let timerFunc;
+let timerFunc: Function;
 
 if (typeof Promise !== 'undefined') {
-  // step 1
   const p = Promise.resolve();
   timerFunc = () => {
     p.then(flushCallbacks);
@@ -56,7 +55,7 @@ export function nextTick(cb: Function, ctx: Object, ...args: any[]) {
     timerFunc();
   }
   if (!cb && typeof Promise !== 'undefined') {
-    return new Promise((resolve) => {
+    new Promise((resolve) => {
       _resolve = resolve;
     });
   }

@@ -55,6 +55,12 @@ class NodeClient extends Core<NodeOptionsType> {
       ...datas
     };
   }
+
+  nextTick(cb: Function, ctx: Object, ...args: any[]) {
+    process.nextTick(() => {
+      cb.call(ctx, ...args);
+    });
+  }
 }
 
 const init = (options: NodeOptionsType) => {
