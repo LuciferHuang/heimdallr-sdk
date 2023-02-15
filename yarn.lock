@@ -283,6 +283,14 @@
   resolved "https://registry.npmjs.org/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
+"@heimdallr-sdk/core@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.npmjs.org/@heimdallr-sdk/core/-/core-0.0.12.tgz#056d4e1845d94f4b2d5df09c33361e287bd22bc9"
+  integrity sha512-sLGr/nCEIhcDrGGbala2A9IWUNmf3CXCc36VYL4kqRG0aFYFKmVjLqZqHro+Ja8pVBVhortfJWvcyhzgC4es7w==
+  dependencies:
+    "@heimdallr-sdk/types" "^0.0.8"
+    "@heimdallr-sdk/utils" "^0.0.9"
+
 "@heimdallr-sdk/types@^0.0.6":
   version "0.0.6"
   resolved "https://registry.npmjs.org/@heimdallr-sdk/types/-/types-0.0.6.tgz#a5da4cc601ea6893190b76f3c9b1cdfd102c6f87"
@@ -292,6 +300,11 @@
   version "0.0.7"
   resolved "https://registry.npmjs.org/@heimdallr-sdk/types/-/types-0.0.7.tgz#1f14a2769470333a8b6aff0566d988d0eed3bc60"
   integrity sha512-Dn4U8NEj4s63XWiKcHjO6omysgm7Hav7APZI+FjWu/aw+F2FbZqvxVhy3paLrHoJoGeoawGRKrg7OImwikHTow==
+
+"@heimdallr-sdk/types@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.npmjs.org/@heimdallr-sdk/types/-/types-0.0.8.tgz#fe5cb556f82538d3585259b74b26db17c600ce0c"
+  integrity sha512-R3wCkvNxUXrVjLl7HDAGR0g2H9cxGLvuS1kcx/WibOOvuBumJUuM8zIjbjZlR1SR1wyZT8PaYn69szRHN25JRw==
 
 "@heimdallr-sdk/utils@^0.0.9":
   version "0.0.9"
