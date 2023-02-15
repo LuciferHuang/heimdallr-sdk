@@ -1,17 +1,17 @@
 {
-  "name": "@heimdallr-sdk/browser",
-  "version": "0.0.14",
-  "description": "A SDK For Monitoring Browser Errors",
+  "name": "@heimdallr-sdk/node",
+  "version": "0.0.1",
+  "description": "A SDK For Monitoring NodeJs Errors",
   "license": "MIT",
   "author": "LuciferHuang",
-  "main": "dist/browser.umd.js",
+  "main": "dist/node.umd.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
   "files": [
     "dist",
     "esm"
   ],
-  "homepage": "https://github.com/LuciferHuang/heimdallr-sdk/blob/main/packages/browser/README.md",
+  "homepage": "https://github.com/LuciferHuang/heimdallr-sdk/blob/main/packages/node/README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LuciferHuang/heimdallr-sdk.git"
@@ -22,7 +22,7 @@
   "keywords": [
     "heimdallr",
     "sdk",
-    "browser",
+    "NodeJs",
     "monitor"
   ],
   "publishConfig": {
@@ -37,6 +37,7 @@
   "dependencies": {
     "@heimdallr-sdk/core": "^0.0.12",
     "@heimdallr-sdk/types": "^0.0.9",
-    "@heimdallr-sdk/utils": "^0.0.10"
+    "@heimdallr-sdk/utils": "^0.0.10",
+    "node-fetch": "^3.3.0"
   }
 }

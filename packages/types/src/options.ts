@@ -1,6 +1,8 @@
 import { AppInfoType, Dsn } from './base';
+import { IAnyObject } from './common';
 import { StoreTypes } from './constant';
 import { BasePluginType } from './plugin';
+import { InterfaceResponseType } from './server';
 import { VueInstance } from './vue';
 
 export interface BaseOptionsType {
@@ -24,14 +26,6 @@ export interface BaseOptionsType {
    * 插件
    */
   plugins?: BasePluginType[];
-  /**
-   * 过滤请求url
-   */
-  ignoreUrls?: string[];
-  /**
-   * 面包屑最大层级
-   */
-  maxBreadcrumbs?: number;
 }
 
 export enum PerformanceFeat {
@@ -48,6 +42,14 @@ export interface CustomerOptionType {
 }
 
 export interface BrowserOptionsType extends BaseOptionsType {
+  /**
+   * 过滤请求url
+   */
+  ignoreUrls?: string[];
+  /**
+   * 面包屑最大层级
+   */
+  maxBreadcrumbs?: number;
   /**
    * 用户标识（已登录用户）
    */
@@ -72,4 +74,11 @@ export interface BrowserOptionsType extends BaseOptionsType {
    * 客户端上报数据（页面加载完成时收集）
    */
   customers?: CustomerOptionType[];
+}
+
+export interface NodeOptionsType extends BaseOptionsType {
+  /**
+   * 自定义请求函数
+   */
+  sendFunc?: (url: string, data: IAnyObject) => Promise<InterfaceResponseType<any>>;
 }

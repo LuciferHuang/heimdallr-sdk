@@ -40,5 +40,4 @@ export interface CoreContextType {
   initUrl: string;
   debug: boolean;
   enabled: boolean;
-  ignoreUrls: string[];
 }

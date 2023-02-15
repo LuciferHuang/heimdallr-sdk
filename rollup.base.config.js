@@ -57,8 +57,9 @@ export const umdPackage = {
 export const esmPackage = {
   ...common,
   output: {
-    file: `${packageDirDist}/${name}.esm.js`,
+    dir: packageDirDist,
     format: 'esm',
+    plugins: [terser()],
     ...common.output
   }
 };

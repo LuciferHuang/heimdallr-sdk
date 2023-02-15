@@ -11,7 +11,7 @@ export const hasConsole = (): boolean => typeof console !== 'undefined';
  * @return {string}
  */
 export const formateUrlPath = (host: string, path: string): string =>
-  `//${(host || '').replace(/^http(s|):\/\//, '')}/${(path || '')[0] === '/' ? path.substring(1) : path}`;
+  `${/^http(s|):\/\//.test((host || '')) ? host : `//${(host || '').replace(/^http(s|):\/\//, '')}`}/${(path || '')[0] === '/' ? path.substring(1) : path}`;
 
 /**
  * 获取url路径地址

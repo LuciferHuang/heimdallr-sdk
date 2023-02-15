@@ -1,11 +1,11 @@
-import { BaseOptionsType, BreadcrumbPushData } from '@heimdallr-sdk/types';
+import { BrowserOptionsType, BreadcrumbPushData } from '@heimdallr-sdk/types';
 /**
  * 用户行为栈存储类
  * @export
  * @class Breadcrumb
  * @template O
  */
-export class Breadcrumb<O extends BaseOptionsType> {
+export class Breadcrumb<O extends BrowserOptionsType> {
   private readonly maxBreadcrumbs: number;
   private stack: BreadcrumbPushData[];
   constructor(options: Partial<O> = {}) {

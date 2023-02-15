@@ -40,7 +40,7 @@ export interface ClientInfoType {
   user_agent: string
 }
 
-export interface ReportPayloadDataType extends ClientInfoType{
+export interface BrowserReportPayloadDataType extends ClientInfoType{
   [key: string]: any;
 }
 

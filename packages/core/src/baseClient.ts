@@ -1,5 +1,5 @@
 import { BaseOptionsType, BasePluginType, CoreContextType, IAnyObject } from '@heimdallr-sdk/types';
-import { formateUrlPath, getUrlPath, objDeepCopy } from '@heimdallr-sdk/utils';
+import { formateUrlPath, objDeepCopy } from '@heimdallr-sdk/utils';
 import { nextTick } from './nextTick';
 import { Subscribe } from './subscribe';
 
@@ -26,7 +26,7 @@ export abstract class Core<O extends BaseOptionsType> {
    * 绑定配置
    */
   private bindOptions() {
-    const { dsn, app, debug = true, enabled = true, ignoreUrls = [] } = this.options;
+    const { dsn, app, debug = true, enabled = true } = this.options;
 
     if (!app || !dsn) {
       console.error('mising app or dsn in options');
@@ -43,7 +43,6 @@ export abstract class Core<O extends BaseOptionsType> {
       initUrl,
       debug,
       enabled,
-      ignoreUrls: [...ignoreUrls, uploadUrl, initUrl].map((url) => getUrlPath(url))
     };
   }
 

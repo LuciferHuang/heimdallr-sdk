@@ -16,8 +16,9 @@ const PLUGIN_NAME = 'fetchPlugin';
 const fetchPlugin: BasePluginType = {
   name: PLUGIN_NAME,
   monitor(notify: (eventName: string, data: HttpCollectDataType) => void) {
-    const { context } = this;
-    const { ignoreUrls = [] } = context;
+    const { ignoreUrls = [] } = this.getOptions();
+    const { initUrl, uploadUrl } = this.context;
+    const ignore = [...ignoreUrls, uploadUrl, initUrl].map((url) => getUrlPath(url));
     replaceOld(window, HttpTypes.FETCH, (originalFetch: voidFun) => {
       return function (url: string, config: Partial<Request> = {}): void {
         const sTime = Date.now();
@@ -39,7 +40,7 @@ const fetchPlugin: BasePluginType = {
           ...config,
           headers
         };
-        const isBlock = ignoreUrls.includes(getUrlPath(url));
+        const isBlock = ignore.includes(getUrlPath(url));
         return originalFetch.apply(window, [url, config]).then(
           (res: Response) => {
             const resClone = res.clone();

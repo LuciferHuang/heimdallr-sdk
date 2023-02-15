@@ -19,7 +19,12 @@ export enum EventTypes {
   CONSOLE = 'console',
   CUSTOMER = 'customer',
   VUE = 'vue',
-  LIFECYCLE = 'lifeCycle'
+  LIFECYCLE = 'lifeCycle',
+  EXTEND = 'extend',
+}
+
+export enum NodeErrorTypes {
+  UNCAUGHTEXCEPTION = 'uncaughtException'
 }
 
 export enum BrowserErrorTypes {
