@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/customer",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "A plugin For Browser SDK",
   "license": "MIT",
   "author": "LuciferHuang",
@@ -37,7 +37,7 @@
     "build:esm": "rimraf esm && tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@heimdallr-sdk/types": "^0.0.7",
-    "@heimdallr-sdk/utils": "^0.0.9"
+    "@heimdallr-sdk/types": "^0.0.9",
+    "@heimdallr-sdk/utils": "^0.0.11"
   }
 }

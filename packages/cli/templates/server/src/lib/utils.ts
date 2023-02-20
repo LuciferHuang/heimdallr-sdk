@@ -1,3 +1,4 @@
+import { getPortPromise } from 'portfinder';
 import { InterfaceResponseType, IAnyObject } from '../types';
 
 export function successResponse(data: any, msg: string): InterfaceResponseType<IAnyObject> {
@@ -25,14 +26,14 @@ export function isMobileDevice(userAgentStr: string): Boolean {
       break;
     }
   }
-  return isMobile
+  return isMobile;
 }
 
 /**
  * 生成UUID
  * @return {string}  {string}
  */
- export function generateUUID(): string {
+export function generateUUID(): string {
   let d = new Date().getTime();
   const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     const r = (d + Math.random() * 16) % 16 | 0;
@@ -40,4 +41,20 @@ export function isMobileDevice(userAgentStr: string): Boolean {
     return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
   });
   return uuid;
+}
+
+/**
+ * 查找可用端口
+ * @return {number}
+ */
+export async function getUseablePort(options = {}): Promise<number> {
+  const localOptions = {
+    startPort: 7000,
+    stopPort: 9000
+  };
+  try {
+    return await getPortPromise({ ...localOptions, ...options });
+  } catch (error) {
+    return 0;
+  }
 }

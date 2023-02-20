@@ -65,7 +65,7 @@ const CLIENT_QS = [
     type: 'input',
     name: 'client_api',
     message: 'API base url ?',
-    default: '//localhost:8888'
+    default: ''
   }
 ]
 
@@ -99,12 +99,6 @@ const SERVER_QS = [
     name: 'mysql_pwd',
     message: 'Mysql password ?',
     default: 'root'
-  },
-  {
-    type: 'input',
-    name: 'server_port',
-    message: 'Server port ?',
-    default: '8888'
   }
 ];
 

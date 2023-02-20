@@ -24,7 +24,7 @@ export function htmlElementAsString(target: HTMLElement): string {
  * @return {boolean}
  */
 export function supportsHistory(): boolean {
-  return !!window.history.pushState && !!window.history.replaceState;
+  return window && !!window.history.pushState && !!window.history.replaceState;
 }
 
 function getStoreIns(type: StoreTypes) {

@@ -31,6 +31,9 @@ export const getUrlPath = (url: string): string => {
  */
 export function getUrlParam(name: string): string {
   const reg = new RegExp(`(^|&)${name}=([^&]*)(&|$)`);
+  if (!isBrowserEnv) {
+    return '';
+  }
   const result = window.location.search.substring(1).match(reg);
   if (result != null) {
     return result[2];

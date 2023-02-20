@@ -2,6 +2,10 @@
 
 > 监控后台服务
 
+## Preparation
+
+确保已经安装了 `MySQL` 与 `RabbitMQ`
+
 ## Usage
 
 初次启动，需要先初始化数据库
@@ -15,7 +19,3 @@ npm run prisma
 ```bash
 npm run dev
 ```
-
-默认地址：[http://localhost:8888](http://localhost:8888)
-
-（确保 3306、7777、8888 端口未被占用）

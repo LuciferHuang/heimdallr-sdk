@@ -1,7 +1,13 @@
 # `heimdallr-sdk`
 
-node version: 16+
-npm script: yarn
+## Env
+
+- node version: `16+`
+- npm script: `yarn`
+
+## Preparation
+
+确保已经安装了 `MySQL` 与 `RabbitMQ`
 
 ## Dev
 
@@ -27,12 +33,6 @@ yarn prisma
 ```bash
 yarn dev
 ```
-
-监控后台服务地址：[http://localhost:8888](http://localhost:8888)
-
-监控后台地址：[http://localhost:5173](http://localhost:5173)
-
-（确保 3306、7777、8888、5173 端口未被占用）
 
 ## Build
 

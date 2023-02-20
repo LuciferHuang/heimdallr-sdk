@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/browser",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "A SDK For Monitoring Browser Errors",
   "license": "MIT",
   "author": "LuciferHuang",
@@ -37,6 +37,6 @@
   "dependencies": {
     "@heimdallr-sdk/core": "^0.0.14",
     "@heimdallr-sdk/types": "^0.0.9",
-    "@heimdallr-sdk/utils": "^0.0.10"
+    "@heimdallr-sdk/utils": "^0.0.11"
   }
 }

@@ -18,7 +18,7 @@
       window.state = { a: {user:{name:"test"}}}
       window.__HEIMDALLR_OPTIONS__ = {
         dsn: {
-          host: 'localhost:8888',
+          host: 'localhost:8001',
           init: '/project/init',
           upload: '/log/upload'
         },
@@ -48,7 +48,7 @@
           }
         ],
         pageCrashWorkerUrl: '/crash-worker/page_crash_worker.iife.js',
-        ignoreUrls: ['http://localhost:8888/browser-sync/socket.io'], // 过滤无需监控的api
+        ignoreUrls: ['http://localhost:8001/browser-sync/socket.io'], // 过滤无需监控的api
         debug: true
       };
     </script>
@@ -109,7 +109,7 @@
       });
 
       customerDom.addEventListener('click', () => {
-        HEIMDALLR_REPORT('customer-click', 'funny')
+        sHEIMDALLR_REPORT('customer-click', 'funny');
       });
 
       fetchDom.addEventListener('click', () => {

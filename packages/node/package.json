@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/node",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A SDK For Monitoring NodeJs Errors",
   "license": "MIT",
   "author": "LuciferHuang",
@@ -37,7 +37,7 @@
   "dependencies": {
     "@heimdallr-sdk/core": "^0.0.14",
     "@heimdallr-sdk/types": "^0.0.9",
-    "@heimdallr-sdk/utils": "^0.0.10",
+    "@heimdallr-sdk/utils": "^0.0.11",
     "node-fetch": "^3.3.0"
   }
 }

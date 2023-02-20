@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/sourcemap-upload-webpack-plugin",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A Plugin For Webpack Upload Sourcemap Files",
   "license": "MIT",
   "author": "LuciferHuang",
@@ -36,7 +36,7 @@
     "build:esm": "rimraf esm && tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@heimdallr-sdk/types": "^0.0.7",
+    "@heimdallr-sdk/types": "^0.0.9",
     "request": "^2.88.2"
   }
 }
