@@ -10,7 +10,7 @@ const logModel = new LogModel();
 const bcModel = new BreadCrumbModel();
 const sessionModel = new SessionModel();
 
-const TAG = '[@heimdallr-sdk/server|logBus]:';
+const TAG = '[@heimdallr-sdk/server-consumer|logBus]:';
 
 export async function add(message: string): Promise<InterfaceResponseType<IAnyObject>> {
   try {

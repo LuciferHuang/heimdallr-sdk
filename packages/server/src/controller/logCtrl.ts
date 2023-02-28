@@ -1,9 +1,16 @@
-import { failResponse, successResponse } from '../lib/utils';
-import { IPInfo } from '../types';
-import Rabbit from '../lib/rabbitMQ';
-import { add as logAdd, list as logList, detail as logDetail } from '../lib/logBus';
+import { failResponse, generateUUID, isMobileDevice, successResponse } from '../lib/utils';
+import ProjModel from '../models/projModel';
+import LogModel from '../models/logModel';
+import BreadCrumbModel from '../models/breadcrumbModel';
+import { BreadCrumb, IPInfo, LogItem, DeviceType, EventTypes, PageLifeType } from '../types';
+import SessionModel from '../models/sessionModel';
 
-const mq = new Rabbit();
+const TAG = '[logCtrl]:';
+
+const projModel = new ProjModel();
+const logModel = new LogModel();
+const bcModel = new BreadCrumbModel();
+const sessionModel = new SessionModel();
 
 /**
  * post上报
@@ -32,20 +39,146 @@ export function uploadGet(req, res) {
  * @param param 请求参数
  */
 async function uploadCtrl(res, param, ipInfo: IPInfo) {
-  const { app_id, id } = param;
+  const {
+    app_id,
+    session_id,
+    id,
+    time,
+    type,
+    data: paramData,
+    breadcrumb: breadcrumbJson = '[]',
+    path,
+    language,
+    user_agent,
+    page_title
+  } = param;
   if (!id || !app_id) {
     res.send(failResponse('missing id or app_id'));
     return;
   }
-  // 入队
-  mq.sendQueueMsg(
-    'logQueue',
-    JSON.stringify({ param, ipInfo }),
-    (msg) => {
+  try {
+    // 面包屑
+    let bcIds = [];
+    const breadcrumb = JSON.parse(breadcrumbJson);
+    if (breadcrumb.length) {
+      const bcs = breadcrumb.map((ele: BreadCrumb) => ({
+        type: ele.type,
+        time: `${ele.time}`,
+        event_id: ele.eventId,
+        data: JSON.stringify(ele.data),
+        id: generateUUID()
+      }));
+      const { status: bcStatus } = await bcModel.add(bcs);
+      if (bcStatus) {
+        bcIds = bcs.map(({ id }) => id);
+      }
+    }
+
+    // 将入参转为数据库存储结构
+    const paramObj = JSON.parse(paramData);
+    const { sub_type, user_id = '' } = paramObj;
+    delete paramObj.sub_type;
+
+    // session
+    if (type === EventTypes.LIFECYCLE) {
+      const { error, ip, region = '' } = ipInfo;
+      if (error) {
+        console.error(TAG, error);
+      }
+      let response = { status: false, msg: 'sub_type not found' };
+      switch (sub_type) {
+        case PageLifeType.LOAD:
+          response = await sessionModel.add([
+            {
+              id: session_id,
+              user_id: `${user_id}`,
+              ip,
+              province: region,
+              path,
+              page_title,
+              stay_time: 0,
+              terminal: isMobileDevice(user_agent) ? DeviceType.MOBILE : DeviceType.PC,
+              language,
+              etime: time,
+              ltime: ''
+            }
+          ]);
+          break;
+        case PageLifeType.UNLOAD:
+          {
+            const { data = [] } = await sessionModel.find(1, 5, {
+              id: session_id
+            });
+            const [targetSession] = data;
+            if (!targetSession || data.length > 1) {
+              throw new Error('session not found');
+            }
+            const { etime } = targetSession;
+            let stayTime = 0;
+            if (etime) {
+              stayTime = new Date(time).getTime() - new Date(etime).getTime();
+            }
+            response = await sessionModel.modify(
+              { id: session_id },
+              {
+                stay_time: stayTime,
+                ltime: time
+              }
+            );
+          }
+          break;
+
+        default:
+          break;
+      }
+      const { status, msg } = response;
+      if (!status) {
+        throw new Error(msg);
+      }
       res.send(successResponse(null, msg));
-    },
-    (err) => res.send(failResponse(err))
-  );
+      // 页面生命周期时间不加log
+      return;
+    }
+
+    const logInfo: LogItem = {
+      ascription_id: app_id,
+      session_id,
+      otime: time,
+      type,
+      sub_type,
+      breadcrumb: JSON.stringify(bcIds),
+      data: JSON.stringify(paramObj),
+      path,
+      language,
+      user_agent,
+      page_title
+    };
+    const { data: count } = await logModel.count({ id });
+    if (count) {
+      // 记录已存在，直接更新
+      const { status, msg } = await logModel.modify({ id }, logInfo);
+      if (status) {
+        res.send(successResponse(null, msg));
+        return;
+      }
+      res.send(failResponse(msg));
+      return;
+    }
+    // 新增
+    const { status, msg } = await logModel.add([
+      {
+        id,
+        ...logInfo
+      }
+    ]);
+    if (status) {
+      res.send(successResponse(null, msg));
+      return;
+    }
+    res.send(failResponse(msg));
+  } catch (err) {
+    res.send(failResponse(err.message || JSON.stringify(err)));
+  }
 }
 
 /**
@@ -55,7 +188,66 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
  */
 export async function list(req, res) {
   const query = { ...req.query };
-  res(await logList(query));
+  const { psize, pindex, order, sort } = query;
+  if (!psize || !pindex) {
+    res.send(failResponse('missing psize or pindex'));
+    return;
+  }
+  delete query.psize;
+  delete query.pindex;
+  delete query.order;
+  delete query.sort;
+  const { data: total } = await logModel.count(query);
+  if (!total) {
+    res.send(
+      successResponse(
+        {
+          list: [],
+          total: 0
+        },
+        'empty'
+      )
+    );
+    return;
+  }
+  let orderBy: any = null;
+  if (sort && order) {
+    orderBy = {};
+    orderBy[sort] = order;
+  }
+  const { status, data, msg } = await logModel.find(pindex, psize, query, orderBy);
+  if (status) {
+    const proj_ids = data?.map(({ ascription_id }) => ({ id: ascription_id }));
+    const {
+      status: proj_status,
+      data: proj_datas = [],
+      msg: proj_msg
+    } = await projModel.find(0, 0, {
+      OR: proj_ids
+    });
+    if (!proj_status) {
+      console.error(proj_msg);
+    }
+    const projMap = proj_datas.reduce((pre, cur) => {
+      const { id, name } = cur;
+      pre[id] = name;
+      return pre;
+    }, {});
+    res.send(
+      successResponse(
+        {
+          list: data?.map((ele) => ({
+            ...ele,
+            ascription: projMap[ele.ascription_id] || ele.ascription_id
+          })),
+          total
+        },
+        msg
+      )
+    );
+    return;
+  }
+  res.send(failResponse(msg));
 }
 
 /**
@@ -65,18 +257,56 @@ export async function list(req, res) {
  */
 export async function detail(req, res) {
   const query = { ...req.query };
-  res(await logDetail(query));
-}
-
-setInterval(() => {
-  mq.receiveQueueMsg(
-    'logQueue',
-    function (msg) {
-      // 入库
-      logAdd(msg);
-    },
-    function (error) {
-      console.error('消费失败', error);
+  const { id } = query;
+  if (!id) {
+    res.send(failResponse('missing id'));
+    return;
+  }
+  try {
+    const { status, data = [], msg } = await logModel.find(1, 1, { id });
+    if (!status) {
+      throw new Error(msg);
     }
-  );
-}, 1000);
+    // 面包屑
+    let breadcrumb: BreadCrumb[] = [];
+    const [{ breadcrumb: bcJson = '[]' } = {}] = data || [];
+    const bcIds = JSON.parse(bcJson);
+    if (bcIds.length) {
+      const bcQuery = bcIds.map((id: string) => ({ id }));
+      const {
+        status,
+        data = [],
+        msg
+      } = await bcModel.find({
+        OR: bcQuery
+      });
+      if (!status) {
+        throw new Error(msg);
+      }
+      breadcrumb = data.sort((a, b) => bcIds.indexOf(a.id) - bcIds.indexOf(b.id));
+    }
+    // 归属应用名称
+    let ascription_name = '';
+    const [{ ascription_id }] = data || [];
+    if (ascription_id) {
+      const { status: prStatus, data: prData = [], msg: prMsg } = await projModel.find(1, 1, { id: ascription_id });
+      if (!prStatus) {
+        throw new Error(prMsg);
+      }
+      const [{ name = '' } = {}] = prData;
+      ascription_name = name;
+    }
+    res.send(
+      successResponse(
+        {
+          ...data[0],
+          breadcrumb,
+          ascription_name
+        },
+        msg
+      )
+    );
+  } catch (err) {
+    res.send(failResponse(err.message || JSON.stringify(err)));
+  }
+}

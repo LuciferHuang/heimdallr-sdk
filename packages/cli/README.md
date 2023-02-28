@@ -27,3 +27,15 @@ A manager for @heimdallr-sdk
 ### server
 
 A server for @heimdallr-sdk
+
+### Server with RabbitMQ
+
+Provide services using rabbitMQ
+
+#### consumer
+
+RabbitMQ consumers
+
+#### producer
+
+RabbitMQ producers

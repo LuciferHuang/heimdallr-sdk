@@ -3,104 +3,8 @@ const { readdirSync, lstatSync, existsSync, mkdirSync, writeFileSync, readFileSy
 const { join } = require('path');
 const { prompt } = require('inquirer');
 const { renderFile } = require('ejs');
-const { white, green, red } = require('chalk');
-const boxen = require('boxen');
-
-// utils
-
-function successBox(message, title) {
-  return box(message, green(title), green('✔ Success'), {
-    borderColor: 'green'
-  });
-}
-
-function errorBox(message, title) {
-  return box(message, red(title), red('✖ Error'), {
-    borderColor: 'red'
-  });
-}
-
-function box(message, title, boxTitle, options) {
-  return (
-    boxen(
-      [boxTitle, title, '', white(message)].join('\n'),
-      Object.assign(
-        {
-          borderColor: 'white',
-          borderStyle: 'round',
-          padding: 1,
-          margin: 1
-        },
-        options
-      )
-    ) + '\n'
-  );
-}
-
-// const
-
-const BASE_QS = [
-  {
-    type: 'input',
-    name: 'version',
-    message: 'Project version ?',
-    default: '0.0.1'
-  },
-  {
-    type: 'input',
-    name: 'description',
-    message: 'Project description ?',
-    default: 'A @heimdallr-sdk monitor'
-  },
-  {
-    type: 'input',
-    name: 'author',
-    message: 'Project author ?',
-    default: ''
-  }
-];
-
-const CLIENT_QS = [
-  {
-    type: 'input',
-    name: 'client_api',
-    message: 'API base url ?',
-    default: ''
-  }
-]
-
-const SERVER_QS = [
-  {
-    type: 'input',
-    name: 'database',
-    message: 'Database name ?',
-    default: 'test_base'
-  },
-  {
-    type: 'input',
-    name: 'mysql_host',
-    message: 'Mysql host ?',
-    default: 'localhost'
-  },
-  {
-    type: 'input',
-    name: 'mysql_port',
-    message: 'Mysql port ?',
-    default: '3306'
-  },
-  {
-    type: 'input',
-    name: 'mysql_user',
-    message: 'Mysql user ?',
-    default: 'root'
-  },
-  {
-    type: 'input',
-    name: 'mysql_pwd',
-    message: 'Mysql password ?',
-    default: 'root'
-  }
-];
+const { successBox, errorBox } = require('./lib/utils');
+const { BASE_QS, SERVER_QS, RABBIT_QS } = require('./lib/questions');
 
 // main
 
@@ -109,7 +13,7 @@ prompt([
     type: 'list',
     name: 'template',
     message: 'Please select a template ?',
-    choices: ['client', 'server'],
+    choices: ['client', 'server', 'server with RabbitMQ'],
     default: 'client'
   }
 ]).then(async (templateAnwsers) => {
@@ -125,14 +29,20 @@ prompt([
     ...BASE_QS
   ]);
 
-  let serverAnswer = {};
+  let templateDir = template;
   let clientAnswer = {};
+  let serverAnswer = {};
+  let mqServerAnswer = {};
   switch (template) {
+    case 'client':
+      clientAnswer = await prompt(CLIENT_QS);
+      break;
     case 'server':
       serverAnswer = await prompt(SERVER_QS);
       break;
-    case 'client':
-      clientAnswer = await prompt(CLIENT_QS);
+    case 'server with RabbitMQ':
+      templateDir = 'mqserver';
+      mqServerAnswer = await prompt([...SERVER_QS, RABBIT_QS]);
       break;
     default:
       break;
@@ -146,7 +56,7 @@ prompt([
 
   // 开始读取模板目录文件
 
-  readTempl(join(__dirname, 'templates', template), projectDir);
+  readTempl(join(__dirname, 'templates', templateDir), projectDir);
 
   if (isSuccess) {
     process.stdout.write(successBox(`您可以通过以下命令运行项目：\n\n$ cd ${name} \n$ npm install \n$ npm run dev`, `${name} 创建完成 🎉`));
@@ -186,7 +96,7 @@ prompt([
           writeFileSync(clientDir, readFileSync(filePath));
           rs(true);
         } else {
-          renderFile(filePath, { ...anwsers, ...serverAnswer, ...clientAnswer }, (err, result) => {
+          renderFile(filePath, { ...anwsers, ...serverAnswer, ...clientAnswer, ...mqServerAnswer }, (err, result) => {
             if (err) throw err;
             writeFileSync(clientDir, result);
             rs(true);

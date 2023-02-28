@@ -72,7 +72,7 @@ class LogModel {
         skip,
         take: Number(psize),
         where: query,
-        orderBy,
+        orderBy
       });
       return {
         status: true,
