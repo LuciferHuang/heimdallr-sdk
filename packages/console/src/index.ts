@@ -9,11 +9,9 @@ import {
 } from '@heimdallr-sdk/types';
 import { formatDate, generateUUID, replaceOld } from '@heimdallr-sdk/utils';
 
-const PLUGIN_NAME = 'consolePlugin';
-
 const consolePlugin: BasePluginType = {
-  name: PLUGIN_NAME,
-  monitor(notify: (eventName: string, data: ConsoleDataMsgType) => void) {
+  name: 'consolePlugin',
+  monitor(notify: (data: ConsoleDataMsgType) => void) {
     const logType = ['log', 'info', 'warn', 'error', 'assert'];
     if (!window.console) {
       return;
@@ -23,7 +21,7 @@ const consolePlugin: BasePluginType = {
       replaceOld(window.console, level, function (originalConsole: () => any): Function {
         return function (...args: any[]): void {
           if (originalConsole) {
-            notify(PLUGIN_NAME, {
+            notify({
               args,
               level
             });

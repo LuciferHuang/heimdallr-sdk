@@ -5,12 +5,10 @@ import {
   CodeErrorType,
   ReportDataType,
   ResourceErrorType,
-  BrowserBreadcrumbTypes
+  BrowserBreadcrumbTypes,
+  ConsoleTypes
 } from '@heimdallr-sdk/types';
 import { generateUUID, formatDate } from '@heimdallr-sdk/utils';
-
-const PLUGIN_NAME = 'jsErrorPlugin';
-const TAG = '[@heimdallr-sdk/jsError]：';
 
 interface CollectedType {
   category: EventTypes;
@@ -24,17 +22,14 @@ interface ResourceTarget {
 }
 
 const errorPlugin: BasePluginType = {
-  name: PLUGIN_NAME,
-  monitor(notify: (eventName: string, data: CollectedType) => void) {
-    const { debug } = this.context;
+  name: 'jsErrorPlugin',
+  monitor(notify: (data: CollectedType) => void) {
     window.addEventListener(
       'error',
       (e: Event) => {
         e.preventDefault();
-        if (debug) { 
-          console.error(TAG, e);
-        }
-        notify(PLUGIN_NAME, {
+        this.log(e, ConsoleTypes.ERROR);
+        notify({
           category: EventTypes.ERROR,
           data: e
         });

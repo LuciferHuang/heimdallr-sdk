@@ -1,3 +1,4 @@
+import path from 'path';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
@@ -5,8 +6,6 @@ import { terser } from 'rollup-plugin-terser';
 import size from 'rollup-plugin-sizes';
 import esbuild from 'rollup-plugin-esbuild';
 import nodePolyfills from 'rollup-plugin-polyfill-node';
-
-const path = require('path');
 
 const packageDir = path.resolve(__dirname);
 const packageDirDist = `${packageDir}/dist`;
@@ -28,16 +27,15 @@ export const common = {
       jsx: 'transform',
       jsxFactory: 'React.createElement',
       jsxFragment: 'React.Fragment',
-      define: {
-        __VERSION__: '"x,y,z"'
-      },
       tsconfig: 'tsconfig.json',
       loaders: {
         '.json': 'json',
         '.js': 'jsx'
       }
     }),
-    resolve(),
+    resolve({
+      preferBuiltins: true
+    }),
     commonjs(),
     nodePolyfills(),
     json(),

@@ -7,7 +7,8 @@
       "@heimdallr-sdk/core": ["../core/src"],
       "@heimdallr-sdk/types": ["../types/src"],
       "@heimdallr-sdk/utils": ["../utils/src"],
-    }
+    },
+    "types": ["node"],
   },
   "include": ["src/**/*"]
 }

@@ -1,4 +1,4 @@
-import { StoreType, StoreTypes } from '@heimdallr-sdk/types';
+import { StoreType, StoreTypes, TAG } from '@heimdallr-sdk/types';
 
 /**
  * 返回包含id、class、innerTextde字符串的标签
@@ -69,7 +69,7 @@ export function getStore(type: StoreTypes, keyPath: string, needParse = true): a
       }
     }
   } catch (err) {
-    console.error(err);
+    console.error(TAG, err);
   }
   return result;
 }
@@ -139,24 +139,15 @@ export function delCookie(key: string): void {
 }
 
 /**
- * 获取对象属性值
- * @param {string} keyPath 属性路径
- * @param obj 目标对象
+ * 获取url指定参数
+ * @param {string} name - 参数名
+ * @return {string}
  */
-export function getDeepPropByDot(keyPath: string, obj: Object): any {
-  if (!keyPath || !obj) {
-    return null;
+ export function getUrlParam(name: string): string {
+  const reg = new RegExp(`(^|&)${name}=([^&]*)(&|$)`);
+  const result = location.search.substring(1).match(reg);
+  if (result != null) {
+    return result[2];
   }
-  const copyTarget = { ...obj };
-  const paths = keyPath.split('.');
-  let result = copyTarget;
-  for (const key of paths) {
-    const value = result[key];
-    if (!value) {
-      console.warn('[@heimdallr-sdk/utils]:', `${key} does not exist`);
-      return null;
-    }
-    result = value;
-  }
-  return result;
+  return '';
 }

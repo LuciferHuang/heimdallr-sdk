@@ -15,7 +15,7 @@ export interface BaseOptionsType {
    */
   app: AppInfoType;
   /**
-   * 为 true 则允许在控制台输出 console，需配合console插件使用
+   * 为 true 则允许在控制台输出 console
    */
   debug?: boolean;
   /**

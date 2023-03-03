@@ -9,14 +9,12 @@ import {
 } from '@heimdallr-sdk/types';
 import { formatDate, generateUUID } from '@heimdallr-sdk/utils';
 
-const PLUGIN_NAME = 'hashPlugin';
-
 const hashPlugin: BasePluginType = {
-  name: PLUGIN_NAME,
-  monitor(notify: (pluginName: string, data: RouteDataMsgType) => void) {
+  name: 'hashPlugin',
+  monitor(notify: (data: RouteDataMsgType) => void) {
     window.addEventListener('hashchange', function (e: HashChangeEvent) {
       const { oldURL: from, newURL: to } = e;
-      notify(PLUGIN_NAME, {
+      notify({
         from,
         to
       });

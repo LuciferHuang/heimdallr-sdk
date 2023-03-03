@@ -9,5 +9,5 @@
       "@heimdallr-sdk/utils": ["../utils/src"],
     }
   },
-  "include": ["src/**/*", "../global.d.ts"]
+  "include": ["src/**/*", "global.d.ts"]
 }

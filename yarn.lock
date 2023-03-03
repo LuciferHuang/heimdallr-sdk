@@ -292,25 +292,10 @@
   resolved "https://registry.npmjs.org/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
-"@heimdallr-sdk/core@^0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@heimdallr-sdk/core/-/core-0.0.14.tgz#6d555d40b02e711c65c2ea7925e357965dcef771"
-  integrity sha512-3yKWo28zEx4qR1pqN2S3Dyb6/lqth+Q7FueEebhH9oHeWqyNsPsFcik+3dKoUGOHYDLra+8xG59z6RjMv2L36Q==
-  dependencies:
-    "@heimdallr-sdk/types" "^0.0.9"
-    "@heimdallr-sdk/utils" "^0.0.10"
-
 "@heimdallr-sdk/types@^0.0.6":
   version "0.0.6"
   resolved "https://registry.npmjs.org/@heimdallr-sdk/types/-/types-0.0.6.tgz#a5da4cc601ea6893190b76f3c9b1cdfd102c6f87"
   integrity sha512-d3z+KvSPk0+KLLRJJzmEVQEY774K5ywuEGg8hrssdQr1kXHpQG1cRaGQvB+BQQZM7oWg6F4KC0LIOR9Wfcyryw==
-
-"@heimdallr-sdk/utils@^0.0.10":
-  version "0.0.10"
-  resolved "https://registry.yarnpkg.com/@heimdallr-sdk/utils/-/utils-0.0.10.tgz#5df1f910a5df3acd45f9c26da3ec94ef863307f8"
-  integrity sha512-e7L8MUIkOxEFYZLBM+FP2jLVN+0HsqhgWMPwoQPLTraXm88R1mWeL6D2vTtEvPbj7qu9tW+bh3y6DwWtMgCLsw==
-  dependencies:
-    "@heimdallr-sdk/types" "^0.0.9"
 
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
@@ -1738,6 +1723,11 @@
   version "0.0.16"
   resolved "https://registry.npmjs.org/@types/web-bluetooth/-/web-bluetooth-0.0.16.tgz#1d12873a8e49567371f2a75fe3e7f7edca6662d8"
   integrity sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ==
+
+"@types/wechat-miniprogram@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@types/wechat-miniprogram/-/wechat-miniprogram-3.1.0.tgz#b7c2bbe7738857372627e82e972145ec5bc6f04a"
+  integrity sha512-p9nePsWeNcZrwUwoiLTU5s1Z4KpXeCSbGYxmU9IhGyXQZA0oeYdQVvA1QBlcRbKayRS4TQvZlSV8OSx4fpnCpg==
 
 "@typescript-eslint/eslint-plugin@^5.30.7":
   version "5.52.0"

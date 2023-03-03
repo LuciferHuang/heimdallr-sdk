@@ -10,16 +10,14 @@ import {
 } from '@heimdallr-sdk/types';
 import { formatDate, generateUUID, getCookie, getStore, getDeepPropByDot } from '@heimdallr-sdk/utils';
 
-const PLUGIN_NAME = 'customerPlugin';
-
 const customerPlugin: BasePluginType = {
-  name: PLUGIN_NAME,
-  monitor(notify: (pluginName: string, collecteData: IAnyMsgType) => void) {
+  name: 'customerPlugin',
+  monitor(notify: (collecteData: IAnyMsgType) => void) {
     const { customers = [] } = this.getOptions();
     window.addEventListener('load', function () {
       // window挂载上报方法
       window['HEIMDALLR_REPORT'] = function (type: string, data: any) {
-        notify(PLUGIN_NAME, {
+        notify({
           sub_type: type,
           data
         });
@@ -47,7 +45,7 @@ const customerPlugin: BasePluginType = {
             break;
         }
       });
-      notify(PLUGIN_NAME, {
+      notify({
         sub_type: CustomerTypes.CUSTOMER,
         ...customerData
       });

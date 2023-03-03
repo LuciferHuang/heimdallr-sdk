@@ -20,7 +20,7 @@
 |maxBreadcrumbs|Number|面包屑最大层级|-|5|
 |userIdentify|Customer|用户标识|-|-|
 |plugins|Array|插件集合|-|-|
-|debug|Boolean|控制台是否显示报错|true/false|true|
+|debug|Boolean|控制台是否显示sdk输出信息|true/false|false|
 
 ### DSN
 

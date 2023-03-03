@@ -10,11 +10,9 @@ import {
 } from '@heimdallr-sdk/types';
 import { formatDate, generateUUID, replaceOld, supportsHistory } from '@heimdallr-sdk/utils';
 
-const PLUGIN_NAME = 'historyPlugin';
-
 const historyPlugin: BasePluginType = {
-  name: PLUGIN_NAME,
-  monitor(notify: (pluginName: string, data: RouteDataMsgType) => void) {
+  name: 'historyPlugin',
+  monitor(notify: (data: RouteDataMsgType) => void) {
     let lastHref = '';
     if (!supportsHistory()) return;
     const originOnpopstate = window.onpopstate;
@@ -22,7 +20,7 @@ const historyPlugin: BasePluginType = {
       const to = document.location.href;
       const from = lastHref;
       lastHref = to;
-      notify(PLUGIN_NAME, {
+      notify({
         from,
         to
       });
@@ -35,7 +33,7 @@ const historyPlugin: BasePluginType = {
           const from = lastHref;
           const to = String(url);
           lastHref = to;
-          notify(PLUGIN_NAME, {
+          notify({
             from,
             to
           });

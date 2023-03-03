@@ -1,7 +1,14 @@
 import { Core } from '@heimdallr-sdk/core';
-import { IAnyObject, BrowserOptionsType, BrowserReportType, StoreType, StoreKeyType, BrowserReportPayloadDataType } from '@heimdallr-sdk/types';
-import { beacon, formatDate, generateUUID, get, getStore, imgRequest, setStore, isBrowserEnv } from '@heimdallr-sdk/utils';
-import { nextTick } from "./lib/nextTick";
+import {
+  IAnyObject,
+  BrowserOptionsType,
+  BrowserReportType,
+  StoreType,
+  StoreKeyType,
+  BrowserReportPayloadDataType
+} from '@heimdallr-sdk/types';
+import { beacon, formatDate, generateUUID, get, getStore, imgRequest, setStore } from '@heimdallr-sdk/utils';
+import { nextTick } from './lib/nextTick';
 // 面包屑
 import { Breadcrumb } from './lib/breadcrumb';
 // 基础插件
@@ -32,6 +39,10 @@ class BrowserClient extends Core<BrowserOptionsType> {
         setStore(StoreType.LOCAL, StoreKeyType.APP, id);
       }
     });
+  }
+
+  isRightEnv() {
+    return typeof window !== 'undefined';
   }
 
   report(url: string, data: IAnyObject, type: BrowserReportType = BrowserReportType.BEACON) {
@@ -72,10 +83,6 @@ class BrowserClient extends Core<BrowserOptionsType> {
 }
 
 const init = (options: BrowserOptionsType) => {
-  if (!isBrowserEnv) {
-    console.warn('[@heimdallr-sdk/browser]: 当前不是浏览器环境');
-    return;
-  }
   const client = new BrowserClient(options);
   const { plugins = [] } = options;
   client.use([jsErrorPlugin, promiseErrorPlugin, lifeCyclePlugin, ...plugins]);

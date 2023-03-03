@@ -24,7 +24,7 @@ export class Subscribe {
       try {
         fn(data);
       } catch (err) {
-        console.error('err', err);
+        console.error(err);
       }
     });
   }

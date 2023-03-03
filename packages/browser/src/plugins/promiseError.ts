@@ -2,13 +2,13 @@ import {
   BasePluginType,
   BrowserBreadcrumbTypes,
   BrowserErrorTypes,
+  ConsoleTypes,
   EventTypes,
   PromiseErrorType,
   ReportDataType
 } from '@heimdallr-sdk/types';
 import { generateUUID, formatDate } from '@heimdallr-sdk/utils';
 
-const PLUGIN_NAME = BrowserErrorTypes.UNHANDLEDREJECTION;
 const TAG = '[@heimdallr-sdk/promiseError]：';
 
 interface CollectedType {
@@ -17,15 +17,12 @@ interface CollectedType {
 }
 
 const PromiseErrorPlugin: BasePluginType = {
-  name: PLUGIN_NAME,
-  monitor(notify: (eventName: BrowserErrorTypes, data: CollectedType) => void) {
-    const { debug } = this.context;
+  name: BrowserErrorTypes.UNHANDLEDREJECTION,
+  monitor(notify: (data: CollectedType) => void) {
     window.addEventListener('unhandledrejection', (e: PromiseRejectionEvent) => {
       e.preventDefault();
-      if (debug) { 
-        console.error(TAG, e);
-      }
-      notify(PLUGIN_NAME, {
+      this.log(e, ConsoleTypes.ERROR);
+      notify({
         category: EventTypes.ERROR,
         data: e
       });

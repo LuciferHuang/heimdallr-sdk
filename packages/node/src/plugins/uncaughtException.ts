@@ -3,27 +3,21 @@ import {
   NodeErrorTypes,
   EventTypes,
   ReportDataType,
-  UncaughtExceptionDataType
+  UncaughtExceptionDataType,
+  ConsoleTypes
 } from '@heimdallr-sdk/types';
 import { generateUUID, formatDate } from '@heimdallr-sdk/utils';
-
-const PLUGIN_NAME = 'uncaughtExceptionPlugin';
-const TAG = '[@heimdallr-sdk/node/uncaughtException]：';
-
 interface CollectedType {
   category: EventTypes;
   data: Error;
 }
 
 const uncaughtExceptionPlugin: BasePluginType = {
-  name: PLUGIN_NAME,
-  monitor(notify: (eventName: string, data: CollectedType) => void) {
-    const { debug } = this.context;
-    process.on('uncaughtException', function(e){
-      if (debug) {
-        console.error(TAG, e);
-      }
-      notify(PLUGIN_NAME, {
+  name: 'uncaughtExceptionPlugin',
+  monitor(notify: (data: CollectedType) => void) {
+    process.on('uncaughtException', (e) => {
+      this.log(e, ConsoleTypes.ERROR);
+      notify({
         category: EventTypes.ERROR,
         data: e
       });

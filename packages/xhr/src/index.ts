@@ -11,15 +11,13 @@ import {
 } from '@heimdallr-sdk/types';
 import { formatDate, generateUUID, getUrlPath, replaceOld } from '@heimdallr-sdk/utils';
 
-const PLUGIN_NAME = 'XHRPlugin';
-
 interface XMLHttp extends IAnyObject {
   httpCollect: HttpCollectDataType;
 }
 
 const XHRPlugin: BasePluginType = {
-  name: PLUGIN_NAME,
-  monitor(notify: (eventName: string, data: HttpCollectDataType) => void) {
+  name: 'XHRPlugin',
+  monitor(notify: (data: HttpCollectDataType) => void) {
     const { ignoreUrls = [] } = this.getOptions();
     const { initUrl, uploadUrl } = this.context;
     const ignore = [...ignoreUrls, uploadUrl, initUrl].map((url) => getUrlPath(url));
@@ -52,7 +50,7 @@ const XHRPlugin: BasePluginType = {
           }
           this.httpCollect.response.status = status;
           this.httpCollect.elapsedTime = eTime - this.httpCollect.time;
-          notify(PLUGIN_NAME, this.httpCollect);
+          notify(this.httpCollect);
         });
         originalSend.apply(this, args);
       };

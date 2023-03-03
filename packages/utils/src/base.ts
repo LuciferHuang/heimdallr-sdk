@@ -1,3 +1,5 @@
+import { TAG } from "@heimdallr-sdk/types";
+
 /**
  * 判断当前环境是否支持console
  * @return {boolean} {boolean}
@@ -11,7 +13,9 @@ export const hasConsole = (): boolean => typeof console !== 'undefined';
  * @return {string}
  */
 export const formateUrlPath = (host: string, path: string): string =>
-  `${/^http(s|):\/\//.test((host || '')) ? host : `//${(host || '').replace(/^http(s|):\/\//, '')}`}/${(path || '')[0] === '/' ? path.substring(1) : path}`;
+  `${/^http(s|):\/\//.test(host || '') ? host : `//${(host || '').replace(/^http(s|):\/\//, '')}`}/${
+    (path || '')[0] === '/' ? path.substring(1) : path
+  }`;
 
 /**
  * 获取url路径地址
@@ -25,30 +29,25 @@ export const getUrlPath = (url: string): string => {
 };
 
 /**
- * 获取url指定参数
- * @param {string} name - 参数名
- * @return {string}
+ * 获取对象属性值
+ * @param {string} keyPath 属性路径
+ * @param obj 目标对象
  */
-export function getUrlParam(name: string): string {
-  const reg = new RegExp(`(^|&)${name}=([^&]*)(&|$)`);
-  if (!isBrowserEnv) {
-    return '';
+ export function getDeepPropByDot(keyPath: string, obj: Object): any {
+  if (!keyPath || !obj) {
+    return null;
   }
-  const result = window.location.search.substring(1).match(reg);
-  if (result != null) {
-    return result[2];
+  const copyTarget = { ...obj };
+  const paths = keyPath.split('.');
+  let result = copyTarget;
+  for (const key of paths) {
+    const value = result[key];
+    if (!value) {
+      console.warn(TAG, `${key} does not exist`);
+      return null;
+    }
+    result = value;
   }
-  return '';
+  return result;
 }
 
-export const isNodeEnv = typeof process !== 'undefined' ? process : 0;
-
-export const isBrowserEnv = typeof window !== 'undefined' ? window : 0;
-
-/**
- * 获取全局变量
- */
-export function getGlobal() {
-  if (isBrowserEnv) return window;
-  if (isNodeEnv) return process;
-}

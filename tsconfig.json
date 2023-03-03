@@ -20,7 +20,7 @@
     "paths": {
       "@heimdallr-sdk/*": ["packages/*/src"]
     },
-    "types": ["node"],
+    "types": [],
     "target": "ES5", // 编译成什么版本
     "module": "CommonJS", // 当前代码语法
     // "outDir": "./dist/", // 输出目录
@@ -35,7 +35,8 @@
     "lib": [
       // 编译过程中需要引入的库文件的列表
       "es6",
-      "dom"
+      "dom",
+      "es2017"
     ]
   },
   "include": ["packages"],

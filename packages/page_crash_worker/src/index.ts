@@ -44,7 +44,6 @@ class PageCrashWorker {
       const page = this.pages[id];
       if (now - page.t > this.CRASH_THRESHOLD) {
         delete this.pages[id];
-        console.error(TAG, '崩溃啦');
         // 用户行为栈
         const breadcrumb = [
           {

@@ -1,22 +1,20 @@
 import { BasePluginType, BrowserBreadcrumbTypes, DomMsgType, DomTypes, EventTypes, ReportDataType } from '@heimdallr-sdk/types';
 import { formatDate, generateUUID, htmlElementAsString, throttle } from '@heimdallr-sdk/utils';
 
-const PLUGIN_NAME = 'domPlugin';
-
 export interface DomCollectedType {
   category: DomTypes;
   data: Document;
 }
 
 const domPlugin: BasePluginType = {
-  name: PLUGIN_NAME,
-  monitor(notify: (pluginName: string, collecteData: DomCollectedType) => void) {
+  name: 'domPlugin',
+  monitor(notify: (collecteData: DomCollectedType) => void) {
     const { throttleDelayTime = 300 } = this.getOptions();
     const clickThrottle = throttle(notify, throttleDelayTime);
     document.addEventListener(
       'click',
       function () {
-        clickThrottle(PLUGIN_NAME, {
+        clickThrottle({
           category: DomTypes.CLICK,
           data: this
         });

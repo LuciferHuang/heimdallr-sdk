@@ -1,7 +1,7 @@
 import fetch from 'node-fetch';
 import { Core } from '@heimdallr-sdk/core';
-import { IAnyObject, NodeOptionsType, StoreKeyType, NodeReportPayloadDataType, InterfaceResponseType } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, isNodeEnv, obj2query } from '@heimdallr-sdk/utils';
+import { IAnyObject, NodeOptionsType, StoreKeyType, NodeReportPayloadDataType, InterfaceResponseType, ConsoleTypes } from '@heimdallr-sdk/types';
+import { formatDate, generateUUID, obj2query } from '@heimdallr-sdk/utils';
 // 基础插件
 import errorPlugin from './plugins/uncaughtException';
 
@@ -27,6 +27,10 @@ class NodeClient extends Core<NodeOptionsType> {
     });
   }
 
+  isRightEnv() {
+    return typeof process !== 'undefined';
+  }
+
   async report(url: string, data: IAnyObject) {
     const { sendFunc } = this.getOptions();
     try {
@@ -37,7 +41,7 @@ class NodeClient extends Core<NodeOptionsType> {
       const res = await fetch(`${url}?${obj2query(data)}`);
       return await res.json();
     } catch (error) {
-      console.error(error);
+      this.log(error, ConsoleTypes.ERROR);
       return {
         code: -1,
         msg: error.message || '未知错误'
@@ -64,10 +68,6 @@ class NodeClient extends Core<NodeOptionsType> {
 }
 
 const init = (options: NodeOptionsType) => {
-  if (!isNodeEnv) {
-    console.warn('[@heimdallr-sdk/node]: 当前不是Node环境');
-    return;
-  }
   const client = new NodeClient(options);
   const { plugins = [] } = options;
   client.use([errorPlugin, ...plugins]);

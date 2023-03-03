@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/page-crash-worker",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "@heimdallr-sdk/page-crash-worker",
   "license": "MIT",
   "author": "LuciferHuang",
@@ -37,7 +37,7 @@
     "build:esm": "rimraf esm && tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@heimdallr-sdk/types": "^0.0.9",
-    "@heimdallr-sdk/utils": "^0.0.11"
+    "@heimdallr-sdk/types": "^0.0.10",
+    "@heimdallr-sdk/utils": "^0.0.12"
   }
 }

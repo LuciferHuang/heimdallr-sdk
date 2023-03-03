@@ -1,5 +1,5 @@
-import { BaseOptionsType, BasePluginType, CoreContextType, IAnyObject } from '@heimdallr-sdk/types';
-import { formateUrlPath, objDeepCopy } from '@heimdallr-sdk/utils';
+import { BaseOptionsType, BasePluginType, CoreContextType, IAnyObject, ConsoleTypes, TAG } from '@heimdallr-sdk/types';
+import { formateUrlPath, objDeepCopy, hasConsole } from '@heimdallr-sdk/utils';
 import { Subscribe } from './subscribe';
 
 /**
@@ -15,8 +15,11 @@ export abstract class Core<O extends BaseOptionsType> {
   public context: CoreContextType;
 
   constructor(options: O) {
+    if (!this.isRightEnv()) {
+      this.log('Client does not match the environment');
+      return;
+    }
     this.options = options;
-
     this.bindOptions();
     this.initAPP();
   }
@@ -25,10 +28,10 @@ export abstract class Core<O extends BaseOptionsType> {
    * 绑定配置
    */
   private bindOptions() {
-    const { dsn, app, debug = true, enabled = true } = this.options;
+    const { dsn, app, debug = false, enabled = true } = this.options;
 
     if (!app || !dsn) {
-      console.error('mising app or dsn in options');
+      this.log('Mising app or dsn in options');
       return;
     }
 
@@ -41,7 +44,7 @@ export abstract class Core<O extends BaseOptionsType> {
       uploadUrl,
       initUrl,
       debug,
-      enabled,
+      enabled
     };
   }
 
@@ -53,7 +56,7 @@ export abstract class Core<O extends BaseOptionsType> {
     const { uploadUrl, enabled } = this.context;
     const sub = new Subscribe();
     for (const plugin of plugins) {
-      plugin.monitor.call(this, sub.notify.bind(sub));
+      plugin.monitor.call(this, sub.notify.bind(sub, plugin.name));
       const callback = (...args: any[]) => {
         const pluginDatas = plugin.transform.apply(this, args);
         const datas = this.transform(pluginDatas);
@@ -76,9 +79,28 @@ export abstract class Core<O extends BaseOptionsType> {
     return objDeepCopy(this.options);
   }
 
-  getGlobal() {
-    return this;
+  /**
+   * 控制台输出
+   * @param message
+   * @param {ConsoleTypes} type
+   */
+  log(message: any, type: ConsoleTypes = ConsoleTypes.WARN): void {
+    const { debug } = this.context;
+    if (!hasConsole() || !debug) {
+      return;
+    }
+    const func = console[type] as (...data: any[]) => void;
+    if (typeof func !== 'function') {
+      this.log('Type does not exist');
+      return;
+    }
+    func(TAG, message);
   }
+
+  /**
+   * 抽象方法，判断当前环境
+   */
+  abstract isRightEnv(): boolean;
 
   /**
    * 抽象方法，nextTick

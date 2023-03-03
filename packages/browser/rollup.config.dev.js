@@ -36,11 +36,13 @@ iifePackage.plugins = [
 
 const footer = `if (window.__HEIMDALLR_OPTIONS__ && HEIMDALLR_BROWSER) {HEIMDALLR_BROWSER(window.__HEIMDALLR_OPTIONS__);}\n${iifePackage.output.footer}`;
 
-export default [{
-  ...iifePackage,
-  output: {
+export default [
+  {
+    ...iifePackage,
+    output: {
       ...iifePackage.output,
       sourcemap: true,
       footer
+    }
   }
-}];
+];

@@ -7,26 +7,23 @@ import {
   ReportDataType,
   EventTypes,
   BrowserBreadcrumbTypes,
-  VueTypes
+  VueTypes,
+  ConsoleTypes
 } from '@heimdallr-sdk/types';
 
-const PLUGIN_NAME = 'vuePlugin';
-
-const Tag = `[@heimdallr-sdk/${PLUGIN_NAME}]: `;
-
 const VuePlugin: BasePluginType = {
-  name: PLUGIN_NAME,
-  monitor(notify: (eventName: string, data: VueReportDataType) => void) {
+  name: 'vuePlugin',
+  monitor(notify: (data: VueReportDataType) => void) {
     const { vue: vm } = this.getOptions();
     const { debug } = this.context;
     if (!vm) {
-      console.error(Tag, 'missing Vue in options');
+      this.log('Missing Vue in options');
       return;
     }
     const { errorHandler, silent } = vm.config;
     vm.config.errorHandler = (error: Error, vm: ViewModel, lifecycleHook: string) => {
       const { name, message, stack } = error;
-      notify(PLUGIN_NAME, {
+      notify({
         name,
         message,
         hook: lifecycleHook,
@@ -38,7 +35,7 @@ const VuePlugin: BasePluginType = {
           (errorHandler as UnknownFunc).call(this.vm, error, vm, lifecycleHook);
         } else if (!silent) {
           const message = `Error in ${lifecycleHook}: "${stack && stack.toString()}"`;
-          console.error(`[Vue error]: ${message}`);
+          this.log(message, ConsoleTypes.ERROR);
         }
       }
     };

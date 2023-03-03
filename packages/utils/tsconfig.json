@@ -1,12 +1,11 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-      "module": "es6",
-      "outDir": "esm",
-      "paths": {
-        "@heimdallr-sdk/types": ["../types/src"]
-      }
-    },
-    "include": ["src/**/*"]
-  }
-  
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "module": "es6",
+    "outDir": "esm",
+    "paths": {
+      "@heimdallr-sdk/types": ["../types/src"]
+    }
+  },
+  "include": ["src/**/*"]
+}

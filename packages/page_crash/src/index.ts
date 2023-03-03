@@ -3,18 +3,14 @@ import { generateUUID, getStore } from '@heimdallr-sdk/utils';
 
 // 脱离 发布订阅 方式，走 webWorker 方式
 
-const PLUGIN_NAME = BrowserErrorTypes.PAGECRASH;
-
-const Tag = `[@heimdallr-sdk/${PLUGIN_NAME}]: `;
-
 const PageCrashPlugin: BasePluginType = {
-  name: PLUGIN_NAME,
+  name: BrowserErrorTypes.PAGECRASH,
   monitor() {
     if (Worker) {
       const { pageCrashWorkerUrl } = this.getOptions();
       const { uploadUrl } = this.context;
       if (!pageCrashWorkerUrl) {
-        console.warn(Tag, 'missing pageCrashWorkerUrl in options');
+        this.log('Missing pageCrashWorkerUrl in options');
       }
       const crashWorker = new Worker(pageCrashWorkerUrl);
       const HEARTBEAT_INTERVAL = 5 * 1000; // 5秒一次

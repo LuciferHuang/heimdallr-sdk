@@ -15,13 +15,11 @@ import getResources from './lib/resources';
 import FPSTool from './lib/fps';
 import FMPTiming from './lib/fmp';
 
-const PLUGIN_NAME = 'perPlugin';
-
 type CollectedData = PerformanceSingleMsgType | PerformanceBasicMsgType | PerformanceVitalsMsgType;
 
 const perPlugin: BasePluginType = {
-  name: PLUGIN_NAME,
-  monitor(notify: (pluginName: string, data: CollectedData) => void) {
+  name: 'perPlugin',
+  monitor(notify: (data: CollectedData) => void) {
     // 禁用标识
     const { performancOff = [] } = this.getOptions();
 
@@ -33,7 +31,7 @@ const perPlugin: BasePluginType = {
     if (!performancOff.includes(PerformanceFeat.FMP)) {
       const fmpTiming = new FMPTiming();
       fmpTiming.initObserver().then((fmp) => {
-        notify(PLUGIN_NAME, {
+        notify({
           sub_type: PerTypes.FMP,
           value: fmp
         });
@@ -42,7 +40,7 @@ const perPlugin: BasePluginType = {
     // vitals
     if (!performancOff.includes(PerformanceFeat.VITALS)) {
       getVitals().then((vitals) => {
-        notify(PLUGIN_NAME, {
+        notify({
           sub_type: PerTypes.VITALS,
           ...vitals
         });
@@ -53,14 +51,14 @@ const perPlugin: BasePluginType = {
       () => {
         // 基础参数
         if (!performancOff.includes(PerformanceFeat.BASIC)) {
-          notify(PLUGIN_NAME, {
+          notify({
             sub_type: PerTypes.BASIC,
             ...getBasic()
           });
         }
         // 资源耗时
         if (!performancOff.includes(PerformanceFeat.RESOURCE)) {
-          notify(PLUGIN_NAME, {
+          notify({
             sub_type: PerTypes.RESOURCE,
             value: getResources()
           });
@@ -69,7 +67,7 @@ const perPlugin: BasePluginType = {
         if (!performancOff.includes(PerformanceFeat.FPS)) {
           fpsTool.run();
           setTimeout(() => {
-            notify(PLUGIN_NAME, {
+            notify({
               sub_type: PerTypes.FPS,
               value: fpsTool.get()
             });

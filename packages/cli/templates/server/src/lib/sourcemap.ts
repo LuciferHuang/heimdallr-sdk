@@ -42,8 +42,6 @@ class TrySourceMap {
           column: colno
         });
       });
-      console.log('position=================');
-      console.log(position);
       const { source, line } = position;
       if (!source) {
         return {
