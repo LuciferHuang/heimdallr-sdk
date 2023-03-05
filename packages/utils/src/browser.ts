@@ -1,32 +1,5 @@
 import { StoreType, StoreTypes, TAG } from '@heimdallr-sdk/types';
 
-/**
- * 返回包含id、class、innerTextde字符串的标签
- * @param target html节点
- */
-export function htmlElementAsString(target: HTMLElement): string {
-  if (!target) {
-    return null;
-  }
-  const tagName = target.tagName.toLowerCase();
-  if (tagName === 'body') {
-    return null;
-  }
-  let classNames = target.classList.value;
-  classNames = classNames !== '' ? ` class="${classNames}"` : '';
-  const id = target.id ? ` id="${target.id}"` : '';
-  const innerText = target.innerText;
-  return `<${tagName}${id}${classNames !== '' ? classNames : ''}>${innerText}</${tagName}>`;
-}
-
-/**
- * 是否支持historyAPI
- * @return {boolean}
- */
-export function supportsHistory(): boolean {
-  return window && !!window.history.pushState && !!window.history.replaceState;
-}
-
 function getStoreIns(type: StoreTypes) {
   let store = null;
   switch (type) {
@@ -136,18 +109,4 @@ export function delCookie(key: string): void {
   if (cval != null) {
     document.cookie = `${key}=${cval};expires=${exp.toUTCString()}`;
   }
-}
-
-/**
- * 获取url指定参数
- * @param {string} name - 参数名
- * @return {string}
- */
- export function getUrlParam(name: string): string {
-  const reg = new RegExp(`(^|&)${name}=([^&]*)(&|$)`);
-  const result = location.search.substring(1).match(reg);
-  if (result != null) {
-    return result[2];
-  }
-  return '';
 }

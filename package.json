@@ -1,6 +1,6 @@
 {
   "name": "heimdallr-sdk",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "private": true,
   "license": "MIT",
   "author": "LuciferHuang",
@@ -28,6 +28,8 @@
     "sourcemap",
     "collect",
     "broswer",
+    "node",
+    "wechat",
     "vue"
   ],
   "devDependencies": {

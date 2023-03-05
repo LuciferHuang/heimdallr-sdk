@@ -1,5 +1,6 @@
 import { BasePluginType, BrowserBreadcrumbTypes, DomMsgType, DomTypes, EventTypes, ReportDataType } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, htmlElementAsString, throttle } from '@heimdallr-sdk/utils';
+import { formatDate, generateUUID, throttle } from '@heimdallr-sdk/utils';
+import { htmlElementAsString } from './utils';
 
 export interface DomCollectedType {
   category: DomTypes;

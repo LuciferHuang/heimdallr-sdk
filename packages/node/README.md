@@ -48,7 +48,7 @@ for example:
 ```js
 const heimdallerOptions = {
     dsn: {
-            host: 'localhost:8888',
+            host: 'http://localhost:8888',
             init: '/project/init',
             upload: '/log/upload'
         },
@@ -76,7 +76,7 @@ const heimdallerOptions = {
 import heimdallr from "@heimdallr-sdk/node";
 heimdallr({
     dsn: {
-        host: 'localhost:8888',
+        host: 'http://localhost:8888',
         init: '/project/init',
         upload: '/log/upload'
     },

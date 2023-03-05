@@ -1,17 +1,17 @@
 {
-  "name": "@heimdallr-sdk/hash",
-  "version": "0.0.12",
-  "description": "A Plugin For Browser SDK",
+  "name": "@heimdallr-sdk/wx",
+  "version": "0.0.1",
+  "description": "A SDK For Monitoring wechat applet",
   "license": "MIT",
   "author": "LuciferHuang",
-  "main": "dist/hash.umd.js",
+  "main": "dist/wx.umd.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
   "files": [
     "dist",
     "esm"
   ],
-  "homepage": "https://github.com/LuciferHuang/heimdallr-sdk/blob/main/packages/hash/README.md",
+  "homepage": "https://github.com/LuciferHuang/heimdallr-sdk/blob/main/packages/wx/README.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LuciferHuang/heimdallr-sdk.git"
@@ -22,9 +22,8 @@
   "keywords": [
     "heimdallr",
     "sdk",
-    "browser",
-    "hash",
-    "route",
+    "wechat",
+    "applet",
     "monitor"
   ],
   "publishConfig": {
@@ -37,6 +36,7 @@
     "build:esm": "rimraf esm && tsc -p tsconfig.json"
   },
   "dependencies": {
+    "@heimdallr-sdk/core": "^0.0.17",
     "@heimdallr-sdk/types": "^0.0.10",
     "@heimdallr-sdk/utils": "^0.0.13"
   }

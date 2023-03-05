@@ -8,7 +8,8 @@ import {
   BrowserBreadcrumbTypes,
   RouteDataMsgType
 } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, replaceOld, supportsHistory } from '@heimdallr-sdk/utils';
+import { formatDate, generateUUID, replaceOld } from '@heimdallr-sdk/utils';
+import { supportsHistory } from './utils';
 
 const historyPlugin: BasePluginType = {
   name: 'historyPlugin',

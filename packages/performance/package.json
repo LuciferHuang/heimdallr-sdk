@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/performance",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "A Plugin For Browser SDK",
   "license": "MIT",
   "author": "LuciferHuang",
@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@heimdallr-sdk/types": "^0.0.10",
-    "@heimdallr-sdk/utils": "^0.0.12",
+    "@heimdallr-sdk/utils": "^0.0.13",
     "web-vitals": "^2.1.4"
   }
 }

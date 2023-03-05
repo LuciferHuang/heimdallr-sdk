@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/core",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "@heimdallr-sdk/core",
   "license": "MIT",
   "author": "LuciferHuang",
@@ -35,6 +35,6 @@
   },
   "dependencies": {
     "@heimdallr-sdk/types": "^0.0.10",
-    "@heimdallr-sdk/utils": "^0.0.12"
+    "@heimdallr-sdk/utils": "^0.0.13"
   }
 }
