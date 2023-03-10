@@ -7,7 +7,8 @@ import { copy, cusToRefs, formatDate } from 'helper/utils';
 interface BreadcrumbType {
   time: string;
   type: string;
-  data: any;
+  message: string;
+  level: string;
 }
 
 export interface DetailType {

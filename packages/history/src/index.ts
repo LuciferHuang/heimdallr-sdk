@@ -47,12 +47,13 @@ const historyPlugin: BasePluginType = {
     replaceOld(window.history, 'replaceState', historyReplaceFn);
   },
   transform(collectedData: RouteDataMsgType): ReportDataType<RouteMsgType> {
-    // 添加用户行为栈
     const id = generateUUID();
+    // 添加用户行为栈
+    const { from, to } = collectedData;
     this.breadcrumb.unshift({
       eventId: id,
       type: BrowserBreadcrumbTypes.ROUTE,
-      data: collectedData
+      message: `from "${from}" to "${to}" by history`
     });
     return {
       id,

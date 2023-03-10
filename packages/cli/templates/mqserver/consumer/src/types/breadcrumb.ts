@@ -2,6 +2,7 @@ export interface BreadCrumb {
   id?: string;
   eventId: string;
   type: string;
-  data: string;
+  message: string;
+  level: string;
   time: string;
 }

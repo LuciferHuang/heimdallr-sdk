@@ -1,5 +1,6 @@
 import {
   BasePluginType,
+  BreadcrumbLevel,
   BrowserBreadcrumbTypes,
   EventTypes,
   HttpCollectDataType,
@@ -65,12 +66,18 @@ const fetchPlugin: BasePluginType = {
     });
   },
   transform(collectedData: HttpCollectDataType): ReportDataType<HttpCollectType> {
-    // 添加用户行为栈
     const id = generateUUID();
+    // 添加用户行为栈
+    const {
+      request: { method, url, data: params },
+      elapsedTime = 0,
+      response: { status }
+    } = collectedData;
     this.breadcrumb.unshift({
       eventId: id,
       type: BrowserBreadcrumbTypes.FETCH,
-      data: collectedData,
+      level: status != 200 ? BreadcrumbLevel.WARN : BreadcrumbLevel.INFO,
+      message: `${method} "${url}" width "${JSON.stringify(params)}" took ${elapsedTime / 1000} seconds`
     });
     return {
       id,

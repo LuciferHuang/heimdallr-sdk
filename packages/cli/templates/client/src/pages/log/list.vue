@@ -36,8 +36,9 @@
         :key="index"
         :timestamp="formatDate(new Date(parseInt(item.time)))"
       >
-        <el-tag>{{ item.type }}</el-tag>
-        <p>{{ item.data }}</p>
+        <el-tag effect="dark" :type="levelTypeMap[item.level]" class="mg-r-8">{{ item.type }}</el-tag>
+        <el-tag :type="levelTypeMap[item.level]">{{ item.level }}</el-tag>
+        <p>{{ item.message }}</p>
       </el-timeline-item>
     </el-timeline>
   </el-drawer>

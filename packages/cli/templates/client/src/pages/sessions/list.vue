@@ -9,6 +9,7 @@
       :table-config="tableConfig"
       :datas="state.tableData"
       :all-items="state.allItems"
+      :filter-map="filterMap"
       @selected="selectHandle"
       @sort-change="sortHandle"
       @page="pageHandle"

@@ -1,10 +1,9 @@
 import { generateUUID, formatDate, replaceOld } from '@heimdallr-sdk/utils';
-import { BasePluginType, EventTypes, ConsoleTypes, ReportDataType, voidFun } from '@heimdallr-sdk/types';
-import { WxCollectType, WxErrorType } from '../types';
+import { BasePluginType, EventTypes, ConsoleTypes, ReportDataType, voidFun, WxErrorTypes, WxErrorMsgType, WxErrorDataType, WxBreadcrumbTypes, BreadcrumbLevel } from '@heimdallr-sdk/types';
 
 const errorPlugin: BasePluginType = {
   name: 'errorPlugin',
-  monitor(notify: (data: WxCollectType) => void) {
+  monitor(notify: (data: WxErrorDataType) => void) {
     const oriApp = App;
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     const client = this;
@@ -19,10 +18,7 @@ const errorPlugin: BasePluginType = {
             }
             const [error] = args;
             client.log(error, ConsoleTypes.ERROR)
-            notify({
-              category: EventTypes.ERROR,
-              data: { error }
-            });
+            notify({ error });
           };
         },
         true
@@ -30,15 +26,23 @@ const errorPlugin: BasePluginType = {
       return oriApp(appOptions);
     };
   },
-  transform(collectedData: WxCollectType): ReportDataType<WxErrorType> {
-    const { category, data } = collectedData;
-    const { error } = data;
+  transform(collectedData: WxErrorDataType): ReportDataType<WxErrorMsgType> {
+    const { error } = collectedData;
+    const id = generateUUID();
+    this.breadcrumb.unshift({
+      eventId: id,
+      type: WxBreadcrumbTypes.ERROR,
+      level: BreadcrumbLevel.ERROR,
+      data: { error }
+    });
+    const breadcrumb = this.breadcrumb.getStack();
     return {
-      id: generateUUID(),
+      id,
       time: formatDate(),
-      type: category,
+      type: EventTypes.ERROR,
+      breadcrumb,
       data: {
-        sub_type: category,
+        sub_type: WxErrorTypes.UNCAUGHTEXCEPTION,
         error
       }
     };

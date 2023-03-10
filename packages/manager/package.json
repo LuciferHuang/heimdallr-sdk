@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/manager",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "@heimdallr-sdk/manager",
   "license": "MIT",
   "author": "LuciferHuang",
@@ -30,15 +30,15 @@
     "@element-plus/icons-vue": "^2.0.9",
     "axios": "^0.21.4",
     "echarts": "^5.2.0",
-    "element-plus": "^2.2.16",
+    "element-plus": "2.2.36",
     "js-md5": "^0.7.3",
     "qs": "^6.10.1",
     "sortablejs": "^1.14.0",
     "vue": "^3.2.40",
-    "vue-router": "^4.0.11",
-    "@heimdallr-sdk/types": "^0.0.6"
+    "vue-router": "^4.1.6"
   },
   "devDependencies": {
+    "@heimdallr-sdk/types": "^0.0.11",
     "@vitejs/plugin-vue": "^1.6.0",
     "@vue/compiler-sfc": "^3.2.6",
     "cross-env": "^7.0.3",

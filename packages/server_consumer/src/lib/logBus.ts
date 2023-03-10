@@ -24,11 +24,12 @@ export async function add(message: string): Promise<InterfaceResponseType<IAnyOb
       time,
       type,
       data: paramData,
+      platform,
       breadcrumb: breadcrumbJson = '[]',
-      path,
-      language,
-      user_agent,
-      page_title
+      path = '',
+      language = '',
+      user_agent = '',
+      page_title = ''
     } = param;
     if (!id || !app_id) {
       return failResponse('missing id or app_id');
@@ -39,9 +40,10 @@ export async function add(message: string): Promise<InterfaceResponseType<IAnyOb
     if (breadcrumb.length) {
       const bcs = breadcrumb.map((ele: BreadCrumb) => ({
         type: ele.type,
-        time: `${ele.time}`,
+        level: ele.level,
+        message: ele.message,
         event_id: ele.eventId,
-        data: JSON.stringify(ele.data),
+        time: `${ele.time}`,
         id: generateUUID()
       }));
       // 面包屑入库
@@ -78,7 +80,8 @@ export async function add(message: string): Promise<InterfaceResponseType<IAnyOb
               terminal: isMobileDevice(user_agent) ? DeviceType.MOBILE : DeviceType.PC,
               language,
               etime: time,
-              ltime: ''
+              ltime: '',
+              platform
             }
           ]);
           break;
@@ -128,7 +131,8 @@ export async function add(message: string): Promise<InterfaceResponseType<IAnyOb
       path,
       language,
       user_agent,
-      page_title
+      page_title,
+      platform
     };
     const { data: count } = await logModel.count({ id });
     if (count) {

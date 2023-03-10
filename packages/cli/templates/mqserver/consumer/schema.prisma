@@ -1,6 +1,6 @@
 datasource db {
     provider = "mysql"
-    url      = "mysql://<%= mysql_user %>:<%= mysql_pwd %>@<%= mysql_host %>:<%= mysql_port %>/<%= database %>"
+    url      = "mysql://root:root@localhost:3306/test_base"
 }
 
 generator client {
@@ -22,17 +22,18 @@ model Session {
     province   String
     path       String
     page_title String
+    platform   String
     stay_time  Int
     terminal   String
     language   String
     etime      String
     ltime      String
-    ctime      DateTime @updatedAt @default(now())
+    ctime      DateTime @default(now()) @updatedAt
 }
 
 model Log {
     id            String   @unique
-    ctime         DateTime @updatedAt @default(now())
+    ctime         DateTime @default(now()) @updatedAt
     otime         String
     type          String
     sub_type      String
@@ -42,6 +43,7 @@ model Log {
     data          String   @db.LongText
     path          String
     page_title    String
+    platform      String
     user_agent    String   @db.VarChar(255)
     language      String
 }
@@ -50,6 +52,7 @@ model BreadCrumb {
     id       String @unique
     event_id String
     type     String
-    data     String
+    message  String
+    level    String
     time     String
 }

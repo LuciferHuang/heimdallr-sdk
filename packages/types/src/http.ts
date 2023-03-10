@@ -3,7 +3,7 @@ import { IAnyObject } from './common';
 import { MethodTypes } from './constant';
 
 export interface HttpRequest {
-  method: MethodTypes;
+  method: MethodTypes | string;
   url: string;
   data?: IAnyObject;
 }
@@ -11,6 +11,7 @@ export interface HttpRequest {
 export interface HttpResponse {
   status?: number;
   data?: IAnyObject | string;
+  msg?: string;
 }
 
 export interface HttpCollectDataType {

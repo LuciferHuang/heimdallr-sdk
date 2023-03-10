@@ -26,6 +26,10 @@ export interface BaseOptionsType {
    * 插件
    */
   plugins?: BasePluginType[];
+  /**
+   * 面包屑最大层级
+   */
+   maxBreadcrumbs?: number;
 }
 
 export enum PerformanceFeat {
@@ -46,10 +50,6 @@ export interface BrowserOptionsType extends BaseOptionsType {
    * 过滤请求url
    */
   ignoreUrls?: string[];
-  /**
-   * 面包屑最大层级
-   */
-  maxBreadcrumbs?: number;
   /**
    * 用户标识（已登录用户）
    */

@@ -12,7 +12,7 @@ const mq = new Rabbit('localhost');
  */
 export async function list(req, res) {
   const query = { ...req.query };
-  res(await logList(query));
+  res.send(await logList(query));
 }
 
 /**
@@ -22,7 +22,7 @@ export async function list(req, res) {
  */
 export async function detail(req, res) {
   const query = { ...req.query };
-  res(await logDetail(query));
+  res.send(await logDetail(query));
 }
 
 mq.receiveQueueMsg(

@@ -20,11 +20,7 @@ export enum EventTypes {
   CUSTOMER = 'customer',
   VUE = 'vue',
   LIFECYCLE = 'lifeCycle',
-  EXTEND = 'extend',
-}
-
-export enum NodeErrorTypes {
-  UNCAUGHTEXCEPTION = 'uncaughtException'
+  EXTEND = 'extend'
 }
 
 export enum BrowserErrorTypes {
@@ -32,6 +28,15 @@ export enum BrowserErrorTypes {
   RESOURCEERROR = 'resource',
   UNHANDLEDREJECTION = 'unhandledrejection',
   PAGECRASH = 'pageCrash'
+}
+
+export enum NodeErrorTypes {
+  UNCAUGHTEXCEPTION = 'uncaughtException',
+  UNHANDLEDREJECTION = 'unhandledrejection'
+}
+
+export enum WxErrorTypes {
+  UNCAUGHTEXCEPTION = 'uncaughtException'
 }
 
 export enum DomTypes {
@@ -97,4 +102,50 @@ export enum DeviceType {
 
 export enum VueTypes {
   ERROR = 'error'
+}
+
+export enum PlatformTypes {
+  BROWSER = 'browser',
+  NODE = 'nodejs',
+  WECHAT = 'wechat'
+}
+
+export enum BrowserBreadcrumbTypes {
+  ROUTE = 'Route',
+  CLICK = 'UI.Click',
+  CONSOLE = 'Console',
+  XHR = 'Xhr',
+  FETCH = 'Fetch',
+  UNHANDLEDREJECTION = 'Unhandledrejection',
+  RESOURCE = 'Resource',
+  CODE_ERROR = 'CodeError',
+  CUSTOMER = 'Customer',
+  FRAMEWORK = 'Framework',
+  LIFECYCLE = 'LifeCycle',
+  CRASH = 'Crash'
+}
+
+export enum WxBreadcrumbTypes {
+  API = 'Api',
+  ROUTE = 'Route',
+  CLICK = 'UI.Click',
+  ERROR = 'Error',
+  LIFECYCLE = 'LifeCycle',
+  CUSTOMER = 'Customer'
+}
+
+export enum WxRouteEvents {
+  SWITCHTAB = 'switchTab',
+  RELAUNCH = 'reLaunch',
+  REDIRECTTO = 'redirectTo',
+  NAVIGATETO = 'navigateTo',
+  NAVIGATEBACK = 'navigateBack',
+  NAVIGATETOMINIPROGRAM = 'navigateToMiniProgram',
+  ROUTEFAIL = 'routeFail'
+}
+
+export enum WxXhrTypes {
+  REQUEST = 'request',
+  DOWNLOADFILE = 'downloadFile',
+  UPLOADFILE = 'uploadFile'
 }

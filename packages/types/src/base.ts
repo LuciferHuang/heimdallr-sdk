@@ -1,5 +1,5 @@
 import { BreadcrumbPushData } from './breadcrumb';
-import { BrowserSubTypes, EventTypes } from './constant';
+import { BrowserSubTypes, EventTypes, PlatformTypes } from './constant';
 
 export interface AppInfoType {
   name: string;
@@ -40,4 +40,14 @@ export interface CoreContextType {
   initUrl: string;
   debug: boolean;
   enabled: boolean;
+}
+
+export interface ClientInfoType {
+  platform: PlatformTypes;
+  app_id?: string;
+  session_id?: string;
+  page_title?: string;
+  path?: string;
+  language?: string;
+  user_agent?: string
 }

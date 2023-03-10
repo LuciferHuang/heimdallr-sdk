@@ -1,5 +1,6 @@
 import {
   BasePluginType,
+  BreadcrumbLevel,
   BrowserBreadcrumbTypes,
   BrowserErrorTypes,
   ConsoleTypes,
@@ -8,8 +9,6 @@ import {
   ReportDataType
 } from '@heimdallr-sdk/types';
 import { generateUUID, formatDate } from '@heimdallr-sdk/utils';
-
-const TAG = '[@heimdallr-sdk/promiseError]：';
 
 interface CollectedType {
   category: EventTypes;
@@ -40,11 +39,11 @@ const PromiseErrorPlugin: BasePluginType = {
       message = reason.stack;
     }
     const id = generateUUID();
-    // 上报用户行为栈
     this.breadcrumb.unshift({
       eventId: id,
       type: BrowserBreadcrumbTypes.UNHANDLEDREJECTION,
-      data: { message }
+      level: BreadcrumbLevel.ERROR,
+      message
     });
     const breadcrumb = this.breadcrumb.getStack();
     return {

@@ -15,9 +15,23 @@ const filterFormItems: FilterItem[] = [
     prop: 'path'
   },
   {
-    renderType: 'input',
-    label: '页面标题',
-    prop: 'page_title'
+    prop: 'platform',
+    label: '平台',
+    renderType: 'select',
+    options: [
+      {
+        value: 'browser',
+        label: '浏览器端'
+      },
+      {
+        value: 'wechat',
+        label: '微信小程序'
+      },
+      {
+        value: 'nodejs',
+        label: 'NodeJS'
+      }
+    ]
   },
   {
     renderType: 'input',
@@ -48,10 +62,6 @@ const tableConfig: ColumnConfig[] = [
     label: '页面路径'
   },
   {
-    prop: 'page_title',
-    label: '页面标题'
-  },
-  {
     prop: 'stay_time',
     label: '停留时间（s）',
     width: 158,
@@ -63,6 +73,12 @@ const tableConfig: ColumnConfig[] = [
       ascVal: 'asc',
       descVal: 'desc'
     }
+  },
+  {
+    prop: 'platform',
+    width: 108,
+    label: '平台',
+    plugins: ['filter']
   },
   {
     prop: 'terminal',
@@ -101,17 +117,20 @@ const tableConfig: ColumnConfig[] = [
   }
 ];
 
-function tagType(type) {
+const filterMap = {
+  platform: {
+    browser: '浏览器端',
+    wechat: '微信小程序',
+    nodejs: 'NodeJS'
+  }
+};
+
+function tagType(type: EventTypes) {
   switch (type) {
     case EventTypes.ERROR:
     case EventTypes.VUE:
       return 'danger';
-    case EventTypes.DOM:
-    case EventTypes.API:
-      return 'success';
     case EventTypes.CUSTOMER:
-      return 'warning';
-    case EventTypes.ROUTE:
       return '';
     default:
       return 'info';
@@ -124,6 +143,7 @@ export default function useListConfig() {
     tableOprates,
     filterFormItems,
     tableConfig,
-    tagType
+    tagType,
+    filterMap
   };
 }

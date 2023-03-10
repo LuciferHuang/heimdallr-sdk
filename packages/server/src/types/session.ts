@@ -10,5 +10,6 @@ export interface Session {
     language?: string;
     etime?: string;
     ltime: string;
+    platform?: string;
   }
   

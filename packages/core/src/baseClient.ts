@@ -13,15 +13,28 @@ export abstract class Core<O extends BaseOptionsType> {
   private readonly options: O;
 
   public context: CoreContextType;
+  protected appID: string;
+  protected readonly taskQueue: Array<IAnyObject>;
+  private isReady: Boolean;
 
   constructor(options: O) {
     if (!this.isRightEnv()) {
       this.log('Client does not match the environment');
       return;
     }
+    this.isReady = false;
+    this.taskQueue = [];
     this.options = options;
     this.bindOptions();
-    this.initAPP();
+    this.initAPP().then((id) => {
+      // 处理应用id
+      if (id && this.appID !== id) {
+        this.appID = id;
+      }
+      // 开始执行上报
+      this.isReady = true;
+      this.executeTaskQueue();
+    });
   }
 
   /**
@@ -52,7 +65,7 @@ export abstract class Core<O extends BaseOptionsType> {
    * 引用插件
    * @param {BasePluginType[]} plugins - 用户传入的应用信息
    */
-  use(plugins: BasePluginType[]): void {
+  use(plugins: BasePluginType[]) {
     const { uploadUrl, enabled } = this.context;
     const sub = new Subscribe();
     for (const plugin of plugins) {
@@ -63,11 +76,28 @@ export abstract class Core<O extends BaseOptionsType> {
         if (!datas) {
           return;
         }
-        if (enabled) {
-          this.nextTick(this.report, this, uploadUrl, datas);
+        if (!enabled) {
+          return;
         }
+        if (!this.isReady) {
+          // 应用未初始化，暂存任务
+          this.taskQueue.push(datas);
+          return;
+        }
+        this.nextTick(this.report, this, uploadUrl, { app_id: this.appID, ...datas });
       };
       sub.watch(plugin.name, callback);
+    }
+  }
+
+  /**
+   * 执行任务队列
+   */
+  executeTaskQueue() {
+    const { uploadUrl } = this.context;
+    while (this.taskQueue.length) {
+      const task = this.taskQueue.shift();
+      this.nextTick(this.report, this, uploadUrl, { app_id: this.appID, ...task });
     }
   }
 
@@ -109,8 +139,9 @@ export abstract class Core<O extends BaseOptionsType> {
 
   /**
    * 抽象方法，注册/初始化应用
+   * @return {string} 应用id
    */
-  abstract initAPP(): void;
+  abstract initAPP(): Promise<string>;
 
   /**
    * 抽象方法，端的个性化数据，需子类自己实现

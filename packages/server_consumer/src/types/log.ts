@@ -11,4 +11,5 @@ export interface LogItem {
   page_title: string;
   user_agent: string;
   language: string;
+  platform: string
 }

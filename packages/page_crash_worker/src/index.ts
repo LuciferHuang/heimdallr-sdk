@@ -1,4 +1,4 @@
-import { BrowserBreadcrumbTypes, BrowserErrorTypes, CrashErrorType, EventTypes } from '@heimdallr-sdk/types';
+import { BrowserBreadcrumbTypes, BrowserErrorTypes, CrashErrorType, EventTypes, BreadcrumbLevel } from '@heimdallr-sdk/types';
 import { formatDate, get } from '@heimdallr-sdk/utils';
 
 // 运行在 webWorker
@@ -49,7 +49,9 @@ class PageCrashWorker {
           {
             eventId: id,
             type: BrowserBreadcrumbTypes.CRASH,
-            data: { href }
+            level: BreadcrumbLevel.FATAL,
+            message: `Crash on ${href}`,
+            time: new Date().getTime()
           },
           ...this.stack
         ];

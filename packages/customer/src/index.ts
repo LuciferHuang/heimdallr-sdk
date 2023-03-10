@@ -59,7 +59,7 @@ const customerPlugin: BasePluginType = {
     this.breadcrumb.unshift({
       eventId: id,
       type: BrowserBreadcrumbTypes.CUSTOMER,
-      data: breadData
+      message: `User report "${JSON.stringify(collectedData)}"`
     });
     return {
       id,

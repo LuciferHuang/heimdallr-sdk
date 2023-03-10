@@ -1,4 +1,4 @@
-import { BasePluginType, BrowserErrorTypes, ClientInfoType, StoreKeyType, StoreType } from '@heimdallr-sdk/types';
+import { BasePluginType, BrowserErrorTypes, ClientInfoType, PlatformTypes, StoreKeyType, StoreType } from '@heimdallr-sdk/types';
 import { generateUUID, getStore } from '@heimdallr-sdk/utils';
 
 // 脱离 发布订阅 方式，走 webWorker 方式
@@ -22,7 +22,8 @@ const PageCrashPlugin: BasePluginType = {
       const sessionID = getStore(StoreType.LOCAL, StoreKeyType.SESSION);
       const clientInfo: ClientInfoType = {
         app_id: id, // 应用id
-        session_id: sessionID,
+        session_id: sessionID, // 会话id
+        platform: PlatformTypes.BROWSER,
         page_title: title, // 页面标题
         path: href, // 页面路径
         language, // 站点语言

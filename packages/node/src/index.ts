@@ -1,6 +1,13 @@
 import fetch from 'node-fetch';
 import { Core } from '@heimdallr-sdk/core';
-import { IAnyObject, NodeOptionsType, StoreKeyType, NodeReportPayloadDataType, InterfaceResponseType, ConsoleTypes } from '@heimdallr-sdk/types';
+import {
+  IAnyObject,
+  NodeOptionsType,
+  NodeReportPayloadDataType,
+  InterfaceResponseType,
+  ConsoleTypes,
+  PlatformTypes
+} from '@heimdallr-sdk/types';
 import { formatDate, generateUUID, obj2query } from '@heimdallr-sdk/utils';
 // 基础插件
 import errorPlugin from './plugins/uncaughtException';
@@ -10,28 +17,24 @@ class NodeClient extends Core<NodeOptionsType> {
     super(options);
   }
 
-  initAPP(): void {
+  async initAPP() {
     const { initUrl, app } = this.context;
-    const id = generateUUID();
     const ctime = formatDate();
     const params = {
-      id,
+      id: generateUUID(),
       ...app,
       ctime
     };
-    this.report(initUrl, params).then((res: InterfaceResponseType<any>) => {
-      const { data: { id = '' } = {} } = res;
-      if (id && process.env[StoreKeyType.APP] !== id) {
-        process.env[StoreKeyType.APP] = id;
-      }
-    });
+    const { data } = await this.report(initUrl, params);
+    const { id = '' } = data || {};
+    return id;
   }
 
   isRightEnv() {
     return typeof process !== 'undefined';
   }
 
-  async report(url: string, data: IAnyObject) {
+  async report(url: string, data: IAnyObject): Promise<InterfaceResponseType<any>> {
     const { sendFunc } = this.getOptions();
     try {
       if (typeof sendFunc === 'function') {
@@ -39,7 +42,7 @@ class NodeClient extends Core<NodeOptionsType> {
       }
       // default get
       const res = await fetch(`${url}?${obj2query(data)}`);
-      return await res.json();
+      return (await res.json()  as InterfaceResponseType<any>);
     } catch (error) {
       this.log(error, ConsoleTypes.ERROR);
       return {
@@ -53,9 +56,8 @@ class NodeClient extends Core<NodeOptionsType> {
     if (!datas) {
       return null;
     }
-    const appID = process.env[StoreKeyType.APP];
     return {
-      app_id: appID, // 应用id
+      platform: PlatformTypes.NODE,
       ...datas
     };
   }

@@ -46,11 +46,12 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
     time,
     type,
     data: paramData,
+    platform,
     breadcrumb: breadcrumbJson = '[]',
-    path,
-    language,
-    user_agent,
-    page_title
+    path = '',
+    language = '',
+    user_agent = '',
+    page_title = '',
   } = param;
   if (!id || !app_id) {
     res.send(failResponse('missing id or app_id'));
@@ -63,10 +64,11 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
     if (breadcrumb.length) {
       const bcs = breadcrumb.map((ele: BreadCrumb) => ({
         type: ele.type,
-        time: `${ele.time}`,
+        level: ele.level,
+        message: ele.message,
         event_id: ele.eventId,
-        data: JSON.stringify(ele.data),
-        id: generateUUID()
+        time: `${ele.time}`,
+        id: generateUUID(),
       }));
       const { status: bcStatus } = await bcModel.add(bcs);
       if (bcStatus) {
@@ -100,7 +102,8 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
               terminal: isMobileDevice(user_agent) ? DeviceType.MOBILE : DeviceType.PC,
               language,
               etime: time,
-              ltime: ''
+              ltime: '',
+              platform
             }
           ]);
           break;
@@ -151,7 +154,8 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
       path,
       language,
       user_agent,
-      page_title
+      page_title,
+      platform
     };
     const { data: count } = await logModel.count({ id });
     if (count) {

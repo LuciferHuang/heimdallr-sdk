@@ -1,35 +1,19 @@
-import {
-  BrowserBreadcrumbTypes,
-  CodeErrorDataType,
-  ConsoleDataMsgType,
-  LinkMsgDataType,
-  DomDataMsgType,
-  PromiseErrorDataType,
-  RouteDataMsgType,
-} from './browser';
-import { VueReportDataType } from './vue';
+import { BrowserBreadcrumbTypes, WxBreadcrumbTypes } from './constant';
 
-enum BaseBreadcrumbTypes {
-  VUE = 'Vue'
+export enum BreadcrumbLevel {
+  FATAL = 'fatal',
+  ERROR = 'error',
+  WARN = 'warn',
+  INFO = 'info',
+  DEBUG = 'debug'
 }
 
-export type BreadcrumbTypes = BrowserBreadcrumbTypes | BaseBreadcrumbTypes;
+export type BreadcrumbTypes = WxBreadcrumbTypes | BrowserBreadcrumbTypes | string;
 
 export interface BreadcrumbPushData {
   eventId: string;
-  /**
-   * 事件类型
-   */
   type: BreadcrumbTypes;
-  // string for click dom
-  data:
-    | CodeErrorDataType
-    | LinkMsgDataType
-    | PromiseErrorDataType
-    | LinkMsgDataType
-    | VueReportDataType
-    | DomDataMsgType
-    | RouteDataMsgType
-    | ConsoleDataMsgType;
+  message: string;
+  level?: BreadcrumbLevel;
   time?: number;
 }

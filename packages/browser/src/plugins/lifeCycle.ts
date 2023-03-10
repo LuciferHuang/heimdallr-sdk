@@ -7,10 +7,9 @@ import {
   LifeCycleMsgType,
   PageLifeType,
   ReportDataType,
-  StoreKeyType,
   StoreType
 } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, getCookie, getStore, setStore, getDeepPropByDot } from '@heimdallr-sdk/utils';
+import { formatDate, generateUUID, getCookie, getStore, getDeepPropByDot } from '@heimdallr-sdk/utils';
 
 function getStoreUserId(userIdentify: CustomerOptionType) {
   const { name = '', postion = '' } = userIdentify;
@@ -34,15 +33,14 @@ const LifeCyclePlugin: BasePluginType = {
     const { userIdentify = {} } = this.getOptions();
     const { name: userPath, postion: userPosi } = userIdentify;
     window.addEventListener('load', () => {
-      const sessionId = generateUUID();
-      setStore(StoreType.LOCAL, StoreKeyType.SESSION, sessionId);
+      this.sessionID = generateUUID();
       const user_id = getStoreUserId(userIdentify) || '';
       if (userPath && userPosi && !user_id) {
         this.log(`${userPath} does not exist on ${userPosi}`);
       }
       notify({
         type: PageLifeType.LOAD,
-        session_id: sessionId,
+        session_id: this.sessionID,
         user_id,
         href: location.href
       });
@@ -54,7 +52,7 @@ const LifeCyclePlugin: BasePluginType = {
       }
       notify({
         type: PageLifeType.UNLOAD,
-        session_id: getStore(StoreType.LOCAL, StoreKeyType.SESSION),
+        session_id: this.sessionID,
         user_id,
         href: location.href
       });
@@ -63,13 +61,25 @@ const LifeCyclePlugin: BasePluginType = {
   transform(collectedData: LifecycleDataType): ReportDataType<LifeCycleMsgType> {
     const id = generateUUID();
     // 添加用户行为栈
+    const { type, href } = collectedData;
+    let action = '';
+    switch (type) {
+      case PageLifeType.LOAD:
+        action = 'Enter';
+        break;
+      case PageLifeType.UNLOAD:
+        action = 'Leave';
+        break;
+      default:
+        break;
+    }
     this.breadcrumb.unshift({
       eventId: id,
       type: BrowserBreadcrumbTypes.LIFECYCLE,
-      data: collectedData
+      message: `${action || type} "${href}"`
     });
     // 上报数据
-    const subType = collectedData.type;
+    const subType = type;
     delete collectedData.type;
     return {
       id,

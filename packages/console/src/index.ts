@@ -35,11 +35,12 @@ const consolePlugin: BasePluginType = {
   },
   transform(collectedData: ConsoleDataMsgType): ReportDataType<ConsoleMsgType> {
     const id = generateUUID();
+    const { args, level } = collectedData;
     // 添加用户行为栈
     this.breadcrumb.unshift({
       eventId: id,
       type: BrowserBreadcrumbTypes.CONSOLE,
-      data: collectedData
+      message: `Console output "${args.join(',')}" "${level}"`
     });
     return {
       id,

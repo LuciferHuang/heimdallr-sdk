@@ -6,7 +6,8 @@ import {
   ReportDataType,
   ResourceErrorType,
   BrowserBreadcrumbTypes,
-  ConsoleTypes
+  ConsoleTypes,
+  BreadcrumbLevel
 } from '@heimdallr-sdk/types';
 import { generateUUID, formatDate } from '@heimdallr-sdk/utils';
 
@@ -52,7 +53,8 @@ const errorPlugin: BasePluginType = {
       this.breadcrumb.unshift({
         eventId: id,
         type: BrowserBreadcrumbTypes.RESOURCE,
-        data: resourceData
+        level: BreadcrumbLevel.FATAL,
+        message: `Unable to load "${resourceData.href}"`
       });
       const breadcrumb = this.breadcrumb.getStack();
       return {
@@ -72,12 +74,8 @@ const errorPlugin: BasePluginType = {
     this.breadcrumb.unshift({
       eventId: id,
       type: BrowserBreadcrumbTypes.CODE_ERROR,
-      data: {
-        message,
-        lineno,
-        colno,
-        filename
-      }
+      level: BreadcrumbLevel.ERROR,
+      message
     });
     const breadcrumb = this.breadcrumb.getStack();
     return {

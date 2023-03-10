@@ -34,9 +34,7 @@ const domPlugin: BasePluginType = {
     this.breadcrumb.unshift({
       eventId: id,
       type: BrowserBreadcrumbTypes.CLICK,
-      data: {
-        ele: htmlString
-      }
+      message: `Click ${htmlString}`
     });
     return {
       id,

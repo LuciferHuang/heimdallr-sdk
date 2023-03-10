@@ -13,7 +13,7 @@ export async function init(req, res) {
   // 入列
   const { code, msg } = await mq.sendQueueMsg('projQueue', JSON.stringify(appInfo));
   if (code === 0) {
-    res.send(successResponse(null, msg));
+    res.send(successResponse(appInfo, msg));
   } else {
     res.send(failResponse(msg));
   }

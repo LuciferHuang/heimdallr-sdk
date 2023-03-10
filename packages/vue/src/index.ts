@@ -8,7 +8,8 @@ import {
   EventTypes,
   BrowserBreadcrumbTypes,
   VueTypes,
-  ConsoleTypes
+  ConsoleTypes,
+  BreadcrumbLevel
 } from '@heimdallr-sdk/types';
 
 const VuePlugin: BasePluginType = {
@@ -41,12 +42,14 @@ const VuePlugin: BasePluginType = {
     };
   },
   transform(data: VueReportDataType): ReportDataType<VueReportDataType> {
-    // 添加用户行为栈
     const id = generateUUID();
+    // 添加用户行为栈
+    const { hook, stack } = data;
     this.breadcrumb.unshift({
       eventId: id,
       type: BrowserBreadcrumbTypes.FRAMEWORK,
-      data
+      level: BreadcrumbLevel.FATAL,
+      message: `Error in Vue/${hook}: "${stack && stack.toString()}"`
     });
     const breadcrumb = this.breadcrumb.getStack();
     this.breadcrumb.clear();

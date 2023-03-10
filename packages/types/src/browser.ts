@@ -1,4 +1,4 @@
-import { ReportDataMsgType } from './base';
+import { ClientInfoType, ReportDataMsgType } from './base';
 import { BreadcrumbPushData } from './breadcrumb';
 import { PageLifeType } from './constant';
 
@@ -30,15 +30,6 @@ export interface PromiseErrorDataType {
 }
 
 export interface PromiseErrorType extends ReportDataMsgType, PromiseErrorDataType {}
-
-export interface ClientInfoType {
-  app_id: string;
-  session_id: string;
-  page_title: string;
-  path: string;
-  language: string;
-  user_agent: string
-}
 
 export interface BrowserReportPayloadDataType extends ClientInfoType{
   [key: string]: any;
@@ -106,19 +97,4 @@ export interface PerformanceVitalsMsgType extends ReportDataMsgType {
 // 通用上报结构
 export interface IAnyMsgType extends ReportDataMsgType {
   [key: string]: any;
-}
-
-export enum BrowserBreadcrumbTypes {
-  ROUTE = 'Route',
-  CLICK = 'UI.Click',
-  CONSOLE = 'Console',
-  XHR = 'Xhr',
-  FETCH = 'Fetch',
-  UNHANDLEDREJECTION = 'Unhandledrejection',
-  RESOURCE = 'Resource',
-  CODE_ERROR = 'CodeError',
-  CUSTOMER = 'Customer',
-  FRAMEWORK = 'Framework',
-  LIFECYCLE = 'LifeCycle',
-  CRASH = 'Crash'
 }

@@ -21,6 +21,25 @@ const filterFormItems: FilterItem[] = [
     prop: 'id'
   },
   {
+    prop: 'platform',
+    label: '平台',
+    renderType: 'select',
+    options: [
+      {
+        value: 'browser',
+        label: '浏览器端'
+      },
+      {
+        value: 'wechat',
+        label: '微信小程序'
+      },
+      {
+        value: 'nodejs',
+        label: 'NodeJS'
+      }
+    ]
+  },
+  {
     prop: 'type',
     label: '类型',
     renderType: 'select',
@@ -54,7 +73,7 @@ const filterFormItems: FilterItem[] = [
         label: '用户上报'
       }
     ]
-  },
+  }
 ];
 
 const tableOprates: OperateBtn[] = [
@@ -73,6 +92,12 @@ const tableConfig: ColumnConfig[] = [
     label: 'ID',
     width: 320,
     plugins: ['copy']
+  },
+  {
+    prop: 'platform',
+    width: 108,
+    label: '平台',
+    plugins: ['filter']
   },
   {
     prop: 'type',
@@ -134,7 +159,20 @@ const filterMap = {
     error: '错误',
     console: '控制台输出',
     customer: '用户上报'
+  },
+  platform: {
+    browser: '浏览器端',
+    wechat: '微信小程序',
+    nodejs: 'NodeJS'
   }
+};
+
+const levelTypeMap = {
+  fatal: 'danger',
+  error: 'danger',
+  warn: 'warning',
+  info: 'info',
+  debug: ''
 };
 
 export default function useListConfig() {
@@ -143,6 +181,7 @@ export default function useListConfig() {
     tableOprates,
     filterFormItems,
     tableConfig,
-    filterMap
+    filterMap,
+    levelTypeMap
   };
 }
