@@ -1513,6 +1513,13 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
+"@rrweb/types@^2.0.0-alpha.4":
+  version "2.0.0-alpha.6"
+  resolved "https://registry.npmmirror.com/@rrweb/types/-/types-2.0.0-alpha.6.tgz#0c880272d455666c57c4180a2b6c818d642aebc7"
+  integrity sha512-c7Adw44pNkNsE9wkBPrONaLS9fq2WtWAMFks9+6SjOLaRv+d6Iu7/6RNBokESHQkvaj1fZ8nPqxT9GjfQ5TMyQ==
+  dependencies:
+    rrweb-snapshot "^2.0.0-alpha.6"
+
 "@socket.io/component-emitter@~3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@socket.io/component-emitter/-/component-emitter-3.1.0.tgz#96116f2a912e0c02817345b3c10751069920d553"
@@ -1542,6 +1549,11 @@
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.3.tgz#472eaab5f15c1ffdd7f8628bd4c4f753995ec79e"
   integrity sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==
+
+"@tsconfig/svelte@^1.0.0":
+  version "1.0.13"
+  resolved "https://registry.yarnpkg.com/@tsconfig/svelte/-/svelte-1.0.13.tgz#2fa34376627192c0d643ce54964915e2bd3a58e4"
+  integrity sha512-5lYJP45Xllo4yE/RUBccBT32eBlRDbqN8r1/MIvQbKxW3aFqaYPCNgm8D5V20X4ShHcwvYWNlKg3liDh1MlBoA==
 
 "@types/amqplib@^0.10.1":
   version "0.10.1"
@@ -1586,6 +1598,11 @@
   integrity sha512-RG8AStHlUiV5ysZQKq97copd2UmVYw3/pRMLefISZ3S1hK104Cwm7iLQ3fTKx+lsUH2CE8FlLaYeEA2LSeqYUA==
   dependencies:
     "@types/node" "*"
+
+"@types/css-font-loading-module@0.0.7":
+  version "0.0.7"
+  resolved "https://registry.npmmirror.com/@types/css-font-loading-module/-/css-font-loading-module-0.0.7.tgz#2f98ede46acc0975de85c0b7b0ebe06041d24601"
+  integrity sha512-nl09VhutdjINdWyXxHWN/w9zlNCfr60JUqJbd24YXUuCwgeL0TpFSdElCwb6cxfB6ybE19Gjj4g0jsgkXxKv1Q==
 
 "@types/estree@*":
   version "1.0.0"
@@ -1989,6 +2006,11 @@
   dependencies:
     vue-demi "*"
 
+"@xstate/fsm@^1.4.0":
+  version "1.6.5"
+  resolved "https://registry.npmmirror.com/@xstate/fsm/-/fsm-1.6.5.tgz#f599e301997ad7e3c572a0b1ff0696898081bea5"
+  integrity sha512-b5o1I6aLNeYlU/3CPlj/Z91ybk1gUsKT+5NAJI+2W4UjvS5KLG28K9v5UvNoFVjHV8PajVZ00RH3vnjyQO7ZAw==
+
 "@yarnpkg/lockfile@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@yarnpkg/lockfile/-/lockfile-1.1.0.tgz#e77a97fbd345b76d83245edcd17d393b1b41fb31"
@@ -2331,6 +2353,11 @@ balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
+
+base64-arraybuffer@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.npmmirror.com/base64-arraybuffer/-/base64-arraybuffer-1.0.2.tgz#1c37589a7c4b0746e34bd1feb951da2df01c1bdc"
+  integrity sha512-I3yl4r9QB5ZRY3XuJVEPfc2XhZO6YweFPI+UovAzn+8/hb3oJ6lnysaFcjVpkCPfVWFUDvoZ8kmVDP7WyRtYtQ==
 
 base64-js@^1.3.1:
   version "1.5.1"
@@ -4090,6 +4117,11 @@ fetch-blob@^3.1.2, fetch-blob@^3.1.4:
   dependencies:
     node-domexception "^1.0.0"
     web-streams-polyfill "^3.0.3"
+
+fflate@^0.4.4:
+  version "0.4.8"
+  resolved "https://registry.npmmirror.com/fflate/-/fflate-0.4.8.tgz#f90b82aefbd8ac174213abb338bd7ef848f0f5ae"
+  integrity sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==
 
 figures@3.2.0, figures@^3.0.0:
   version "3.2.0"
@@ -5933,6 +5965,11 @@ mitt@^1.1.3:
   resolved "https://registry.yarnpkg.com/mitt/-/mitt-1.2.0.tgz#cb24e6569c806e31bd4e3995787fe38a04fdf90d"
   integrity sha512-r6lj77KlwqLhIUku9UWYes7KJtsczvolZkzp8hbaDPPaE24OmWl5s539Mytlj22siEQKosZ26qCBgda2PKwoJw==
 
+mitt@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.npmmirror.com/mitt/-/mitt-3.0.0.tgz#69ef9bd5c80ff6f57473e8d89326d01c414be0bd"
+  integrity sha512-7dX2/10ITVyqh4aOSVI9gdape+t9l2/8QxHrFmUXu4EEUpdlxl6RudZUPZoc+zuY2hk1j7XxVroIVIan/pD/SQ==
+
 mkdirp-infer-owner@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/mkdirp-infer-owner/-/mkdirp-infer-owner-2.0.0.tgz#55d3b368e7d89065c38f32fd38e638f0ab61d316"
@@ -7328,6 +7365,45 @@ rollup@^2.76.0:
   integrity sha512-uKxbd0IhMZOhjAiD5oAFp7BqvkA4Dv47qpOCtaNvng4HBwdbWtdOh8f5nZNuk2rp51PMGk3bzfWu5oayNEuYnw==
   optionalDependencies:
     fsevents "~2.3.2"
+
+rrdom@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.npmmirror.com/rrdom/-/rrdom-0.1.7.tgz#f2f49bfd01b59291bb7b0d981371a5e02a18e2aa"
+  integrity sha512-ZLd8f14z9pUy2Hk9y636cNv5Y2BMnNEY99wxzW9tD2BLDfe1xFxtLjB4q/xCBYo6HRe0wofzKzjm4JojmpBfFw==
+  dependencies:
+    rrweb-snapshot "^2.0.0-alpha.4"
+
+rrweb-player@^1.0.0-alpha.4:
+  version "1.0.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/rrweb-player/-/rrweb-player-1.0.0-alpha.4.tgz#57576343aaff6c6fb266689fd5d63092be46967c"
+  integrity sha512-Wlmn9GZ5Fdqa37vd3TzsYdLl/JWEvXNUrLCrYpnOwEgmY409HwVIvvA5aIo7k582LoKgdRCsB87N+f0oWAR0Kg==
+  dependencies:
+    "@tsconfig/svelte" "^1.0.0"
+    rrweb "^2.0.0-alpha.4"
+
+rrweb-snapshot@^2.0.0-alpha.4:
+  version "2.0.0-alpha.4"
+  resolved "https://registry.npmmirror.com/rrweb-snapshot/-/rrweb-snapshot-2.0.0-alpha.4.tgz#2801bf5946177b9d685a01661a62d9d2e958f174"
+  integrity sha512-KQ2OtPpXO5jLYqg1OnXS/Hf+EzqnZyP5A+XPqBCjYpj3XIje/Od4gdUwjbFo3cVuWq5Cw5Y1d3/xwgIS7/XpQQ==
+
+rrweb-snapshot@^2.0.0-alpha.6:
+  version "2.0.0-alpha.6"
+  resolved "https://registry.npmmirror.com/rrweb-snapshot/-/rrweb-snapshot-2.0.0-alpha.6.tgz#c7e7f902312a564d8494d916042e1d9aefe62ce7"
+  integrity sha512-mTeIZn8a6crtHigyO+cSENuKq68ayEdSZJAybkWWVjJQOvDY9EHaqhc8jWXpNkPVcc8M5T8ORc/RXsc52osYHQ==
+
+rrweb@^2.0.0-alpha.4:
+  version "2.0.0-alpha.4"
+  resolved "https://registry.npmmirror.com/rrweb/-/rrweb-2.0.0-alpha.4.tgz#3c7cf2f1bcf44f7a88dd3fad00ee8d6dd711f258"
+  integrity sha512-wEHUILbxDPcNwkM3m4qgPgXAiBJyqCbbOHyVoNEVBJzHszWEFYyTbrZqUdeb1EfmTRC2PsumCIkVcomJ/xcOzA==
+  dependencies:
+    "@rrweb/types" "^2.0.0-alpha.4"
+    "@types/css-font-loading-module" "0.0.7"
+    "@xstate/fsm" "^1.4.0"
+    base64-arraybuffer "^1.0.1"
+    fflate "^0.4.4"
+    mitt "^3.0.0"
+    rrdom "^0.1.7"
+    rrweb-snapshot "^2.0.0-alpha.4"
 
 run-async@^2.4.0:
   version "2.4.1"

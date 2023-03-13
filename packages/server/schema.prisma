@@ -26,6 +26,7 @@ model Session {
     stay_time  Int
     terminal   String
     language   String
+    events     String   @db.LongText
     etime      String
     ltime      String
     ctime      DateTime @default(now()) @updatedAt

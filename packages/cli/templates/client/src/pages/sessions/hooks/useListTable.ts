@@ -1,8 +1,10 @@
-import { reactive } from 'vue';
+import { nextTick, reactive } from 'vue';
 import { ElMessage } from 'element-plus';
 import http from 'helper/http';
 import { DEFAULT_PAGE_SIZE } from 'config/others';
 import { copy, cusToRefs, formatDate } from 'helper/utils';
+import rrwebPlayer from 'rrweb-player';
+import 'rrweb-player/dist/style.css';
 
 interface LogType {
   otime: string;
@@ -29,7 +31,8 @@ export default function useListTable() {
     form: {},
     allItems: 0,
     detail: {},
-    isDrawerShow: false
+    isDrawerShow: false,
+    isPlayerShow: false
   });
   // 翻页
   const page = { index: 1, size: DEFAULT_PAGE_SIZE };
@@ -43,7 +46,7 @@ export default function useListTable() {
     orderParam: 'order',
     sortParam: 'sort',
     sortVal: 'etime',
-    order: 'desc',
+    order: 'desc'
   };
   function sortHandle(params) {
     sortParams = params;
@@ -111,7 +114,7 @@ export default function useListTable() {
   }
   // 表格操作
   function operateHandle(cmd, row) {
-    const { id, path, page_title, etime, ltime, ip, user_id, province, language } = row;
+    const { id, path, page_title, etime, ltime, ip, user_id, province, language, events = '' } = row;
     switch (cmd) {
       case 'detail':
         // 弹出详情
@@ -134,6 +137,32 @@ export default function useListTable() {
             };
           })
           .catch(() => {});
+        break;
+      case 'play':
+        if (!events) {
+          ElMessage.warning('录屏不存在');
+          return;
+        }
+        state.detail = {
+          path
+        };
+        state.isPlayerShow = true;
+        try {
+          const eventsArr = JSON.parse(events);
+          nextTick(() => {
+            new rrwebPlayer({
+              target: document.getElementById('sessionPlayWrap'),
+              // 配置项
+              props: {
+                events: eventsArr,
+                width: 800,
+                height: 450
+              }
+            });
+          });
+        } catch (error) {
+          console.error = error;
+        }
         break;
       default:
         break;

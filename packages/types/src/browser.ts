@@ -94,6 +94,12 @@ export interface PerformanceVitalsMsgType extends ReportDataMsgType {
   cls: number;
 }
 
+export interface RecordDataType {
+  events: any[];
+}
+
+export interface RecordMsgType extends ReportDataMsgType, RecordDataType {}
+
 // 通用上报结构
 export interface IAnyMsgType extends ReportDataMsgType {
   [key: string]: any;

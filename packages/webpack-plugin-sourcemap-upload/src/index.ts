@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import request from 'request';
 
-const TAG = '[sourcemap-upload-webpack-plugin]: ';
+const TAG = '[webpack-plugin-sourcemap-upload]: ';
 
 class UploadSourceMapPlugin<O extends SourcemapOptionType> {
   private readonly options: O;
@@ -31,6 +31,7 @@ class UploadSourceMapPlugin<O extends SourcemapOptionType> {
           console.error(TAG, err);
         }
       }
+      console.log(TAG, 'upload finished');
       process.exit();
     });
   }

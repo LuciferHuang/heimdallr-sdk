@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/wx-request",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A Plugin For Wechat SDK",
   "license": "MIT",
   "author": "LuciferHuang",
@@ -38,7 +38,7 @@
     "build:esm": "rimraf esm && tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@heimdallr-sdk/types": "^0.0.11",
-    "@heimdallr-sdk/utils": "^0.0.14"
+    "@heimdallr-sdk/types": "^0.0.12",
+    "@heimdallr-sdk/utils": "^0.0.15"
   }
 }

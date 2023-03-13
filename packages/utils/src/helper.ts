@@ -81,38 +81,6 @@ export function replaceOld(source: IAnyObject, name: string, replacement: (...ar
   }
 }
 
-export function objDeepCopy(obj: any) {
-  if (obj === null || obj === undefined) return null;
-  if (typeof obj !== 'object') return obj;
-  const newObj = new obj.constructor();
-  const isObject = (target) => (typeof target === 'object' ? (target === obj ? newObj : objDeepCopy(target)) : target);
-  if (obj.constructor === Date) return new Date(obj);
-  if (obj.constructor === RegExp) return new RegExp(obj);
-  if (obj.constructor === Map) {
-    const temp = new Map();
-    obj.forEach((val, key) => {
-      temp.set(isObject(key), isObject(val));
-    });
-    return temp;
-  }
-  if (obj.constructor === Set) {
-    const temp = new Set();
-    obj.forEach((item) => {
-      temp.add(isObject(item));
-    });
-    return temp;
-  }
-  const keys = [...Object.keys(obj), ...Object.getOwnPropertySymbols(obj)];
-  for (const key of keys) {
-    // eslint-disable-next-line no-prototype-builtins
-    if (obj.hasOwnProperty(key)) {
-      const val = obj[key];
-      newObj[key] = typeof val === 'object' ? objDeepCopy(val) : val;
-    }
-  }
-  return newObj;
-}
-
 export function formatDecimal(num: number, decimal: number): number {
   if (!num) {
     return num;

@@ -51,5 +51,8 @@ router.use('/xhr-dist', express.static(resolveDirname('../../../xhr/dist')));
 // views
 router.use('/', express.static(resolveDirname('../views')));
 router.use('/demo', express.static(resolveDirname('../views/demo.html')));
+// playground dist
+router.use('/playground', express.static(resolveDirname('../../../../playground/dist')));
+router.use('/assets', express.static(resolveDirname('../../../../playground/dist/assets')));
 
 export default router;

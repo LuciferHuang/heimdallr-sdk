@@ -29,22 +29,21 @@
     </el-descriptions>
     <br />
     <el-timeline>
-      <el-timeline-item
-        v-for="(item, index) in getDetail().log"
-        :key="index"
-        :timestamp="item.otime"
-      >
+      <el-timeline-item v-for="(item, index) in getDetail().log" :key="index" :timestamp="item.otime">
         <el-tag class="mg-r-8" :type="tagType(item.type)">{{ item.type }}</el-tag>
         <el-tag :type="tagType(item.type)">{{ item.sub_type }}</el-tag>
         <p>{{ item.data }}</p>
       </el-timeline-item>
     </el-timeline>
   </el-drawer>
+  <el-dialog v-model="state.isPlayerShow" class="session-play-dia" :title="getDetail().path" width="840px">
+    <div v-if="state.isPlayerShow" id="sessionPlayWrap"></div>
+  </el-dialog>
 </template>
 <script lang="ts">
 import { defineAsyncComponent, defineComponent } from 'vue';
 // 组件
-import { ElAffix, ElDrawer, ElDescriptions, ElDescriptionsItem, ElTag, ElTimeline, ElTimelineItem } from 'element-plus';
+import { ElAffix, ElDrawer, ElDescriptions, ElDescriptionsItem, ElTag, ElTimeline, ElTimelineItem, ElDialog } from 'element-plus';
 // 配置
 import useConfig from './hooks/useListConfig';
 // 表格功能
@@ -61,6 +60,7 @@ export default defineComponent({
     ElTag,
     ElTimeline,
     ElTimelineItem,
+    ElDialog,
     filterGroup: defineAsyncComponent(() => import('components/filterGroup/index.vue')),
     tableOprate: defineAsyncComponent(() => import('components/tableOprate/index.vue')),
     pageTable: defineAsyncComponent(() => import('components/pageTable/index.vue')),
@@ -75,9 +75,23 @@ export default defineComponent({
     return {
       ...useConfig(), // 引入配置
       ...tableFeature,
-      formatDate,
+      formatDate
     };
   }
 });
 </script>
-<style lang="scss"></style>
+<style lang="scss">
+.session-play-dia {
+  .el-dialog__header {
+    border-bottom: 1px solid #eee;
+    
+  }
+  #sessionPlayWrap {
+    position: relative;
+    width: 100%;
+    .rr-player {
+      float: unset !important;
+    }
+  }
+}
+</style>

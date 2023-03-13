@@ -1,5 +1,5 @@
 import { BaseOptionsType, BasePluginType, CoreContextType, IAnyObject, ConsoleTypes, TAG } from '@heimdallr-sdk/types';
-import { formateUrlPath, objDeepCopy, hasConsole } from '@heimdallr-sdk/utils';
+import { formateUrlPath, hasConsole } from '@heimdallr-sdk/utils';
 import { Subscribe } from './subscribe';
 
 /**
@@ -106,7 +106,7 @@ export abstract class Core<O extends BaseOptionsType> {
    * @return {O} 配置信息
    */
   getOptions(): O {
-    return objDeepCopy(this.options);
+    return { ...this.options };
   }
 
   /**

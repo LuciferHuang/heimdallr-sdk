@@ -1,11 +1,14 @@
 {
-  "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "noImplicitAny": true,
-    "module": "es6",
-    "target": "es5",
-    "allowJs": true,
-    "downlevelIteration": true
-  },
-  "files": ["src/index.ts"]
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.vitest.json"
+    }
+  ]
 }

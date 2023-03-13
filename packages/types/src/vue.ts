@@ -29,4 +29,7 @@ export interface VueReportDataType extends ReportDataMsgType {
   message: string;
   hook: string;
   stack: string;
+  lineno?: number;
+  colno?: number;
+  filename?: string;
 }

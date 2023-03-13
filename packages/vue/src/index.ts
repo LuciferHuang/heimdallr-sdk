@@ -22,14 +22,15 @@ const VuePlugin: BasePluginType = {
       return;
     }
     const { errorHandler, silent } = vm.config;
-    vm.config.errorHandler = (error: Error, vm: ViewModel, lifecycleHook: string) => {
-      const { name, message, stack } = error;
+    vm.config.errorHandler = (error: any, vm: ViewModel, lifecycleHook: string) => {
+      const { name, message, stack = '' } = error;
       notify({
         name,
         message,
         hook: lifecycleHook,
         stack,
-        sub_type: VueTypes.ERROR
+        sub_type: VueTypes.ERROR,
+        ...parseStack(stack)
       });
       if (debug) {
         if (typeof errorHandler === 'function') {
@@ -62,5 +63,23 @@ const VuePlugin: BasePluginType = {
     };
   }
 };
+
+function parseStack(stack: string) {
+  const REG_EXP = /([a-z|0-9|-]*).js:[0-9]*:[0-9]*/;
+  const [, sourceFile] = stack.split('\n');
+  const [matched = ''] = REG_EXP.exec(sourceFile) || [];
+  const [fileName, lineCol = ''] = matched.split('.js:');
+  const [line, col] = lineCol.split(':');
+  const lineno = Number(line);
+  const colno = Number(col);
+  if (!fileName || lineno !== lineno || colno !== colno) {
+    return {};
+  }
+  return {
+    lineno,
+    colno,
+    filename: `${fileName}.js`
+  };
+}
 
 export default VuePlugin;

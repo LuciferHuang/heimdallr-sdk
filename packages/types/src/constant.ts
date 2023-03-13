@@ -20,7 +20,8 @@ export enum EventTypes {
   CUSTOMER = 'customer',
   VUE = 'vue',
   LIFECYCLE = 'lifeCycle',
-  EXTEND = 'extend'
+  EXTEND = 'extend',
+  RECORD = 'record'
 }
 
 export enum BrowserErrorTypes {
@@ -108,6 +109,10 @@ export enum PlatformTypes {
   BROWSER = 'browser',
   NODE = 'nodejs',
   WECHAT = 'wechat'
+}
+
+export enum RecordTypes {
+  SESSION = 'session'
 }
 
 export enum BrowserBreadcrumbTypes {

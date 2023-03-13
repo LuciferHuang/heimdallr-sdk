@@ -2,7 +2,7 @@ import BreadCrumbModel from '../models/breadcrumbModel';
 import LogModel from '../models/logModel';
 import ProjModel from '../models/projModel';
 import SessionModel from '../models/sessionModel';
-import { BreadCrumb, LogItem, DeviceType, EventTypes, PageLifeType, InterfaceResponseType, IAnyObject } from '../types';
+import { BreadCrumb, LogItem, DeviceType, EventTypes, PageLifeType, InterfaceResponseType, IAnyObject, RecordTypes } from '../types';
 import { failResponse, generateUUID, isMobileDevice, successResponse } from './utils';
 
 const projModel = new ProjModel();
@@ -55,11 +55,11 @@ export async function add(message: string): Promise<InterfaceResponseType<IAnyOb
 
     // 将入参转为数据库存储结构
     const paramObj = JSON.parse(paramData);
-    const { sub_type, user_id = '' } = paramObj;
+    const { sub_type, user_id = '', events = '' } = paramObj;
     delete paramObj.sub_type;
 
     // session
-    if (type === EventTypes.LIFECYCLE) {
+    if ([EventTypes.LIFECYCLE, EventTypes.RECORD].includes(type)) {
       const { error, ip, region = '' } = ipInfo;
       if (error) {
         console.error(TAG, error);
@@ -67,7 +67,6 @@ export async function add(message: string): Promise<InterfaceResponseType<IAnyOb
       let response = { status: false, msg: 'sub_type not found' };
       switch (sub_type) {
         case PageLifeType.LOAD:
-          // 会话信息入库
           response = await sessionModel.add([
             {
               id: session_id,
@@ -104,6 +103,23 @@ export async function add(message: string): Promise<InterfaceResponseType<IAnyOb
               {
                 stay_time: stayTime,
                 ltime: time
+              }
+            );
+          }
+          break;
+        case RecordTypes.SESSION:
+          {
+            const { data = [] } = await sessionModel.find(1, 5, {
+              id: session_id
+            });
+            const [targetSession] = data;
+            if (!targetSession || data.length > 1) {
+              throw new Error('session not found');
+            }
+            response = await sessionModel.modify(
+              { id: session_id },
+              {
+                events
               }
             );
           }

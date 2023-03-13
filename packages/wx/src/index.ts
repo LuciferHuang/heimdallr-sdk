@@ -9,7 +9,7 @@ import {
   WxBreadcrumbTypes,
   PlatformTypes
 } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, objDeepCopy, replaceOld } from '@heimdallr-sdk/utils';
+import { formatDate, generateUUID, replaceOld } from '@heimdallr-sdk/utils';
 import { Breadcrumb } from '@heimdallr-sdk/core';
 import { WxOptionsType, WxTrackTypes } from './types';
 import { getStorageSync } from './utils';
@@ -34,7 +34,7 @@ class WxClient extends Core<WxOptionsType> {
   }
 
   getWxContext(): WxContextType {
-    return objDeepCopy(this.wxContext);
+    return { ...this.wxContext };
   }
 
   async initAPP() {

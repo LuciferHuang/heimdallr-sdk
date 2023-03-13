@@ -5,11 +5,12 @@ export interface Session {
     province?: string;
     path?: string;
     page_title?: string;
-    stay_time: number;
+    stay_time?: number;
     terminal?: string;
     language?: string;
     etime?: string;
-    ltime: string;
+    ltime?: string;
     platform?: string;
+    events?: string;
   }
   

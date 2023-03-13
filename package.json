@@ -1,6 +1,6 @@
 {
   "name": "heimdallr-sdk",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "private": true,
   "license": "MIT",
   "author": "LuciferHuang",
@@ -9,7 +9,9 @@
   ],
   "scripts": {
     "build": "lerna run --stream --sort build",
-    "dev": "lerna run --parallel dev",
+    "dev": "run-p dev:packages playground",
+    "dev:packages": "lerna run --parallel dev",
+    "playground": "cd playground && vite",
     "prisma": "npx prisma db push --schema ./packages/server/schema.prisma",
     "prepare": "husky install",
     "lint": "eslint packages",

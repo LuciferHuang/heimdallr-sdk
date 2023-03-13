@@ -1,0 +1,13 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+      "module": "es6",
+      "outDir": "esm",
+      "paths": {
+        "@heimdallr-sdk/types": ["../types/src"]
+      },
+      "types": ["node"]
+    },
+    "include": ["src/**/*"]
+  }
+  

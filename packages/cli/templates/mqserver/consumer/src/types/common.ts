@@ -40,9 +40,14 @@ export enum EventTypes {
   CONSOLE = 'console',
   CUSTOMER = 'customer',
   VUE = 'vue',
-  LIFECYCLE = 'lifeCycle'
+  LIFECYCLE = 'lifeCycle',
+  EXTEND = 'extend',
+  RECORD = 'record'
 }
 export enum PageLifeType {
   LOAD = 'enter',
   UNLOAD = 'leave'
+}
+export enum RecordTypes {
+  SESSION = 'session'
 }

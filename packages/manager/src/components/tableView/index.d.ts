@@ -7,9 +7,12 @@ declare interface TranslateConfig {
   dataKey: string;
 }
 
+export type ConditionCmdType = 'notempty' | 'empty';
+
 export declare interface BtnCondition {
   prop: string;
-  arr: Array<string | number>;
+  values?: Array<string | number>;
+  cmd?: ConditionCmdType
 }
 
 export declare interface OperateBtn {

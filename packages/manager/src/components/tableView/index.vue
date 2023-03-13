@@ -102,7 +102,6 @@ import { ElTable, ElTableColumn, ElButton } from "element-plus";
 import { cusToRefs } from "helper/utils";
 import useFilter from "./hooks/useFilter";
 import useTranslate from "./hooks/useTranslate";
-import { ColumnConfig, BtnCondition } from "./index";
 
 export default /*#__PURE__*/ defineComponent({
   components: {
@@ -189,8 +188,16 @@ export default /*#__PURE__*/ defineComponent({
     // 按钮是否可用
     function enableBtn(condition: BtnCondition, row): boolean {
       if (Object.keys(condition).length > 0) {
-        const { prop = "", arr = [] } = condition;
-        return arr.indexOf(row[prop]) !== -1;
+        const { prop = "", values = [], cmd } = condition;
+        switch (cmd) {
+          case 'notempty':
+            return row[prop];
+          case 'empty':
+            return !row[prop];
+          default:
+            break;
+        }
+        return values.includes(row[prop]);
       }
       return true;
     }
@@ -307,6 +314,9 @@ export default /*#__PURE__*/ defineComponent({
     .opera-btn {
       margin-bottom: 8px;
       color: #409eff;
+      &.is-disabled {
+        color: #a8abb2;
+      }
     }
   }
 }

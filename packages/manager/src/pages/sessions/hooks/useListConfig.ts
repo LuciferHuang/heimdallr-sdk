@@ -112,6 +112,14 @@ const tableConfig: ColumnConfig[] = [
       {
         cmd: 'detail',
         label: '详情'
+      },
+      {
+        cmd: 'play',
+        label: '播放',
+        condition: {
+          prop: 'events',
+          cmd: 'notempty'
+        }
       }
     ]
   }

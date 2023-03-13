@@ -2,7 +2,7 @@ import { failResponse, generateUUID, isMobileDevice, successResponse } from '../
 import ProjModel from '../models/projModel';
 import LogModel from '../models/logModel';
 import BreadCrumbModel from '../models/breadcrumbModel';
-import { BreadCrumb, IPInfo, LogItem, DeviceType, EventTypes, PageLifeType } from '../types';
+import { BreadCrumb, IPInfo, LogItem, DeviceType, EventTypes, PageLifeType, RecordTypes } from '../types';
 import SessionModel from '../models/sessionModel';
 
 const TAG = '[logCtrl]:';
@@ -68,7 +68,7 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
         message: ele.message,
         event_id: ele.eventId,
         time: `${ele.time}`,
-        id: generateUUID()
+        id: generateUUID(),
       }));
       const { status: bcStatus } = await bcModel.add(bcs);
       if (bcStatus) {
@@ -78,11 +78,11 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
 
     // 将入参转为数据库存储结构
     const paramObj = JSON.parse(paramData);
-    const { sub_type, user_id = '' } = paramObj;
+    const { sub_type, user_id = '', events = '' } = paramObj;
     delete paramObj.sub_type;
 
     // session
-    if (type === EventTypes.LIFECYCLE) {
+    if ([EventTypes.LIFECYCLE, EventTypes.RECORD].includes(type)) {
       const { error, ip, region = '' } = ipInfo;
       if (error) {
         console.error(TAG, error);
@@ -126,6 +126,23 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
               {
                 stay_time: stayTime,
                 ltime: time
+              }
+            );
+          }
+          break;
+        case RecordTypes.SESSION:
+          {
+            const { data = [] } = await sessionModel.find(1, 5, {
+              id: session_id
+            });
+            const [targetSession] = data;
+            if (!targetSession || data.length > 1) {
+              throw new Error('session not found');
+            }
+            response = await sessionModel.modify(
+              { id: session_id },
+              {
+                events
               }
             );
           }

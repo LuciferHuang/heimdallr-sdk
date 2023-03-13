@@ -1,4 +1,4 @@
-# `sourcemap-upload-webpack-plugin`
+# `webpack-plugin-sourcemap-upload`
 
 > webpack 插件，上传 sourcemap 文件
 
@@ -14,7 +14,7 @@
 ## Usage
 
 ```js
-import UploadSourceMapPlugin from "@heimdallr-sdk/sourcemap-upload-webpack-plugin";
+import UploadSourceMapPlugin from "@heimdallr-sdk/webpack-plugin-sourcemap-upload";
 const config = {
   plugins: [
     new UploadSourceMapPlugin({
