@@ -2,13 +2,11 @@ import {
   BasePluginType,
   EventTypes,
   ReportDataType,
-  WxRouteDataType,
-  WxRouteEvents,
-  WxRouteMsgType,
   WxBreadcrumbTypes,
   BreadcrumbLevel
 } from '@heimdallr-sdk/types';
 import { formatDate, generateUUID } from '@heimdallr-sdk/utils';
+import { WxRouteDataType, WxRouteEvents, WxRouteMsgType } from './types';
 import { getCurrentRoute, getNavigateBackTargetUrl } from './utils';
 
 const wxRoutePlugin: BasePluginType = {

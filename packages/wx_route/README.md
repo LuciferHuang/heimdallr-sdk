@@ -1,4 +1,4 @@
-# `@heimdallr-sdk/wx-route`
+# @heimdallr-sdk/wx-route
 
 > 捕获小程序的路由跳转并上报
 

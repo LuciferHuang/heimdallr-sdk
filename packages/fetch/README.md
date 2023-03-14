@@ -1,4 +1,6 @@
-# `fetch`
+# @heimdallr-sdk/fetch
+
+[English](./README_en.md)
 
 > 捕获 fetch 请求，上报请求头、响应、请求耗时
 
@@ -7,6 +9,7 @@
 |配置名称|类型|描述|默认值|
 |-|-|-|-|
 |ignoreUrls|Array|过滤请求url|-|
+|reportResponds|Boolean|是否上报接口返回值|false|
 
 ## Usage
 

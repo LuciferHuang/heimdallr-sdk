@@ -19,7 +19,7 @@ interface XMLHttp extends IAnyObject {
 const XHRPlugin: BasePluginType = {
   name: 'XHRPlugin',
   monitor(notify: (data: HttpCollectDataType) => void) {
-    const { ignoreUrls = [] } = this.getOptions();
+    const { ignoreUrls = [], reportResponds = false } = this.getOptions();
     const { initUrl, uploadUrl } = this.context;
     const ignore = [...ignoreUrls, uploadUrl, initUrl].map((url) => getUrlPath(url));
     const originalXhrProto = XMLHttpRequest.prototype;
@@ -46,7 +46,7 @@ const XHRPlugin: BasePluginType = {
           const { responseType, response, status } = this;
           request.data = args[0];
           const eTime = Date.now();
-          if (['', 'json', 'text'].indexOf(responseType) !== -1) {
+          if (reportResponds && ['', 'json', 'text'].indexOf(responseType) !== -1) {
             this.httpCollect.response.data = typeof response === 'object' ? JSON.stringify(response) : response;
           }
           this.httpCollect.response.status = status;

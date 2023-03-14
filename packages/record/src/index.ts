@@ -1,4 +1,5 @@
-import { BasePluginType, EventTypes, ReportDataType, RecordDataType, RecordMsgType, RecordTypes } from '@heimdallr-sdk/types';
+import { BasePluginType, EventTypes, ReportDataType } from '@heimdallr-sdk/types';
+import { RecordDataType, RecordMsgType, RecordTypes } from './types';
 import { formatDate, generateUUID } from '@heimdallr-sdk/utils';
 import { record } from 'rrweb';
 

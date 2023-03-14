@@ -1,13 +1,10 @@
 import {
   BasePluginType,
   EventTypes,
-  PerformanceSingleMsgType,
-  PerformanceBasicMsgType,
-  PerformanceVitalsMsgType,
   PerTypes,
   ReportDataType,
-  PerformanceFeat
 } from '@heimdallr-sdk/types';
+import { PerformanceBasicMsgType, PerformanceFeat, PerformanceSingleMsgType, PerformanceVitalsMsgType } from './types';
 import { formatDate, generateUUID } from '@heimdallr-sdk/utils';
 import getBasic from './lib/basic';
 import getVitals from './lib/vitals';

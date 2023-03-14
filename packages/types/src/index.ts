@@ -9,6 +9,4 @@ export * from './browser';
 export * from './http';
 export * from './vue';
 export * from './sourcemap';
-export * from './node';
 export * from './server';
-export * from './wx';

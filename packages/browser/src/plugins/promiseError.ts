@@ -5,10 +5,10 @@ import {
   BrowserErrorTypes,
   ConsoleTypes,
   EventTypes,
-  PromiseErrorType,
   ReportDataType
 } from '@heimdallr-sdk/types';
 import { generateUUID, formatDate } from '@heimdallr-sdk/utils';
+import { PromiseErrorType } from '../types';
 
 interface CollectedType {
   category: EventTypes;

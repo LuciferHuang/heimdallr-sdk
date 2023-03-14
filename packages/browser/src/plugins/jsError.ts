@@ -2,14 +2,13 @@ import {
   BasePluginType,
   BrowserErrorTypes,
   EventTypes,
-  CodeErrorType,
   ReportDataType,
-  ResourceErrorType,
   BrowserBreadcrumbTypes,
   ConsoleTypes,
   BreadcrumbLevel
 } from '@heimdallr-sdk/types';
 import { generateUUID, formatDate } from '@heimdallr-sdk/utils';
+import { CodeErrorType, ResourceErrorType } from '../types';
 
 interface CollectedType {
   category: EventTypes;

@@ -32,53 +32,7 @@ export interface BaseOptionsType {
    maxBreadcrumbs?: number;
 }
 
-export enum PerformanceFeat {
-  BASIC = 'basic',
-  RESOURCE = 'resource',
-  FMP = 'fmp',
-  FPS = 'fps',
-  VITALS = 'vitals'
-}
-
 export interface CustomerOptionType {
   name: string;
   postion: StoreTypes;
-}
-
-export interface BrowserOptionsType extends BaseOptionsType {
-  /**
-   * 过滤请求url
-   */
-  ignoreUrls?: string[];
-  /**
-   * 用户标识（已登录用户）
-   */
-  userIdentify?: CustomerOptionType;
-  /**
-   * 节流阈值
-   */
-  throttleDelayTime?: number;
-  /**
-   * vue 实例
-   */
-  vue?: VueInstance;
-  /**
-   * serviceWorker地址（pageCrash）
-   */
-  pageCrashWorkerUrl?: string;
-  /**
-   * 关闭 performance 个别功能
-   */
-  performancOff?: PerformanceFeat[];
-  /**
-   * 客户端上报数据（页面加载完成时收集）
-   */
-  customers?: CustomerOptionType[];
-}
-
-export interface NodeOptionsType extends BaseOptionsType {
-  /**
-   * 自定义请求函数
-   */
-  sendFunc?: (url: string, data: IAnyObject) => Promise<InterfaceResponseType<any>>;
 }

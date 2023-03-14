@@ -2,11 +2,10 @@ import {
   BasePluginType,
   EventTypes,
   ReportDataType,
-  WxDomMsgType,
-  WxDomDataType,
   WxBreadcrumbTypes
 } from '@heimdallr-sdk/types';
 import { formatDate, generateUUID, replaceOld } from '@heimdallr-sdk/utils';
+import { WxDomDataType, WxDomMsgType } from './types';
 
 const wxDomPlugin: BasePluginType = {
   name: 'wxDomPlugin',

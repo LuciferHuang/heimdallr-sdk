@@ -1,6 +1,6 @@
-# `record`
+# @heimdallr-sdk/record
 
-> 录制当前会话所有操作
+> Record all actions in the current session
 
 ## Usage
 

@@ -1,6 +1,6 @@
-# `history`
+# @heimdallr-sdk/history
 
-> 捕获路由变化，记录 from 与 to 并上报
+> Capture route changes, record from and to and report
 
 ## Usage
 

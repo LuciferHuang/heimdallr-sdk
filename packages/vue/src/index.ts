@@ -7,10 +7,10 @@ import {
   ReportDataType,
   EventTypes,
   BrowserBreadcrumbTypes,
-  VueTypes,
   ConsoleTypes,
   BreadcrumbLevel
 } from '@heimdallr-sdk/types';
+import { VueTypes } from './types';
 
 const VuePlugin: BasePluginType = {
   name: 'vuePlugin',

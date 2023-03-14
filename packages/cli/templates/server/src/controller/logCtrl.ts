@@ -103,6 +103,7 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
               language,
               etime: time,
               ltime: '',
+              events: '',
               platform
             }
           ]);
@@ -142,7 +143,7 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
             response = await sessionModel.modify(
               { id: session_id },
               {
-                events
+                events: JSON.stringify(events)
               }
             );
           }
@@ -153,7 +154,7 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
       }
       const { status, msg } = response;
       if (!status) {
-        throw new Error(msg);
+        console.error(TAG, msg);
       }
       res.send(successResponse(null, msg));
       // 页面生命周期时间不加log

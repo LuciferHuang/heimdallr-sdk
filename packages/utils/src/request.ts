@@ -1,4 +1,5 @@
-import { IAnyObject, MethodTypes } from '@heimdallr-sdk/types';
+import { IAnyObject, MethodTypes } from "@heimdallr-sdk/types";
+import { obj2query } from "./base";
 
 /**
  * sendBeacon上传
@@ -79,17 +80,4 @@ export function imgRequest(url: string, data: IAnyObject): void {
   const spliceStr = url.indexOf('?') === -1 ? '?' : '&';
   img.src = `${url}${spliceStr}data=${encodeURIComponent(JSON.stringify(data))}`;
   img = null;
-}
-
-/**
- * 转换参数
- * @param data
- * @return {string}
- */
-export function obj2query(data: IAnyObject): string {
-  return Object.keys(data).reduce((pre, cur) => {
-    const val = data[cur];
-    pre += `${pre ? '&' : ''}${cur}=${typeof val === 'object' ? JSON.stringify(val) : val}`;
-    return pre;
-  }, '');
 }

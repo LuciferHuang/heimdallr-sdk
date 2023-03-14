@@ -2,8 +2,6 @@ import fetch from 'node-fetch';
 import { Core } from '@heimdallr-sdk/core';
 import {
   IAnyObject,
-  NodeOptionsType,
-  NodeReportPayloadDataType,
   InterfaceResponseType,
   ConsoleTypes,
   PlatformTypes
@@ -11,6 +9,7 @@ import {
 import { formatDate, generateUUID, obj2query } from '@heimdallr-sdk/utils';
 // 基础插件
 import errorPlugin from './plugins/uncaughtException';
+import { NodeOptionsType, NodeReportPayloadDataType } from './types';
 
 class NodeClient extends Core<NodeOptionsType> {
   constructor(options: NodeOptionsType) {

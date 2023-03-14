@@ -14,6 +14,9 @@ const hashPlugin: BasePluginType = {
   monitor(notify: (data: RouteDataMsgType) => void) {
     window.addEventListener('hashchange', function (e: HashChangeEvent) {
       const { oldURL: from, newURL: to } = e;
+      if (from === to) {
+        return;
+      }
       notify({
         from,
         to

@@ -1,3 +1,3 @@
-# `page-crash`
+# @heimdallr-sdk/page-crash-worker
 
-> 页面崩溃的 Web Worker 脚本
+> Web Worker script for page crash

@@ -1,3 +1,3 @@
-# `utils`
+# @heimdallr-sdk/utils
 
 > tools sdk

@@ -1,5 +1,7 @@
 # @heimdallr-sdk/manager
 
-> 监控后台
+> Monitoring Manager
 
-在环境配置文件中修改后端接口地址
+Modify the server url in the environment profile
+
+Direct deployment via `@heimdallr-sdk/cli`

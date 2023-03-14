@@ -1,13 +1,12 @@
 import {
   BasePluginType,
   BrowserBreadcrumbTypes,
-  ConsoleDataMsgType,
-  ConsoleMsgType,
   ConsoleTypes,
   EventTypes,
   ReportDataType
 } from '@heimdallr-sdk/types';
 import { formatDate, generateUUID, replaceOld } from '@heimdallr-sdk/utils';
+import { ConsoleDataMsgType, ConsoleMsgType } from './types';
 
 const consolePlugin: BasePluginType = {
   name: 'consolePlugin',

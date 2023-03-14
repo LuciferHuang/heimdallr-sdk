@@ -1,12 +1,11 @@
 import {
   BasePluginType,
-  NodeErrorTypes,
   EventTypes,
   ReportDataType,
-  UncaughtExceptionDataType,
   ConsoleTypes
 } from '@heimdallr-sdk/types';
 import { generateUUID, formatDate } from '@heimdallr-sdk/utils';
+import { NodeErrorTypes, UncaughtExceptionDataType } from '../types';
 interface CollectedType {
   category: EventTypes;
   data: Error;

@@ -1,4 +1,6 @@
-# `page-crash`
+# @heimdallr-sdk/page-crash
+
+[English](./README_en.md)
 
 > 监听页面崩溃，需配合 `page_crash_worker` 使用
 

@@ -1,6 +1,6 @@
-# `console`
+# @heimdallr-sdk/console
 
-> 捕获 console 的执行并上报
+> Capture console output and report
 
 ## Usage
 

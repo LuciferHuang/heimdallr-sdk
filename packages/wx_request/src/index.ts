@@ -3,7 +3,6 @@ import {
   EventTypes,
   MethodTypes,
   ReportDataType,
-  WxXhrTypes,
   HttpCollectDataType,
   HttpCollectType,
   HttpTypes,
@@ -11,6 +10,7 @@ import {
   BreadcrumbLevel
 } from '@heimdallr-sdk/types';
 import { formatDate, generateUUID, getUrlPath } from '@heimdallr-sdk/utils';
+import { WxXhrTypes } from './types';
 
 const wxRequestPlugin: BasePluginType = {
   name: 'wxRequestPlugin',
@@ -77,7 +77,9 @@ const wxRequestPlugin: BasePluginType = {
             | WechatMiniprogram.DownloadFileSuccessCallback
             | WechatMiniprogram.UploadFileFailCallback = function (res) {
             const eTime = Date.now();
-            httpCollect.response.data = reportResponds ? res.data : {};
+            if (reportResponds) {
+              httpCollect.response.data = res.data;
+            }
             httpCollect.elapsedTime = eTime - sTime;
             httpCollect.response.status = res.statusCode;
             httpCollect.response.msg = res.errMsg;

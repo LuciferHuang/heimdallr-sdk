@@ -1,5 +1,6 @@
-import { BrowserBreadcrumbTypes, BrowserErrorTypes, CrashErrorType, EventTypes, BreadcrumbLevel } from '@heimdallr-sdk/types';
+import { BrowserBreadcrumbTypes, BrowserErrorTypes, EventTypes, BreadcrumbLevel } from '@heimdallr-sdk/types';
 import { formatDate, get } from '@heimdallr-sdk/utils';
+import { CrashErrorType } from './types';
 
 // 运行在 webWorker
 

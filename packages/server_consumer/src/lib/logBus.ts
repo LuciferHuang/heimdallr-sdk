@@ -80,6 +80,7 @@ export async function add(message: string): Promise<InterfaceResponseType<IAnyOb
               language,
               etime: time,
               ltime: '',
+              events: '',
               platform
             }
           ]);
@@ -119,7 +120,7 @@ export async function add(message: string): Promise<InterfaceResponseType<IAnyOb
             response = await sessionModel.modify(
               { id: session_id },
               {
-                events
+                events: JSON.stringify(events)
               }
             );
           }
@@ -130,7 +131,7 @@ export async function add(message: string): Promise<InterfaceResponseType<IAnyOb
       }
       const { status, msg } = response;
       if (!status) {
-        throw new Error(msg);
+        console.error(TAG, msg);
       }
       // 页面生命周期时间不加log
       return successResponse(null, msg);

@@ -1,4 +1,6 @@
-# `vite-plugin-sourcemap-upload`
+# @heimdallr-sdk/vite-plugin-sourcemap-upload
+
+[English](./README_en.md)
 
 > vite 插件，上传 sourcemap 文件
 

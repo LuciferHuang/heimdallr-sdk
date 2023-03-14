@@ -4,14 +4,12 @@ import {
   PageLifeType,
   EventTypes,
   voidFun,
-  WxContextType,
-  WxSettingType,
   WxBreadcrumbTypes,
   PlatformTypes
 } from '@heimdallr-sdk/types';
 import { formatDate, generateUUID, replaceOld } from '@heimdallr-sdk/utils';
 import { Breadcrumb } from '@heimdallr-sdk/core';
-import { WxOptionsType, WxTrackTypes } from './types';
+import { WxContextType, WxOptionsType, WxSettingType, WxTrackTypes } from './types';
 import { getStorageSync } from './utils';
 import errorPlugin from './plugins/onerror';
 

@@ -1,4 +1,4 @@
-# `@heimdallr-sdk/wx`
+# @heimdallr-sdk/wx
 
 > 微信小程序监控基座，内置错误捕获sdk
 

@@ -1,4 +1,6 @@
-# `browser`
+# @heimdallr-sdk/browser
+
+[English](./README_en.md)
 
 > 浏览器监控基座，内置错误捕获sdk
 

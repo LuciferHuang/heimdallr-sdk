@@ -1,4 +1,4 @@
-import { TAG } from '@heimdallr-sdk/types';
+import { IAnyObject, TAG } from '@heimdallr-sdk/types';
 
 /**
  * 判断当前环境是否支持console
@@ -62,4 +62,17 @@ export function getDeepPropByDot(keyPath: string, obj: Object): any {
     result = value;
   }
   return result;
+}
+
+/**
+ * 转换参数
+ * @param data
+ * @return {string}
+ */
+ export function obj2query(data: IAnyObject): string {
+  return Object.keys(data).reduce((pre, cur) => {
+    const val = data[cur];
+    pre += `${pre ? '&' : ''}${cur}=${typeof val === 'object' ? JSON.stringify(val) : val}`;
+    return pre;
+  }, '');
 }

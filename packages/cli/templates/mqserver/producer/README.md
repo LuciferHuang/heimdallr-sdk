@@ -4,7 +4,7 @@
 
 ## Preparation
 
-确保已经安装了 `MySQL` 与 `RabbitMQ`
+确保已经安装了 `RabbitMQ`
 
 ## Usage
 

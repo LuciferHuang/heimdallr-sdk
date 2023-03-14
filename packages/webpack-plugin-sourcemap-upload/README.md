@@ -1,4 +1,6 @@
-# `webpack-plugin-sourcemap-upload`
+# @heimdallr-sdk/webpack-plugin-sourcemap-upload
+
+[English](./README_en.md)
 
 > webpack 插件，上传 sourcemap 文件
 

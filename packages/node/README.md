@@ -1,4 +1,6 @@
-# `@heimdallr-sdk/node`
+# @heimdallr-sdk/node
+
+[English](./README_en.md)
 
 > NodeJs监控基座，内置错误捕获sdk
 
@@ -41,9 +43,7 @@
 |url|string|请求地址|
 |params|Object|上报参数|
 
-<font color=red>返回一个 Promise 实例</font>
-
-for example:
+<font color=red>sendFunc 将会返回一个 Promise 实例</font>
 
 ```js
 const heimdallerOptions = {

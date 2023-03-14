@@ -1,4 +1,4 @@
-# `heimdallr-sdk`
+# heimdallr-sdk
 
 ## Env
 
@@ -7,28 +7,28 @@
 
 ## Preparation
 
-确保已经安装了 `MySQL` 与 `RabbitMQ`
+Make sure `MySQL` and `RabbitMQ` are installed
 
 ## Dev
 
-安装依赖
+Installation Dependency
 
 ```bash
 yarn
 ```
 
-需要本地存在 mysql 数据库服务
+Ensure that the local MySQL database service is started
 
 - host: localhost
 - port: 3306
 
-初始化数据库，将自动创建 `test_base` 数据库用于调试
+Initialize the database and automatically create a database named `test_base` database for debugging
 
 ```bash
 yarn prisma
 ```
 
-启动本地服务
+Start Local Service
 
 ```bash
 yarn dev
@@ -36,25 +36,25 @@ yarn dev
 
 ## Build
 
-安装依赖
+Installation Dependency
 
 ```bash
 yarn
 ```
 
-构建单个包
+Build a single package
 
 ```bash
 yarn workspace [packageName] build
 ```
 
-如：构建 browser 包
+For example, build a browser package
 
 ```bash
 yarn workspace @heimdallr-sdk/browser build
 ```
 
-构建所有包
+Build all packages
 
 ```bash
 yarn build

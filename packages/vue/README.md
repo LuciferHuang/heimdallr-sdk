@@ -1,4 +1,6 @@
-# `vue`
+# @heimdallr-sdk/vue
+
+[English](./README_en.md)
 
 > 捕获 vue 框架抛出的错误
 

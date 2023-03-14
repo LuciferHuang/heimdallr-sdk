@@ -3,13 +3,12 @@ import {
   BrowserBreadcrumbTypes,
   CustomerOptionType,
   EventTypes,
-  LifecycleDataType,
-  LifeCycleMsgType,
   PageLifeType,
   ReportDataType,
   StoreType
 } from '@heimdallr-sdk/types';
 import { formatDate, generateUUID, getCookie, getStore, getDeepPropByDot } from '@heimdallr-sdk/utils';
+import { LifecycleDataType, LifeCycleMsgType } from '../types';
 
 function getStoreUserId(userIdentify: CustomerOptionType) {
   const { name = '', postion = '' } = userIdentify;
@@ -32,8 +31,8 @@ const LifeCyclePlugin: BasePluginType = {
   monitor(notify: (data: LifecycleDataType) => void) {
     const { userIdentify = {} } = this.getOptions();
     const { name: userPath, postion: userPosi } = userIdentify;
+    this.sessionID = generateUUID();
     window.addEventListener('load', () => {
-      this.sessionID = generateUUID();
       const user_id = getStoreUserId(userIdentify) || '';
       if (userPath && userPosi && !user_id) {
         this.log(`${userPath} does not exist on ${userPosi}`);

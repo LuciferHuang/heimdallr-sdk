@@ -1,5 +1,6 @@
 import { generateUUID, formatDate, replaceOld } from '@heimdallr-sdk/utils';
-import { BasePluginType, EventTypes, ConsoleTypes, ReportDataType, voidFun, WxErrorTypes, WxErrorMsgType, WxErrorDataType, WxBreadcrumbTypes, BreadcrumbLevel } from '@heimdallr-sdk/types';
+import { BasePluginType, EventTypes, ConsoleTypes, ReportDataType, voidFun, WxBreadcrumbTypes, BreadcrumbLevel } from '@heimdallr-sdk/types';
+import { WxErrorDataType, WxErrorMsgType, WxErrorTypes } from '../types';
 
 const errorPlugin: BasePluginType = {
   name: 'errorPlugin',

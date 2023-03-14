@@ -15,7 +15,7 @@ import { formatDate, generateUUID, getUrlPath, replaceOld } from '@heimdallr-sdk
 const fetchPlugin: BasePluginType = {
   name: 'fetchPlugin',
   monitor(notify: (data: HttpCollectDataType) => void) {
-    const { ignoreUrls = [] } = this.getOptions();
+    const { ignoreUrls = [], reportResponds = false  } = this.getOptions();
     const { initUrl, uploadUrl } = this.context;
     const ignore = [...ignoreUrls, uploadUrl, initUrl].map((url) => getUrlPath(url));
     replaceOld(window, HttpTypes.FETCH, (originalFetch: voidFun) => {
@@ -48,7 +48,9 @@ const fetchPlugin: BasePluginType = {
             httpCollect.response.status = resClone.status;
             resClone.text().then((data) => {
               if (isBlock) return;
-              httpCollect.response.data = data;
+              if (reportResponds) {
+                httpCollect.response.data = data;
+              }
               notify(httpCollect);
             });
             return res;

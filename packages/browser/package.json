@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/browser",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "A SDK For Monitoring Browser Errors",
   "license": "MIT",
   "author": "LuciferHuang",
@@ -35,8 +35,8 @@
     "build:esm": "rimraf esm && tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@heimdallr-sdk/core": "^0.0.19",
-    "@heimdallr-sdk/types": "^0.0.12",
-    "@heimdallr-sdk/utils": "^0.0.15"
+    "@heimdallr-sdk/core": "^0.0.20",
+    "@heimdallr-sdk/types": "^0.0.13",
+    "@heimdallr-sdk/utils": "^0.0.16"
   }
 }

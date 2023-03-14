@@ -34,14 +34,6 @@ export interface ReportDataMsgType {
   sub_type: BrowserSubTypes | string;
 }
 
-export interface CoreContextType {
-  app: AppInfoType;
-  uploadUrl: string;
-  initUrl: string;
-  debug: boolean;
-  enabled: boolean;
-}
-
 export interface ClientInfoType {
   platform: PlatformTypes;
   app_id?: string;

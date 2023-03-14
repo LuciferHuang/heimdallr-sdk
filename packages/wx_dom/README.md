@@ -1,4 +1,4 @@
-# `@heimdallr-sdk/wx-dom`
+# @heimdallr-sdk/wx-dom
 
 > 捕获小程序的点击事件并上报
 

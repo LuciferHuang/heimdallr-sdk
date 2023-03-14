@@ -1,12 +1,7 @@
 import { Core } from '@heimdallr-sdk/core';
-import {
-  IAnyObject,
-  BrowserOptionsType,
-  BrowserReportType,
-  BrowserReportPayloadDataType,
-  PlatformTypes
-} from '@heimdallr-sdk/types';
-import { beacon, formatDate, generateUUID, get, imgRequest } from '@heimdallr-sdk/utils';
+import { IAnyObject, PlatformTypes } from '@heimdallr-sdk/types';
+import { formatDate, generateUUID, beacon, get, imgRequest } from '@heimdallr-sdk/utils';
+import { BrowserOptionsType, BrowserReportPayloadDataType, BrowserReportType } from './types';
 import { nextTick } from './lib/nextTick';
 // 面包屑
 import { Breadcrumb } from '@heimdallr-sdk/core';
@@ -83,3 +78,5 @@ const init = (options: BrowserOptionsType) => {
 };
 
 export default init;
+
+export * from './types';

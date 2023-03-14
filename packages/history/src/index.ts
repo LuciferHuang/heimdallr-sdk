@@ -50,6 +50,9 @@ const historyPlugin: BasePluginType = {
     const id = generateUUID();
     // 添加用户行为栈
     const { from, to } = collectedData;
+    if (from === to) {
+      return;
+    }
     this.breadcrumb.unshift({
       eventId: id,
       type: BrowserBreadcrumbTypes.ROUTE,

@@ -1,6 +1,6 @@
-# `@heimdallr-sdk/wx-dom`
+# @heimdallr-sdk/wx-request
 
-> 捕获小程序的点击事件并上报
+> 监听小程序发起的请求，包括 request、downloadFile、uploadFile
 
 ## Options
 
@@ -13,7 +13,7 @@
 
 ```js
 import heimdallr from "@heimdallr-sdk/wx";
-import heimdallrWxDom from "@heimdallr-sdk/wx-dom";
+import heimdallrWxRequest from "@heimdallr-sdk/wx-request";
 const heimdallrInstance = heimdallr({
     dsn: {
         host: 'http://localhost:8888',
@@ -25,6 +25,6 @@ const heimdallrInstance = heimdallr({
         leader: 'test',
         desc: 'test wx proj'
     },
-    plugins: [heimdallrWxDom]
+    plugins: [heimdallrWxRequest]
 });
 ```

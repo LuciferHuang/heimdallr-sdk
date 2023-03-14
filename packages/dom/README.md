@@ -1,4 +1,6 @@
-# `dom`
+# @heimdallr-sdk/dom
+
+[English](./README_en.md)
 
 > 捕获 dom 元素点击事件并上报
 

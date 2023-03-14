@@ -1,6 +1,8 @@
-# `performance`
+# @heimdallr-sdk/performance
 
-> 性能监控sdk
+[English](./README_en.md)
+
+> 浏览器性能监控sdk
 
 可监控以下指标
 

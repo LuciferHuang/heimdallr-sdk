@@ -1,3 +1,3 @@
-# `core`
+# @heimdallr-sdk/core
 
-> sdk 核心包，对外暴露 Core 类，sdk内部使用，不建议也不需要引入到你的项目中
+> The SDK core package, exposes the Core class to the outside world, uses it internally, and is not recommended or required to be introduced into your project

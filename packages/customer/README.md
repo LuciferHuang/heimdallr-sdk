@@ -1,4 +1,6 @@
-# `customer`
+# @heimdallr-sdk/customer
+
+[English](./README_en.md)
 
 > 捕获用户信息、业务信息
 

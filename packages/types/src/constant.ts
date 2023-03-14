@@ -31,15 +31,6 @@ export enum BrowserErrorTypes {
   PAGECRASH = 'pageCrash'
 }
 
-export enum NodeErrorTypes {
-  UNCAUGHTEXCEPTION = 'uncaughtException',
-  UNHANDLEDREJECTION = 'unhandledrejection'
-}
-
-export enum WxErrorTypes {
-  UNCAUGHTEXCEPTION = 'uncaughtException'
-}
-
 export enum DomTypes {
   CLICK = 'click'
 }
@@ -85,12 +76,6 @@ export enum StoreType {
   GLOBAL = 'global'
 }
 
-export enum BrowserReportType {
-  BEACON = 'beacon',
-  IMG = 'img',
-  GET = 'get'
-}
-
 export enum PageLifeType {
   LOAD = 'enter',
   UNLOAD = 'leave'
@@ -101,18 +86,10 @@ export enum DeviceType {
   PC = 'pc'
 }
 
-export enum VueTypes {
-  ERROR = 'error'
-}
-
 export enum PlatformTypes {
   BROWSER = 'browser',
   NODE = 'nodejs',
   WECHAT = 'wechat'
-}
-
-export enum RecordTypes {
-  SESSION = 'session'
 }
 
 export enum BrowserBreadcrumbTypes {
@@ -137,20 +114,4 @@ export enum WxBreadcrumbTypes {
   ERROR = 'Error',
   LIFECYCLE = 'LifeCycle',
   CUSTOMER = 'Customer'
-}
-
-export enum WxRouteEvents {
-  SWITCHTAB = 'switchTab',
-  RELAUNCH = 'reLaunch',
-  REDIRECTTO = 'redirectTo',
-  NAVIGATETO = 'navigateTo',
-  NAVIGATEBACK = 'navigateBack',
-  NAVIGATETOMINIPROGRAM = 'navigateToMiniProgram',
-  ROUTEFAIL = 'routeFail'
-}
-
-export enum WxXhrTypes {
-  REQUEST = 'request',
-  DOWNLOADFILE = 'downloadFile',
-  UPLOADFILE = 'uploadFile'
 }
