@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: '/',
+  base: 'heimdallr-sdk/',
   title: "HEIMDALLR-SDK",
   description: "A official document site of heimdallr-sdk",
   themeConfig: {
