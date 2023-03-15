@@ -4,37 +4,35 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 defaults:
   run:
     working-directory: docs
 
 jobs:
-  deploy_job:
+  deploy:
     runs-on: ubuntu-latest #运行环境
-    strategy:
-      matrix:
-        node-version: [18.12.1]
-
     name: Build
     steps:
       # check out the repository
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-
       - name: Install Dependencies
-        run: |
-          npm install yarn -g
-          yarn
+        run: npm install
 
       - name: Build
-        run: yarn build
+        run: npm run build
 
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          folder: docs/.vitepress/dist
+          path: '.vitepress/dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
