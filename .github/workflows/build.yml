@@ -1,5 +1,7 @@
 name: HEIMDALLR DOC
 
+on: workflow_dispatch
+
 permissions:
   contents: read
   pages: write
