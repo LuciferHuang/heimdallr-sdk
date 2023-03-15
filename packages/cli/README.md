@@ -1,6 +1,6 @@
 # @heimdallr-sdk/cli
 
-A Cli For @heimdallr-sdk/manager and  @heimdallr-sdk/server
+A Cli For @heimdallr-sdk/manager,@heimdallr-sdk/server,@heimdallr-sdk/server-consumer,@heimdallr-sdk/server-producer
 
 ## Get Started
 
@@ -21,8 +21,6 @@ heimdallr-create
 ### client
 
 A manager for @heimdallr-sdk
-
-![preview.png](https://s1.ax1x.com/2022/11/25/zYWuo4.png)
 
 ### server
 

@@ -1,4 +1,4 @@
-export const BASE_QS = [
+exports.BASE_QS = [
   {
     type: 'input',
     name: 'version',
@@ -19,16 +19,16 @@ export const BASE_QS = [
   }
 ];
 
-export const CLIENT_QS = [
+exports.CLIENT_QS = [
   {
     type: 'input',
     name: 'client_api',
     message: 'API base url ?',
-    default: ''
+    default: 'localhost:8001'
   }
 ];
 
-export const SERVER_QS = [
+exports.SERVER_QS = [
   {
     type: 'input',
     name: 'database',
@@ -61,11 +61,11 @@ export const SERVER_QS = [
   }
 ];
 
-export const RABBIT_QS = [
+exports.RABBIT_QS = [
   {
     type: 'input',
     name: 'rabbit_host',
     message: 'RabbitMQ host ?',
     default: 'localhost'
-  },
+  }
 ];

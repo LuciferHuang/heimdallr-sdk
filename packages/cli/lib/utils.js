@@ -1,19 +1,7 @@
 const { white, green, red } = require('chalk');
 const boxen = require('boxen');
 
-export function successBox(message, title) {
-  return box(message, green(title), green('✔ Success'), {
-    borderColor: 'green'
-  });
-}
-
-export function errorBox(message, title) {
-  return box(message, red(title), red('✖ Error'), {
-    borderColor: 'red'
-  });
-}
-
-export function box(message, title, boxTitle, options) {
+function box(message, title, boxTitle, options) {
   return (
     boxen(
       [boxTitle, title, '', white(message)].join('\n'),
@@ -29,3 +17,21 @@ export function box(message, title, boxTitle, options) {
     ) + '\n'
   );
 }
+
+function successBox(message, title) {
+  return box(message, green(title), green('✔ Success'), {
+    borderColor: 'green'
+  });
+}
+
+function errorBox(message, title) {
+  return box(message, red(title), red('✖ Error'), {
+    borderColor: 'red'
+  });
+}
+
+module.exports = {
+  box,
+  successBox,
+  errorBox
+};

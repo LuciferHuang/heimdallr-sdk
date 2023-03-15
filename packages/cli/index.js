@@ -4,7 +4,7 @@ const { join } = require('path');
 const { prompt } = require('inquirer');
 const { renderFile } = require('ejs');
 const { successBox, errorBox } = require('./lib/utils');
-const { BASE_QS, SERVER_QS, RABBIT_QS } = require('./lib/questions');
+const { BASE_QS, SERVER_QS, RABBIT_QS, CLIENT_QS } = require('./lib/questions');
 
 // main
 
@@ -18,7 +18,7 @@ prompt([
   }
 ]).then(async (templateAnwsers) => {
   const { template } = templateAnwsers;
-  const projName = `heimdallr_${template}`;
+  const projName = `heimdallr_${template === 'server with RabbitMQ' ? 'mqserver' : template}`;
   const anwsers = await prompt([
     {
       type: 'input',
@@ -42,7 +42,7 @@ prompt([
       break;
     case 'server with RabbitMQ':
       templateDir = 'mqserver';
-      mqServerAnswer = await prompt([...SERVER_QS, RABBIT_QS]);
+      mqServerAnswer = await prompt([...SERVER_QS, ...RABBIT_QS]);
       break;
     default:
       break;
@@ -50,7 +50,7 @@ prompt([
 
   let isSuccess = true;
   // 创建项目目录
-  const { name = projName } = { ...anwsers };
+  const { name = projName } = anwsers;
   const projectDir = join(process.cwd(), name);
   mkdir(projectDir);
 
