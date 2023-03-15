@@ -1,0 +1,1 @@
+import{_ as s,c as a,o as n,N as l}from"./chunks/framework.ea74715b.js";const C=JSON.parse('{"title":"@heimdallr-sdk/browser","description":"","frontmatter":{},"headers":[],"relativePath":"usage/browser.md"}'),t={name:"usage/browser.md"},o=l("",18),p=[o];function e(r,c,D,d,y,F){return n(),a("div",null,p)}const A=s(t,[["render",e]]);export{C as __pageData,A as default};

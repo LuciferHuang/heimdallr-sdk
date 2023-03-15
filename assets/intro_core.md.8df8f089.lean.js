@@ -1,0 +1,1 @@
+import{_ as e,c as o,o as a,N as r}from"./chunks/framework.ea74715b.js";const m=JSON.parse('{"title":"核心","description":"","frontmatter":{},"headers":[],"relativePath":"intro/core.md"}'),l={name:"intro/core.md"},i=r("",29),t=[i];function d(n,c,p,s,h,u){return a(),o("div",null,t)}const P=e(l,[["render",d]]);export{m as __pageData,P as default};
