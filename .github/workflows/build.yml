@@ -1,9 +1,5 @@
 name: HEIMDALLR DOC
 
-on:
-  push:
-    branches: [main]
-
 permissions:
   contents: read
   pages: write

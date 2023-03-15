@@ -1,5 +1,9 @@
 # heimdallr-sdk
 
+## Documentation
+
+To check out docs, visit [heimdallr-sdk](https://luciferhuang.github.io/heimdallr-sdk/).
+
 ## Env
 
 - node version: `16+`
