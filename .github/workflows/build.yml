@@ -1,0 +1,39 @@
+name: HEIMDALLR DOC
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy_job:
+    runs-on: ubuntu-latest #运行环境
+    strategy:
+      matrix:
+        node-version: [18.12.1]
+
+    name: Build
+    steps:
+      # check out the repository
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: To Workspace
+        run: cd docs
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Dependencies
+        run: |
+          npm install yarn -g
+          yarn
+
+      - name: Build
+        run: yarn build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: .vitepress/dist

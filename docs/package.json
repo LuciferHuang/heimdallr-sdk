@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview"
+  },
+  "dependencies": {
+    "vitepress": "^1.0.0-alpha.59"
+  }
+}
