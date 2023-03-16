@@ -6,7 +6,7 @@ export default defineConfig({
   title: "HEIMDALLR-SDK",
   description: "A official document site of heimdallr-sdk",
   head:[
-    ['link', { rel: 'icon', href: '/logo.svg' }]
+    ['link', { rel: 'icon', href: '/heimdallr-sdk/logo.svg' }]
   ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
