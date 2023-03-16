@@ -6,11 +6,11 @@ export default defineConfig({
   title: "HEIMDALLR-SDK",
   description: "A official document site of heimdallr-sdk",
   head:[
-    ['link', { rel: 'icon', href: '/logo.png' }]
+    ['link', { rel: 'icon', href: '/logo.svg' }]
   ],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
-    logo: '/logo.png',
+    logo: '/logo.svg',
     nav: [
       { text: 'Home', link: '/' },
       { text: '介绍', link: '/intro/framework' },
