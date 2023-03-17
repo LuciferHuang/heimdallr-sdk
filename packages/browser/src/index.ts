@@ -79,4 +79,3 @@ const init = (options: BrowserOptionsType) => {
 
 export default init;
 
-export * from './types';
