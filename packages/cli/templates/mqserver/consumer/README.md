@@ -1,6 +1,8 @@
-# @heimdallr-sdk/server
+# @heimdallr-sdk/server-consumer
 
-> 监控后台服务
+[English](./README_en.md)
+
+> 监控后台服务，消费端
 
 ## Preparation
 

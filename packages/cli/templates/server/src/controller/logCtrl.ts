@@ -80,7 +80,6 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
     const paramObj = JSON.parse(paramData);
     const { sub_type, user_id = '', events = '' } = paramObj;
     delete paramObj.sub_type;
-
     // session
     if ([EventTypes.LIFECYCLE, EventTypes.RECORD].includes(type)) {
       const { error, ip, region = '' } = ipInfo;

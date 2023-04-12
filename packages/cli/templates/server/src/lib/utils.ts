@@ -47,7 +47,7 @@ export function generateUUID(): string {
  * 查找可用端口
  * @return {number}
  */
-export async function getUseablePort(options = {}): Promise<number> {
+ export async function getUseablePort(options = {}): Promise<number> {
   const localOptions = {
     startPort: 7000,
     stopPort: 9000
