@@ -27,9 +27,9 @@ import 'rrweb-player/dist/style.css';
 import { ArrowLeftBold } from '@element-plus/icons-vue';
 import { ElIcon, ElRow, ElCol, ElTimeline, ElTimelineItem } from 'element-plus';
 import { router } from '@/route/index';
-import { EventTypes } from '@heimdallr-sdk/types';
 import http from '@/helper/http';
 import { useRoute } from 'vue-router';
+import { EventTypes } from './hooks/useListConfig';
 
 export default defineComponent({
   name: 'sessionPlay',

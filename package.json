@@ -9,9 +9,7 @@
   ],
   "scripts": {
     "build": "lerna run --stream --sort build",
-    "dev": "run-p dev:packages playground",
-    "dev:packages": "lerna run --parallel dev",
-    "playground": "cd playground && vite",
+    "dev": "lerna run --parallel dev",
     "prisma": "npx prisma db push --schema ./packages/server/schema.prisma",
     "prepare": "husky install",
     "lint": "eslint packages",

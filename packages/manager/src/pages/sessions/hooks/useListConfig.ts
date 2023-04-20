@@ -1,7 +1,20 @@
 import { FilterItem } from 'components/filterGroup';
 import { OperateBtn } from 'components/tableOprate';
 import { ColumnConfig } from 'components/tableView';
-import { EventTypes } from '@heimdallr-sdk/types';
+
+export enum EventTypes {
+  API = 'api',
+  DOM = 'dom',
+  PERFORMANCE = 'performance',
+  ROUTE = 'route',
+  ERROR = 'error',
+  CONSOLE = 'console',
+  CUSTOMER = 'customer',
+  VUE = 'vue',
+  LIFECYCLE = 'lifeCycle',
+  EXTEND = 'extend',
+  RECORD = 'record'
+}
 
 const filterFormItems: FilterItem[] = [
   {

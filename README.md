@@ -32,6 +32,12 @@ Initialize the database and automatically create a database named `test_base` da
 yarn prisma
 ```
 
+If this is the first run, execute the build script first
+
+```bash
+yarn build
+```
+
 Start Local Service
 
 ```bash
