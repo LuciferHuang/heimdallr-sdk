@@ -15,7 +15,8 @@
     "lint": "eslint packages",
     "lint-staged": "lint-staged",
     "commitlint": "commitlint --config commitlint.config.js -e -V",
-    "publish:lerna": "lerna publish from-package"
+    "publish:lerna": "lerna publish from-package",
+    "release": "standard-version"
   },
   "repository": {
     "type": "git",
@@ -63,6 +64,7 @@
     "rollup-plugin-sizes": "^1.0.4",
     "rollup-plugin-terser": "^7.0.2",
     "source-map": "^0.7.4",
+    "standard-version": "^9.5.0",
     "ts-node": "^10.8.2",
     "tslib": "^2.4.0",
     "typescript": "^4.7.4"
