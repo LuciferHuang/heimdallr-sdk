@@ -1,4 +1,9 @@
-# heimdallr-sdk
+
+<h2 style="color:#10b981">HEIMDALLR-SDK</h2>
+
+一款简单易用、轻量化、插件化的前端监控sdk
+
+An easy-to-use, lightweight, plug-in front-end monitoring SDK
 
 ## Documentation
 
