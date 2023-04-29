@@ -5,7 +5,7 @@ export enum RecordTypes {
 }
 
 export interface RecordDataType {
-  events: any[];
+  events: any[] | string;
 }
 
 export interface RecordMsgType extends ReportDataMsgType, RecordDataType {}

@@ -13,6 +13,7 @@
     <script src="/crash-dist/page_crash.iife.js"></script>
     <script src="/performance-dist/performance.iife.js"></script>
     <script src="/xhr-dist/xhr.iife.js"></script>
+    <script src="/record-dist/record.iife.js"></script>
     <script async src="/browser-dist/browser.iife.js"></script>
     <script>
       window.state = { a: { user: { name: 'test' } } };
@@ -35,7 +36,8 @@
           HEIMDALLR_HISTORY,
           HEIMDALLR_PAGE_CRASH,
           HEIMDALLR_PERFORMANCE,
-          HEIMDALLR_XHR
+          HEIMDALLR_XHR,
+          HEIMDALLR_RECORD
         ],
         userIdentify: {
           name: 'state.a.user.name',

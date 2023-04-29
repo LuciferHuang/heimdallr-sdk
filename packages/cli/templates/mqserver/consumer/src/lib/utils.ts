@@ -16,6 +16,11 @@ export function failResponse(msg: string): InterfaceResponseType<IAnyObject> {
   };
 }
 
+/**
+ * 是否是移动端设备
+ * @param userAgentStr 
+ * @returns 
+ */
 export function isMobileDevice(userAgentStr: string): Boolean {
   const appTypeList = ['iphone', 'android', 'ipad', 'mobi'];
   const userAgent = userAgentStr.toLocaleLowerCase();

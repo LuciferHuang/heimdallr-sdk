@@ -81,6 +81,12 @@ export function replaceOld(source: IAnyObject, name: string, replacement: (...ar
   }
 }
 
+/**
+ * 保留指定位数的小数
+ * @param num 原数据
+ * @param decimal 小数位数
+ * @returns
+ */
 export function formatDecimal(num: number, decimal: number): number {
   if (!num) {
     return num;
@@ -93,4 +99,37 @@ export function formatDecimal(num: number, decimal: number): number {
     str = str.substring(0);
   }
   return parseFloat(str);
+}
+
+/**
+ * 计算字符串大小
+ * @param str
+ * @returns 字节
+ */
+export function countBytes(str: string): number {
+  const encoder = new TextEncoder();
+  return encoder.encode(str).length;
+}
+
+/**
+ * 根据字节大小拆分字符串
+ * @param str 
+ * @param maxBytes 最大字节数
+ * @returns
+ */
+export function splitStringByBytes(str: string, maxBytes: number): Array<string> {
+  const encoder = new TextEncoder();
+  const bytes = encoder.encode(str);
+  const decoder = new TextDecoder();
+  const chunks = [];
+  let start = 0;
+  while (start < bytes.length) {
+    let end = start + maxBytes;
+    while (end > start && (bytes[end] & 0xc0) === 0x80) {
+      end--;
+    }
+    chunks.push(decoder.decode(bytes.subarray(start, end)));
+    start = end;
+  }
+  return chunks;
 }

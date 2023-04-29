@@ -45,13 +45,13 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
     id,
     time,
     type,
-    data: paramData,
+    data: paramData = '{}',
     platform,
     breadcrumb: breadcrumbJson = '[]',
     path = '',
     language = '',
     user_agent = '',
-    page_title = '',
+    page_title = ''
   } = param;
   if (!id || !app_id) {
     res.send(failResponse('missing id or app_id'));
@@ -68,7 +68,7 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
         message: ele.message,
         event_id: ele.eventId,
         time: `${ele.time}`,
-        id: generateUUID(),
+        id: generateUUID()
       }));
       const { status: bcStatus } = await bcModel.add(bcs);
       if (bcStatus) {
@@ -77,7 +77,7 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
     }
 
     // 将入参转为数据库存储结构
-    const paramObj = JSON.parse(paramData);
+    const paramObj = JSON.parse(paramData.replace(/\n/g, '\\n').replace(/\r/g, '\\r'));
     const { sub_type, user_id = '', events = '' } = paramObj;
     delete paramObj.sub_type;
     // session
@@ -139,10 +139,11 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
             if (!targetSession || data.length > 1) {
               throw new Error('session not found');
             }
+            const oriEvents = JSON.parse(targetSession.events || '[]') || [];
             response = await sessionModel.modify(
               { id: session_id },
               {
-                events: JSON.stringify(events)
+                events: JSON.stringify(oriEvents.concat(events))
               }
             );
           }

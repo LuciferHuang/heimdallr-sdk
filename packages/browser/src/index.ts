@@ -1,10 +1,8 @@
-import { Core } from '@heimdallr-sdk/core';
-import { IAnyObject, PlatformTypes } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, beacon, get, imgRequest } from '@heimdallr-sdk/utils';
-import { BrowserOptionsType, BrowserReportPayloadDataType, BrowserReportType } from './types';
+import { Core, Breadcrumb } from '@heimdallr-sdk/core';
+import { IAnyObject, PlatformTypes, BrowserReportType } from '@heimdallr-sdk/types';
+import { formatDate, generateUUID, beacon, get, imgRequest, post } from '@heimdallr-sdk/utils';
+import { BrowserOptionsType, BrowserReportPayloadDataType } from './types';
 import { nextTick } from './lib/nextTick';
-// 面包屑
-import { Breadcrumb } from '@heimdallr-sdk/core';
 // 基础插件
 import jsErrorPlugin from './plugins/jsError';
 import promiseErrorPlugin from './plugins/promiseError';
@@ -45,6 +43,10 @@ class BrowserClient extends Core<BrowserOptionsType> {
       imgRequest(url, data);
       return;
     }
+    if (type === BrowserReportType.POST) {
+      post(url, data);
+      return;
+    }
     return get(url, data);
   }
 
@@ -78,4 +80,3 @@ const init = (options: BrowserOptionsType) => {
 };
 
 export default init;
-

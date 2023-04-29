@@ -69,7 +69,7 @@ export function getDeepPropByDot(keyPath: string, obj: Object): any {
  * @param data
  * @return {string}
  */
- export function obj2query(data: IAnyObject): string {
+export function obj2query(data: IAnyObject): string {
   return Object.keys(data).reduce((pre, cur) => {
     const val = data[cur];
     pre += `${pre ? '&' : ''}${cur}=${typeof val === 'object' ? JSON.stringify(val) : val}`;

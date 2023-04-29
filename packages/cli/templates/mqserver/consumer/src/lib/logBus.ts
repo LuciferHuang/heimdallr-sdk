@@ -23,7 +23,7 @@ export async function add(message: string): Promise<InterfaceResponseType<IAnyOb
       id,
       time,
       type,
-      data: paramData,
+      data: paramData = '{}',
       platform,
       breadcrumb: breadcrumbJson = '[]',
       path = '',
@@ -54,7 +54,7 @@ export async function add(message: string): Promise<InterfaceResponseType<IAnyOb
     }
 
     // 将入参转为数据库存储结构
-    const paramObj = JSON.parse(paramData);
+    const paramObj = JSON.parse(paramData.replace(/\n/g, '\\n').replace(/\r/g, '\\r'));
     const { sub_type, user_id = '', events = '' } = paramObj;
     delete paramObj.sub_type;
 
@@ -117,10 +117,11 @@ export async function add(message: string): Promise<InterfaceResponseType<IAnyOb
             if (!targetSession || data.length > 1) {
               throw new Error('session not found');
             }
+            const oriEvents = JSON.parse(targetSession.events || '[]') || [];
             response = await sessionModel.modify(
               { id: session_id },
               {
-                events: JSON.stringify(events)
+                events: JSON.stringify(oriEvents.concat(events))
               }
             );
           }

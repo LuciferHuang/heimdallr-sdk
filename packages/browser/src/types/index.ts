@@ -71,9 +71,3 @@ export enum PerformanceFeat {
   FPS = 'fps',
   VITALS = 'vitals'
 }
-
-export enum BrowserReportType {
-  BEACON = 'beacon',
-  IMG = 'img',
-  GET = 'get'
-}

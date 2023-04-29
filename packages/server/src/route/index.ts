@@ -47,6 +47,7 @@ router.use('/crash-dist', express.static(resolveDirname('../../../page_crash/dis
 router.use('/crash-worker', express.static(resolveDirname('../../../page_crash_worker/dist')));
 router.use('/performance-dist', express.static(resolveDirname('../../../performance/dist')));
 router.use('/xhr-dist', express.static(resolveDirname('../../../xhr/dist')));
+router.use('/record-dist', express.static(resolveDirname('../../../record/dist')));
 
 // views
 router.use('/', express.static(resolveDirname('../views')));

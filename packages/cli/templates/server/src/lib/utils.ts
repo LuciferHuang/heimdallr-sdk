@@ -16,6 +16,11 @@ export function failResponse(msg: string): InterfaceResponseType<IAnyObject> {
   };
 }
 
+/**
+ * 是否是移动端设备
+ * @param userAgentStr 
+ * @returns 
+ */
 export function isMobileDevice(userAgentStr: string): Boolean {
   const appTypeList = ['iphone', 'android', 'ipad', 'mobi'];
   const userAgent = userAgentStr.toLocaleLowerCase();
@@ -47,7 +52,7 @@ export function generateUUID(): string {
  * 查找可用端口
  * @return {number}
  */
- export async function getUseablePort(options = {}): Promise<number> {
+export async function getUseablePort(options = {}): Promise<number> {
   const localOptions = {
     startPort: 7000,
     stopPort: 9000

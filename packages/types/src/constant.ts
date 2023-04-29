@@ -31,6 +31,13 @@ export enum BrowserErrorTypes {
   PAGECRASH = 'pageCrash'
 }
 
+export enum BrowserReportType {
+  BEACON = 'beacon',
+  IMG = 'img',
+  GET = 'get',
+  POST = 'post'
+}
+
 export enum DomTypes {
   CLICK = 'click'
 }

@@ -1,5 +1,5 @@
-import { IAnyObject, MethodTypes } from "@heimdallr-sdk/types";
-import { obj2query } from "./base";
+import { IAnyObject, MethodTypes } from '@heimdallr-sdk/types';
+import { obj2query } from './base';
 
 /**
  * sendBeacon上传
@@ -46,13 +46,14 @@ export function post(url: string, data: IAnyObject): Promise<any> {
  * @param {string} data - 请求参数
  * @return {Promise}
  */
-export function xhr(method: MethodTypes, url: string, data: string): Promise<any> {
+export function xhr(method: MethodTypes, url: string, data: string | FormData): Promise<any> {
   return new Promise((rs, rj) => {
     try {
       const xhr = new XMLHttpRequest();
       xhr.open(method, url);
       xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
       if (method === MethodTypes.POST) {
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.send(data);
       } else {
         xhr.send();
