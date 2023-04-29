@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.13](https://github.com/LuciferHuang/heimdallr-sdk/compare/v0.0.12...v0.0.13) (2023-04-29)
+
+
+### Bug Fixes
+
+* [@heimdallr-sdk/record] request cancelled due to excessive data ([9a5f9e1](https://github.com/LuciferHuang/heimdallr-sdk/commit/9a5f9e129569b2fe937a32c4f631d9c3f30fe0ca))
+
 ### 0.0.12 (2023-04-20)
 
 
