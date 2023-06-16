@@ -1,5 +1,5 @@
 import { setUrlQuery } from '@heimdallr-sdk/utils';
-import { IAnyObject } from 'packages/types/esm';
+import { IAnyObject } from '@heimdallr-sdk/types';
 
 export interface PageRoute {
   route: string;
