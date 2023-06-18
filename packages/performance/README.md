@@ -36,9 +36,9 @@
 
 ## Options
 
-|配置名称|类型|描述|默认值|可选值|
+|配置名称|类型|是否必填|描述|默认值|可选值|
 |-|-|-|-|-|
-|performancOff|Array|关闭 performance 个别功能|[]|basic/fmp/fps/vitals/resource|
+|performancOff|Array|否|关闭 performance 个别功能|[]|basic/fmp/fps/vitals/resource|
 
 ## Usage
 
@@ -59,7 +59,7 @@
             desc: 'test proj'
         },
         plugins: [
-            HEIMDALLR_PERFORMANCE,
+            HEIMDALLR_PERFORMANCE(),
         ]
     };
 </script>
@@ -83,7 +83,7 @@ heimdallr({
         desc: 'test proj'
     },
     plugins: [
-        performancePlugin,
+        performancePlugin(),
     ]
 });
 ```

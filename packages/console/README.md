@@ -21,7 +21,7 @@
             desc: 'test proj'
         },
         plugins: [
-            HEIMDALLR_CONSOLE,
+            HEIMDALLR_CONSOLE(),
         ]
     };
 </script>
@@ -45,7 +45,7 @@ heimdallr({
         desc: 'test proj'
     },
     plugins: [
-        consolePlugin,
+        consolePlugin(),
     ]
 });
 ```

@@ -52,12 +52,13 @@ window.HEIMDALLR_REPORT(customerType, data);
             desc: 'test proj'
         },
         plugins: [
-            HEIMDALLR_CUSTOMER,
+            HEIMDALLR_CUSTOMER({
+                customers: [{
+                    name:'state.userid',
+                    postion:'local'
+                }]
+            }),
         ],
-        customers: [{
-            name:'state.userid',
-            postion:'local'
-        }]
     };
 </script>
 <script async src="/browser-dist/browser.iife.js"></script>
@@ -80,11 +81,12 @@ heimdallr({
         desc: 'test proj'
     },
     plugins: [
-        customerPlugin,
+        customerPlugin({
+            customers: [{
+                name:'userid',
+                postion:'local'
+            }]
+        }),
     ],
-    customers: [{
-        name:'userid',
-        postion:'local'
-    }]
 });
 ```

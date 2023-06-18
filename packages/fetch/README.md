@@ -6,10 +6,10 @@
 
 ## Options
 
-|配置名称|类型|描述|默认值|
+|配置名称|类型|是否必填|描述|默认值|
 |-|-|-|-|
-|ignoreUrls|Array|过滤请求url|-|
-|reportResponds|Boolean|是否上报接口返回值|false|
+|ignoreUrls|Array|否|过滤请求url|-|
+|reportResponds|Boolean|否|是否上报接口返回值|false|
 
 ## Usage
 
@@ -30,7 +30,7 @@
             desc: 'test proj'
         },
         plugins: [
-            HEIMDALLR_FETCH,
+            HEIMDALLR_FETCH(),
         ]
     };
 </script>
@@ -54,7 +54,7 @@ heimdallr({
         desc: 'test proj'
     },
     plugins: [
-        fetchPlugin,
+        fetchPlugin(),
     ]
 });
 ```

@@ -8,7 +8,7 @@ import {
   StoreType
 } from '@heimdallr-sdk/types';
 import { formatDate, generateUUID, getCookie, getStore, getDeepPropByDot } from '@heimdallr-sdk/utils';
-import { LifecycleDataType, LifeCycleMsgType } from '../types';
+import { LifecycleDataType, LifeCycleMsgType, LifecycleOptions } from '../types';
 
 function getStoreUserId(userIdentify: CustomerOptionType) {
   const { name = '', postion = '' } = userIdentify;
@@ -26,70 +26,72 @@ function getStoreUserId(userIdentify: CustomerOptionType) {
   return '';
 }
 
-const LifeCyclePlugin: BasePluginType = {
-  name: 'lifeCyclePlugin',
-  monitor(notify: (data: LifecycleDataType) => void) {
-    const { userIdentify = {} } = this.getOptions();
-    const { name: userPath, postion: userPosi } = userIdentify;
-    this.sessionID = generateUUID();
-    window.addEventListener('load', () => {
-      const user_id = getStoreUserId(userIdentify) || '';
-      if (userPath && userPosi && !user_id) {
-        this.log(`${userPath} does not exist on ${userPosi}`);
-      }
-      notify({
-        type: PageLifeType.LOAD,
-        session_id: this.sessionID,
-        user_id,
-        href: location.href
+function lifeCyclePlugin(options: LifecycleOptions = {}): BasePluginType {
+  return {
+    name: 'lifeCyclePlugin',
+    monitor(notify: (data: LifecycleDataType) => void) {
+      const { userIdentify } = options;
+      const { name: userPath, postion: userPosi } = userIdentify || {};
+      this.sessionID = generateUUID();
+      window.addEventListener('load', () => {
+        const user_id = getStoreUserId(userIdentify) || '';
+        if (userPath && userPosi && !user_id) {
+          this.log(`${userPath} does not exist on ${userPosi}`);
+        }
+        notify({
+          type: PageLifeType.LOAD,
+          session_id: this.sessionID,
+          user_id,
+          href: location.href
+        });
       });
-    });
-    window.addEventListener('unload', () => {
-      const user_id = getStoreUserId(userIdentify) || '';
-      if (userPath && userPosi && !user_id) {
-        this.log(`${userPath} does not exist on ${userPosi}`);
-      }
-      notify({
-        type: PageLifeType.UNLOAD,
-        session_id: this.sessionID,
-        user_id,
-        href: location.href
+      window.addEventListener('unload', () => {
+        const user_id = getStoreUserId(userIdentify) || '';
+        if (userPath && userPosi && !user_id) {
+          this.log(`${userPath} does not exist on ${userPosi}`);
+        }
+        notify({
+          type: PageLifeType.UNLOAD,
+          session_id: this.sessionID,
+          user_id,
+          href: location.href
+        });
       });
-    });
-  },
-  transform(collectedData: LifecycleDataType): ReportDataType<LifeCycleMsgType> {
-    const id = generateUUID();
-    // 添加用户行为栈
-    const { type, href } = collectedData;
-    let action = '';
-    switch (type) {
-      case PageLifeType.LOAD:
-        action = 'Enter';
-        break;
-      case PageLifeType.UNLOAD:
-        action = 'Leave';
-        break;
-      default:
-        break;
+    },
+    transform(collectedData: LifecycleDataType): ReportDataType<LifeCycleMsgType> {
+      const id = generateUUID();
+      // 添加用户行为栈
+      const { type, href } = collectedData;
+      let action = '';
+      switch (type) {
+        case PageLifeType.LOAD:
+          action = 'Enter';
+          break;
+        case PageLifeType.UNLOAD:
+          action = 'Leave';
+          break;
+        default:
+          break;
+      }
+      this.breadcrumb.unshift({
+        eventId: id,
+        type: BrowserBreadcrumbTypes.LIFECYCLE,
+        message: `${action || type} "${href}"`
+      });
+      // 上报数据
+      const subType = type;
+      delete collectedData.type;
+      return {
+        id,
+        time: formatDate(),
+        type: EventTypes.LIFECYCLE,
+        data: {
+          sub_type: subType,
+          ...collectedData
+        }
+      };
     }
-    this.breadcrumb.unshift({
-      eventId: id,
-      type: BrowserBreadcrumbTypes.LIFECYCLE,
-      message: `${action || type} "${href}"`
-    });
-    // 上报数据
-    const subType = type;
-    delete collectedData.type;
-    return {
-      id,
-      time: formatDate(),
-      type: EventTypes.LIFECYCLE,
-      data: {
-        sub_type: subType,
-        ...collectedData
-      }
-    };
-  }
-};
+  };
+}
 
-export default LifeCyclePlugin;
+export default lifeCyclePlugin;

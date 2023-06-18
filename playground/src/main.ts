@@ -9,7 +9,7 @@ import domPlugin from '../../packages/dom/esm'
 import xhrPlugin from '../../packages/xhr/esm'
 import hashPlugin from '../../packages/hash/esm'
 import historyPlugin from '../../packages/history/esm'
-import recordPlugin from '../../packages/record/esm';
+import recordPlugin from '../../packages/record/esm'
 
 import './assets/main.css'
 
@@ -32,6 +32,14 @@ heimdallr({
     leader: 'LuciferHuang',
     desc: 'playground vue3 project'
   },
-  plugins: [vuePlugin, domPlugin, xhrPlugin, hashPlugin, historyPlugin, recordPlugin],
-  vue: app
+  plugins: [
+    vuePlugin({
+      vue: app
+    }),
+    domPlugin(),
+    xhrPlugin(),
+    hashPlugin(),
+    historyPlugin(),
+    recordPlugin()
+  ]
 })

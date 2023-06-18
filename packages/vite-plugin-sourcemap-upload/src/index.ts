@@ -5,7 +5,7 @@ import { SourcemapOptionType, ResponseType } from '@heimdallr-sdk/types';
 
 const TAG = '[vite-plugin-sourcemap-upload]: ';
 
-export default function myPlugin(pluginOptions: SourcemapOptionType) {
+export default function vitePluginSourcemapUpload(pluginOptions: SourcemapOptionType) {
   let sourcemapFiles = [];
   let outDir = '';
 

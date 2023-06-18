@@ -46,7 +46,7 @@ export function post(url: string, data: IAnyObject): Promise<any> {
  * @param {string} data - 请求参数
  * @return {Promise}
  */
-export function xhr(method: MethodTypes, url: string, data: string | FormData): Promise<any> {
+export function xhr(method: MethodTypes, url: string, data: any): Promise<any> {
   return new Promise((rs, rj) => {
     try {
       const xhr = new XMLHttpRequest();

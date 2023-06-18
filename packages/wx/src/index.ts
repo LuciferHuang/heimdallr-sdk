@@ -64,7 +64,7 @@ class WxClient extends Core<WxOptionsType> {
   }
 
   report(url: string, data: IAnyObject): Promise<WechatMiniprogram.GeneralCallbackResult> {
-    const { reqOption = {}, reportResponds = false } = this.getOptions();
+    const { reqOption = {} } = this.getClientOptions();
     return new Promise((rs, rj) => {
       wx.request({
         success: (result) => {
@@ -72,7 +72,7 @@ class WxClient extends Core<WxOptionsType> {
         },
         fail: (res) => rj(res),
         url,
-        method: reportResponds ? 'POST' : 'GET',
+        method: 'POST',
         ...reqOption,
         data,
         dataType: 'json'
@@ -119,7 +119,7 @@ class WxClient extends Core<WxOptionsType> {
 
   cusOnShow(oriOnShow: (query: Record<string, string>) => void | Promise<void>) {
     return (original: (e: any) => void): ((e: any) => void) => {
-      const { userStoreKey } = this.getOptions();
+      const { userStoreKey } = this.getClientOptions();
       // eslint-disable-next-line @typescript-eslint/no-this-alias
       const client = this;
       return function (e) {
@@ -185,7 +185,7 @@ class WxClient extends Core<WxOptionsType> {
 const init = (options: WxOptionsType) => {
   const client = new WxClient(options);
   const { plugins = [] } = options;
-  client.use([errorPlugin, ...plugins]);
+  client.use([errorPlugin(), ...plugins]);
   return {
     // 代替 Page 函数
     heimdallrPage: (
@@ -198,7 +198,7 @@ const init = (options: WxOptionsType) => {
     },
     // 手动在页面 onShow/onHide 添加埋点
     track: (type: WxTrackTypes, path: string) => {
-      const { userStoreKey } = client.getOptions();
+      const { userStoreKey } = client.getClientOptions();
       const id = generateUUID();
       switch (type) {
         case 'show':

@@ -6,9 +6,9 @@
 
 ## Options
 
-|配置名称|类型|描述|默认值|
+|配置名称|类型|是否必填|描述|默认值|
 |-|-|-|-|
-|pageCrashWorkerUrl|String|Web Worker脚本文件地址（pageCrash）|-|
+|pageCrashWorkerUrl|String|是|Web Worker脚本文件地址（pageCrash）|-|
 
 ## Usage
 
@@ -29,9 +29,10 @@
             desc: 'test proj'
         },
         plugins: [
-            HEIMDALLR_PAGE_CRASH,
+            HEIMDALLR_PAGE_CRASH({
+                pageCrashWorkerUrl: '[crash-worker-dist]/page_crash_worker.iife.js'
+            }),
         ],
-        pageCrashWorkerUrl: '[crash-worker-dist]/page_crash_worker.iife.js'
     };
 </script>
 <script async src="/browser-dist/browser.iife.js"></script>
@@ -54,8 +55,9 @@ heimdallr({
         desc: 'test proj'
     },
     plugins: [
-        page_crashPlugin,
+        page_crashPlugin({
+            pageCrashWorkerUrl: '[crash-worker-dist]/page_crash_worker.iife.js'
+        }),
     ],
-    pageCrashWorkerUrl: '[crash-worker-dist]/page_crash_worker.iife.js'
 });
 ```

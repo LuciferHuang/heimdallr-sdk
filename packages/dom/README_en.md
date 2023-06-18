@@ -4,9 +4,9 @@
 
 ## Options
 
-|Name|Type|Describe|Default|
+|Name|Type|Required|Describe|Default|
 |-|-|-|-|
-|throttleDelayTime|Number|Throttling threshold (ms)|300|
+|throttleDelayTime|Number|No|Throttling threshold (ms)|300|
 
 ## Usage
 
@@ -27,7 +27,9 @@
             desc: 'test proj'
         },
         plugins: [
-            HEIMDALLR_DOM,
+            HEIMDALLR_DOM({
+                throttleDelayTime: 300 // 非必填
+            }),
         ],
         debug: true
     };
@@ -52,7 +54,7 @@ heimdallr({
         desc: 'test proj'
     },
     plugins: [
-        domPlugin,
+        domPlugin(),
     ]
 });
 ```

@@ -1,9 +1,6 @@
 import { AppInfoType, Dsn } from './base';
-import { IAnyObject } from './common';
 import { StoreTypes } from './constant';
 import { BasePluginType } from './plugin';
-import { InterfaceResponseType } from './server';
-import { VueInstance } from './vue';
 
 export interface BaseOptionsType {
   /**
@@ -29,10 +26,21 @@ export interface BaseOptionsType {
   /**
    * 面包屑最大层级
    */
-   maxBreadcrumbs?: number;
+  maxBreadcrumbs?: number;
 }
 
 export interface CustomerOptionType {
-  name: string;
-  postion: StoreTypes;
+  name?: string;
+  postion?: StoreTypes;
+}
+
+export interface RequestPluginOptionType {
+  /**
+   * 过滤请求url
+   */
+  ignoreUrls?: string[];
+  /**
+   * 是否上报接口返回值
+   */
+  reportResponds?: Boolean;
 }

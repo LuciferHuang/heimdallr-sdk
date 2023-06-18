@@ -5,3 +5,7 @@ export interface DomDataMsgType {
 }
 
 export interface DomMsgType extends ReportDataMsgType, DomDataMsgType {}
+
+export interface DomOptions {
+  throttleDelayTime?: number;
+}

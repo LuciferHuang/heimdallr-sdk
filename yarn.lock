@@ -297,18 +297,6 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
-"@heimdallr-sdk/types@^0.0.13":
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/@heimdallr-sdk/types/-/types-0.0.13.tgz#8bfe6864db97a95fdeba9fcfdc6e5b34d37daee9"
-  integrity sha512-zPDTIe0NN2vEhMV089qTQ4Ch8yrj1wyu1/zTxNvY+B/FK8Tafc0hg4URrMR9OAwBZFLRQqluoOZY20qvhTFP1A==
-
-"@heimdallr-sdk/utils@^0.0.16":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@heimdallr-sdk/utils/-/utils-0.0.16.tgz#42e334505240297485f80813ec26d1d8350a130b"
-  integrity sha512-PNjj1rbqM8y4vHLvnRZVmMUhMxjGuNxRoL/C3fYbYq7HXLPEVVZXLMbqyiaE5QCETnpOUiQaxwPMpuZ06lONaA==
-  dependencies:
-    "@heimdallr-sdk/types" "^0.0.13"
-
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.8.tgz#03595ac2075a4dc0f191cc2131de14fbd7d410b9"
@@ -1531,6 +1519,13 @@
   integrity sha512-c7Adw44pNkNsE9wkBPrONaLS9fq2WtWAMFks9+6SjOLaRv+d6Iu7/6RNBokESHQkvaj1fZ8nPqxT9GjfQ5TMyQ==
   dependencies:
     rrweb-snapshot "^2.0.0-alpha.6"
+
+"@rrweb/types@^2.0.0-alpha.8":
+  version "2.0.0-alpha.8"
+  resolved "https://registry.yarnpkg.com/@rrweb/types/-/types-2.0.0-alpha.8.tgz#29a6550dd833364a459af4be4ce3b233003fb78b"
+  integrity sha512-yAr6ZQrgmr7+qZU5DMGqYXnVsolC5epftmZtkOtgFD/bbvCWflNnl09M32hUjttlKCV1ohhmQGioXkCQ37IF7A==
+  dependencies:
+    rrweb-snapshot "^2.0.0-alpha.8"
 
 "@socket.io/component-emitter@~3.1.0":
   version "3.1.0"
@@ -7518,6 +7513,11 @@ rrweb-snapshot@^2.0.0-alpha.6:
   version "2.0.0-alpha.6"
   resolved "https://registry.npmmirror.com/rrweb-snapshot/-/rrweb-snapshot-2.0.0-alpha.6.tgz#c7e7f902312a564d8494d916042e1d9aefe62ce7"
   integrity sha512-mTeIZn8a6crtHigyO+cSENuKq68ayEdSZJAybkWWVjJQOvDY9EHaqhc8jWXpNkPVcc8M5T8ORc/RXsc52osYHQ==
+
+rrweb-snapshot@^2.0.0-alpha.8:
+  version "2.0.0-alpha.8"
+  resolved "https://registry.yarnpkg.com/rrweb-snapshot/-/rrweb-snapshot-2.0.0-alpha.8.tgz#5f93f8ab7d78b3de26f6a64e993ff68edd54e0cf"
+  integrity sha512-3Rb7c+mnDEADQ8N9qn9SDH5PzCyHlZ1cwZC932qRyt9O8kJWLM11JLYqqEyQCa2FZVQbzH2iAaCgnyM7A32p7A==
 
 rrweb@^2.0.0-alpha.4:
   version "2.0.0-alpha.4"

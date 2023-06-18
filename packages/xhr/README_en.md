@@ -28,7 +28,7 @@
             desc: 'test proj'
         },
         plugins: [
-            HEIMDALLR_XHR,
+            HEIMDALLR_XHR(),
         ]
     };
 </script>
@@ -52,7 +52,7 @@ heimdallr({
         desc: 'test proj'
     },
     plugins: [
-        xhrPlugin,
+        xhrPlugin(),
     ]
 });
 ```

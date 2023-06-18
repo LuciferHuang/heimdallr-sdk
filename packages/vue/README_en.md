@@ -27,9 +27,10 @@
             desc: 'test proj'
         },
         plugins: [
-            HEIMDALLR_VUE,
+            HEIMDALLR_VUE({
+                vue: VueInstance
+            }),
         ],
-        vue: VueInstance
     };
 </script>
 <script async src="/browser-dist/browser.iife.js"></script>
@@ -52,8 +53,9 @@ heimdallr({
         desc: 'test proj'
     },
     plugins: [
-        vuePlugin,
+        vuePlugin({
+            vue: VueInstance
+        }),
     ],
-    vue: VueInstance
 });
 ```

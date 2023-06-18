@@ -103,10 +103,9 @@ export abstract class Core<O extends BaseOptionsType> {
   }
 
   /**
-   * 获取配置信息
-   * @return {O} 配置信息
+   * 获取客户端配置
    */
-  getOptions(): O {
+  getClientOptions() {
     return { ...this.options };
   }
 

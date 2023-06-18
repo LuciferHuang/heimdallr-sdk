@@ -21,7 +21,7 @@
             desc: 'test proj'
         },
         plugins: [
-            HEIMDALLR_HASH,
+            HEIMDALLR_HASH(),
         ]
     };
 </script>
@@ -45,7 +45,7 @@ heimdallr({
         desc: 'test proj'
     },
     plugins: [
-        hashPlugin,
+        hashPlugin(),
     ]
 });
 ```

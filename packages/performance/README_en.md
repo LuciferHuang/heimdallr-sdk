@@ -57,7 +57,7 @@ The following indicators can be monitored
             desc: 'test proj'
         },
         plugins: [
-            HEIMDALLR_PERFORMANCE,
+            HEIMDALLR_PERFORMANCE(),
         ]
     };
 </script>
@@ -81,7 +81,7 @@ heimdallr({
         desc: 'test proj'
     },
     plugins: [
-        performancePlugin,
+        performancePlugin(),
     ]
 });
 ```

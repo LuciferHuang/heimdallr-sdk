@@ -6,9 +6,9 @@
 
 ## Options
 
-|配置名称|类型|描述|默认值|
+|配置名称|类型|是否必填|描述|默认值|
 |-|-|-|-|
-|throttleDelayTime|Number|节流阈值（ms）|300|
+|throttleDelayTime|Number|否|节流阈值（ms）|300|
 
 ## Usage
 
@@ -29,7 +29,9 @@
             desc: 'test proj'
         },
         plugins: [
-            HEIMDALLR_DOM,
+            HEIMDALLR_DOM({
+                throttleDelayTime: 300 // 非必填
+            }),
         ],
         debug: true
     };
@@ -54,7 +56,7 @@ heimdallr({
         desc: 'test proj'
     },
     plugins: [
-        domPlugin,
+        domPlugin(),
     ]
 });
 ```

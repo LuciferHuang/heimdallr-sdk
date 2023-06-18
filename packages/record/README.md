@@ -4,6 +4,8 @@
 
 ## Usage
 
+rrweb config ☞ [rrweb guide](https://github.com/rrweb-io/rrweb/blob/master/guide.zh_CN.md)
+
 ### cdn
 
 ```html
@@ -21,7 +23,7 @@
             desc: 'test proj'
         },
         plugins: [
-            HEIMDALLR_RECORD,
+            HEIMDALLR_RECORD([rrweb config]),
         ]
     };
 </script>
@@ -45,7 +47,7 @@ heimdallr({
         desc: 'test proj'
     },
     plugins: [
-        recordPlugin,
+        recordPlugin([rrweb config]),
     ]
 });
 ```

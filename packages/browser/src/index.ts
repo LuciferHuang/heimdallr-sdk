@@ -76,7 +76,7 @@ class BrowserClient extends Core<BrowserOptionsType> {
 const init = (options: BrowserOptionsType) => {
   const client = new BrowserClient(options);
   const { plugins = [] } = options;
-  client.use([jsErrorPlugin, promiseErrorPlugin, lifeCyclePlugin, ...plugins]);
+  client.use([jsErrorPlugin, promiseErrorPlugin, lifeCyclePlugin.call(client, options), ...plugins]);
 };
 
 export default init;

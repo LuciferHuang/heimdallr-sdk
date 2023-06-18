@@ -18,6 +18,6 @@ const heimdallrInstance = heimdallr({
         leader: 'test',
         desc: 'test wx proj'
     },
-    plugins: [heimdallrWxRoute]
+    plugins: [heimdallrWxRoute()]
 });
 ```

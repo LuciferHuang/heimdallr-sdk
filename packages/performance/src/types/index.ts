@@ -40,3 +40,7 @@ export enum PerformanceFeat {
   FPS = 'fps',
   VITALS = 'vitals'
 }
+
+export interface PerformanceOptions {
+  performancOff?: PerformanceFeat[]
+}

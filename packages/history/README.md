@@ -21,7 +21,7 @@
             desc: 'test proj'
         },
         plugins: [
-            HEIMDALLR_HISTORY,
+            HEIMDALLR_HISTORY(),
         ]
     };
 </script>
@@ -45,7 +45,7 @@ heimdallr({
         desc: 'test proj'
     },
     plugins: [
-        historyPlugin,
+        historyPlugin(),
     ]
 });
 ```

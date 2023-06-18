@@ -34,7 +34,7 @@ class NodeClient extends Core<NodeOptionsType> {
   }
 
   async report(url: string, data: IAnyObject): Promise<InterfaceResponseType<any>> {
-    const { sendFunc } = this.getOptions();
+    const { sendFunc } = this.getClientOptions();
     try {
       if (typeof sendFunc === 'function') {
         return await sendFunc(url, data);
@@ -71,7 +71,7 @@ class NodeClient extends Core<NodeOptionsType> {
 const init = (options: NodeOptionsType) => {
   const client = new NodeClient(options);
   const { plugins = [] } = options;
-  client.use([errorPlugin, ...plugins]);
+  client.use([errorPlugin(), ...plugins]);
 };
 
 export default init;

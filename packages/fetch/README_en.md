@@ -28,7 +28,7 @@
             desc: 'test proj'
         },
         plugins: [
-            HEIMDALLR_FETCH,
+            HEIMDALLR_FETCH(),
         ]
     };
 </script>
@@ -52,7 +52,7 @@ heimdallr({
         desc: 'test proj'
     },
     plugins: [
-        fetchPlugin,
+        fetchPlugin(),
     ]
 });
 ```
