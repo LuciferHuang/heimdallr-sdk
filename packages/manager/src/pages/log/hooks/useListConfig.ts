@@ -71,7 +71,11 @@ const filterFormItems: FilterItem[] = [
       {
         value: 'customer',
         label: '用户上报'
-      }
+      },
+      {
+        value: 'vue',
+        label: 'Vue'
+      },
     ]
   }
 ];

@@ -1,4 +1,4 @@
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue';
 import { ElMessage } from 'element-plus';
 import http from 'helper/http';
 import { DEFAULT_PAGE_SIZE } from 'config/others';
@@ -29,7 +29,10 @@ export default function useListTable() {
     form: {},
     allItems: 0,
     detail: {},
-    isDrawerShow: false
+    codeLoading: false,
+    codeVisible: false,
+    isDrawerShow: false,
+    codeDetail: {}
   });
   // 翻页
   const page = { index: 1, size: DEFAULT_PAGE_SIZE };
@@ -43,7 +46,7 @@ export default function useListTable() {
     orderParam: 'order',
     sortParam: 'sort',
     sortVal: 'otime',
-    order: 'desc',
+    order: 'desc'
   };
   function sortHandle(params) {
     sortParams = params;
@@ -140,18 +143,50 @@ export default function useListTable() {
         return '';
     }
   }
-  function getDetail() {
-    return state.detail as DetailType || {};
+  const detail = computed(() => {
+    return (state.detail as DetailType) || {};
+  });
+  const codeDetail = computed(() => {
+    return state.codeDetail || {};
+  });
+  async function showCode() {
+    if (state.codeVisible) {
+      state.codeVisible = false;
+      return;
+    }
+    const { data, ascription_name: app } = state.detail;
+    try {
+      const { lineno: line, colno: col, filename: file } = JSON.parse(data);
+      state.codeLoading = true;
+      const res = await http.get(`/sourcemap/search?lineno=${line}&colno=${col}&filename=${file}&appname=${app}`);
+      state.codeLoading = false;
+      state.codeVisible = true;
+      state.codeDetail = {
+        line,
+        col,
+        file,
+        code: res.join('\n')
+      };
+    } catch (error) {
+      ElMessage.error(error.message || '请求失败，请稍后重试');
+    }
+  }
+  function drawerClose() {
+    state.codeLoading = false;
+    state.codeVisible = false;
   }
   return {
     state,
-    getDetail,
+    detail,
     loadData,
     pageHandle,
     selectHandle,
     batchHandle,
     operateHandle,
     sortHandle,
-    tagTypeFilter
+    tagTypeFilter,
+    showCode,
+    codeDetail,
+    drawerClose
   };
 }

@@ -63,7 +63,7 @@ class TrySourceMap {
         return {
           status: true,
           msg: 'success',
-          data: lines[line - 1]
+          data: lines.slice(line - 2, line + 1)
         };
       }
       return {

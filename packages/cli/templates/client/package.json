@@ -27,7 +27,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.6.0",
     "@vue/compiler-sfc": "^3.2.6",
-    "@heimdallr-sdk/types": "^0.0.13",
+    "@heimdallr-sdk/types": "^0.0.15",
     "cross-env": "^7.0.3",
     "path": "^0.12.7",
     "sass": "^1.39.0",

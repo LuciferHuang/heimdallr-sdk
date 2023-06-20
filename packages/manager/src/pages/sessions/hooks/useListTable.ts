@@ -2,7 +2,7 @@ import { nextTick, reactive } from 'vue';
 import { ElMessage } from 'element-plus';
 import http from 'helper/http';
 import { DEFAULT_PAGE_SIZE } from 'config/others';
-import { copy, cusToRefs, formatDate } from 'helper/utils';
+import { copy, cusToRefs, formatDate, decodeRecordEvents } from 'helper/utils';
 import rrwebPlayer from 'rrweb-player';
 import 'rrweb-player/dist/style.css';
 
@@ -149,12 +149,13 @@ export default function useListTable() {
         state.isPlayerShow = true;
         try {
           const eventsArr = JSON.parse(events);
+          const oriEvents = decodeRecordEvents(eventsArr);
           nextTick(() => {
             new rrwebPlayer({
               target: document.getElementById('sessionPlayWrap'),
               // 配置项
               props: {
-                events: eventsArr,
+                events: oriEvents,
                 width: 800,
                 height: 450
               }

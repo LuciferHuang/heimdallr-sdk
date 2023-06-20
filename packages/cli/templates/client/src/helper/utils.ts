@@ -197,7 +197,7 @@ export const getUrlKey = (name: string, url: string): string | null =>
 /**
  * 深拷贝
  */
- export function objDeepCopy(obj: any) {
+export function objDeepCopy(obj: any) {
   if (obj === null) return null;
   if (typeof obj !== 'object') return obj;
   const newObj = new obj.constructor();
@@ -289,4 +289,27 @@ export const cusToRefs = (value) => {
     result[key] = res[key].value;
   });
   return result;
+};
+
+/**
+ * 解析rrweb events，解码文本内容
+ * @param events 
+ * @returns 
+ */
+export const decodeRecordEvents = (events: any[]) => {
+  const deepTrans = (node: any) => {
+    if (node.childNodes && node.childNodes.length) {
+      node.childNodes.forEach(deepTrans);
+    } else if (node.textContent) {
+      node.textContent = decodeURIComponent(node.textContent);
+    }
+  };
+  return events.map((e) => {
+    const { type, data = {} } = e;
+    if (type === 2) {
+      const { node } = data;
+      deepTrans(node);
+    }
+    return e;
+  });
 };
