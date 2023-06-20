@@ -10,7 +10,7 @@ import {
 import { formatDate, generateUUID, getCookie, getStore, getDeepPropByDot } from '@heimdallr-sdk/utils';
 import { LifecycleDataType, LifeCycleMsgType, LifecycleOptions } from '../types';
 
-function getStoreUserId(userIdentify: CustomerOptionType) {
+function getStoreUserId(userIdentify: CustomerOptionType = {}) {
   const { name = '', postion = '' } = userIdentify;
   switch (postion) {
     case StoreType.LOCAL:
@@ -27,11 +27,11 @@ function getStoreUserId(userIdentify: CustomerOptionType) {
 }
 
 function lifeCyclePlugin(options: LifecycleOptions = {}): BasePluginType {
+  const { userIdentify = {} } = options;
   return {
     name: 'lifeCyclePlugin',
     monitor(notify: (data: LifecycleDataType) => void) {
-      const { userIdentify } = options;
-      const { name: userPath, postion: userPosi } = userIdentify || {};
+      const { name: userPath, postion: userPosi } = userIdentify;
       this.sessionID = generateUUID();
       window.addEventListener('load', () => {
         const user_id = getStoreUserId(userIdentify) || '';
