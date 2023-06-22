@@ -37,7 +37,7 @@
 ## Options
 
 |配置名称|类型|是否必填|描述|默认值|可选值|
-|-|-|-|-|-|
+|-|-|-|-|-|-|
 |performancOff|Array|否|关闭 performance 个别功能|[]|basic/fmp/fps/vitals/resource|
 
 ## Usage

@@ -5,7 +5,7 @@
 ## Options
 
 |Name|Type|Describe|Default|
-|-|-|-|-|
+|-|-|-|-|-|
 |ignoreUrls|Array|Filter request url|-|
 |reportResponds|Boolean|whether report interface return value|false|
 

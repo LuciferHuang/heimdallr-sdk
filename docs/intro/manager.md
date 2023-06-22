@@ -89,3 +89,8 @@ Manager 即监控服务的管理后台，私有包，不发布，同样可以通
 
    ![日志列表](./log-list.png)
    ![日志详情](./log-detail.png)
+
+5. 查看报错代码（source map）
+   source map 能力需配合插件使用
+   ![查看按钮](./code_show_button.jpg)
+   ![报错源码](./error_code.png)

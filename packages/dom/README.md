@@ -7,7 +7,7 @@
 ## Options
 
 |配置名称|类型|是否必填|描述|默认值|
-|-|-|-|-|
+|-|-|-|-|-|
 |throttleDelayTime|Number|否|节流阈值（ms）|300|
 
 ## Usage

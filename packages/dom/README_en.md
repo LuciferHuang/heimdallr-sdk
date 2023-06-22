@@ -5,7 +5,7 @@
 ## Options
 
 |Name|Type|Required|Describe|Default|
-|-|-|-|-|
+|-|-|-|-|-|
 |throttleDelayTime|Number|No|Throttling threshold (ms)|300|
 
 ## Usage

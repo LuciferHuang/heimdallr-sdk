@@ -7,7 +7,7 @@
 ## Options
 
 |配置名称|类型|是否必填|描述|默认值|
-|-|-|-|-|
+|-|-|-|-|-|
 |ignoreUrls|Array|否|过滤请求url|-|
 |reportResponds|Boolean|否|是否上报返回值|false|
 

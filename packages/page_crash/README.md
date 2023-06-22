@@ -7,7 +7,7 @@
 ## Options
 
 |配置名称|类型|是否必填|描述|默认值|
-|-|-|-|-|
+|-|-|-|-|-|
 |pageCrashWorkerUrl|String|是|Web Worker脚本文件地址（pageCrash）|-|
 
 ## Usage
