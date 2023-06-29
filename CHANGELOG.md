@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.16](https://github.com/LuciferHuang/heimdallr-sdk/compare/v0.0.15...v0.0.16) (2023-06-29)
+
+
+### Features
+
+* manager add error code display ([8fb96ed](https://github.com/LuciferHuang/heimdallr-sdk/commit/8fb96ed013995fc07d11060459516400c2b063b7))
+
+
+### Bug Fixes
+
+* [@heimdallr-sdk/browser] can't reading name ([e2a062f](https://github.com/LuciferHuang/heimdallr-sdk/commit/e2a062f8f81d1e295296e4798ba3a37f70a602b9))
+* [@heimdallr-sdk/utils] fix formatDate formatNumber ([#9](https://github.com/LuciferHuang/heimdallr-sdk/issues/9)) ([858b69e](https://github.com/LuciferHuang/heimdallr-sdk/commit/858b69ea1a1bfe07607d96da31531e16b9d69726))
+
+
+### Docs
+
+* update readme and site ([80b7e30](https://github.com/LuciferHuang/heimdallr-sdk/commit/80b7e30a23992f4be06316e917796bf7200bb964))
+
+
+### Others
+
+* [@heimdallr-sdk/xhr] update version ([387a272](https://github.com/LuciferHuang/heimdallr-sdk/commit/387a272d6ad46d59664f4549f18bfbb31d3563e2))
+* update @heimdallr-sdk/utils version ([23ca8c5](https://github.com/LuciferHuang/heimdallr-sdk/commit/23ca8c5e9d2054476d73878dbb7a49b9113559fe))
+
 ### [0.0.15](https://github.com/LuciferHuang/heimdallr-sdk/compare/v0.0.14...v0.0.15) (2023-06-18)
 
 
