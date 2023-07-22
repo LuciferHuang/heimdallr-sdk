@@ -51,9 +51,11 @@
 
 ### Init
 
+通常在 `app.js` 中完成初始化，可直接挂载到 wx 对象上
+
 ```js
 import heimdallr from "@heimdallr-sdk/wx";
-const heimdallrInstance = heimdallr({
+wx.heimdallrInstance = heimdallr({
     dsn: {
         host: 'http://localhost:8888',
         init: '/project/init',
@@ -73,7 +75,7 @@ const heimdallrInstance = heimdallr({
 
 #### 1. Overwrite Page
 ```js
-const { heimdallrPage } = heimdallrInstance;
+const { heimdallrPage } = wx.heimdallrInstance;
 heimdallrPage({
   data: {
     text: "This is page data."
@@ -97,7 +99,7 @@ heimdallrPage({
 ```
 #### 2. Add the track function to the lifecycle function
 ```js
-const { track } = heimdallrInstance;
+const { track } = wx.heimdallrInstance;
 Page({
   data: {
     text: "This is page data."

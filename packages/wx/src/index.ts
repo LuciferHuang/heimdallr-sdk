@@ -117,11 +117,11 @@ class WxClient extends Core<WxOptionsType> {
     this.nextTick(this.report, this, uploadUrl, { app_id: this.appID, ...datas });
   }
 
-  cusOnShow(oriOnShow: (query: Record<string, string>) => void | Promise<void>) {
-    return (original: (e: any) => void): ((e: any) => void) => {
-      const { userStoreKey } = this.getClientOptions();
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const client = this;
+  cusOnShow() {
+    const { userStoreKey } = this.getClientOptions();
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const client = this;
+    return (original: (query: Record<string, string>) => void | Promise<void>): ((e: any) => void) => {
       return function (e) {
         if (original) {
           original.apply(this, e);
@@ -144,16 +144,13 @@ class WxClient extends Core<WxOptionsType> {
           message: `Enter "${this.route}"`
         });
         client.lifecycleReport.call(client, datas);
-        if (oriOnShow && typeof oriOnShow === 'function') {
-          oriOnShow.apply(this, e);
-        }
       };
     };
   }
-  cusOnHide(oriOnHide: () => void | Promise<void>) {
-    return (original: voidFun): voidFun => {
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
-      const client = this;
+  cusOnHide() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    const client = this;
+    return (original: () => void | Promise<void>): voidFun => {
       return function () {
         if (original) {
           original.apply(this);
@@ -174,9 +171,6 @@ class WxClient extends Core<WxOptionsType> {
         });
         client.lifecycleReport.call(client, datas);
         client.clearWxContext();
-        if (oriOnHide && typeof oriOnHide === 'function') {
-          oriOnHide.apply(this);
-        }
       };
     };
   }
@@ -191,9 +185,8 @@ const init = (options: WxOptionsType) => {
     heimdallrPage: (
       pageOptions: WechatMiniprogram.Page.Options<WechatMiniprogram.Page.DataOption, WechatMiniprogram.Page.CustomOption>
     ) => {
-      const { onShow, onHide } = pageOptions;
-      replaceOld(pageOptions, 'onShow', client.cusOnShow(onShow), true);
-      replaceOld(pageOptions, 'onHide', client.cusOnHide(onHide), true);
+      replaceOld(pageOptions, 'onShow', client.cusOnShow(), true);
+      replaceOld(pageOptions, 'onHide', client.cusOnHide(), true);
       Page(pageOptions);
     },
     // 手动在页面 onShow/onHide 添加埋点
