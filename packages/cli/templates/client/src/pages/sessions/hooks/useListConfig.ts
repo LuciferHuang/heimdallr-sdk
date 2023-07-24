@@ -1,7 +1,25 @@
 import { FilterItem } from 'components/filterGroup';
 import { OperateBtn } from 'components/tableOprate';
 import { ColumnConfig } from 'components/tableView';
-import { EventTypes } from '@heimdallr-sdk/types';
+
+export enum EventTypes {
+  API = 'api',
+  DOM = 'dom',
+  PERFORMANCE = 'performance',
+  ROUTE = 'route',
+  ERROR = 'error',
+  CONSOLE = 'console',
+  CUSTOMER = 'customer',
+  VUE = 'vue',
+  LIFECYCLE = 'lifeCycle',
+  EXTEND = 'extend',
+  RECORD = 'record'
+}
+
+export enum TableOperateType {
+  DETAIL = 'detail',
+  PLAY = 'play'
+}
 
 const filterFormItems: FilterItem[] = [
   {
@@ -59,10 +77,11 @@ const tableConfig: ColumnConfig[] = [
   },
   {
     prop: 'path',
+    width: 180,
     label: '页面路径'
   },
   {
-    prop: 'stay_time',
+    prop: 'stayTime',
     label: '停留时间（s）',
     width: 158,
     sortable: true,
@@ -77,15 +96,14 @@ const tableConfig: ColumnConfig[] = [
   {
     prop: 'platform',
     width: 108,
-    label: '平台',
-    plugins: ['filter']
+    label: '平台'
   },
   {
     prop: 'terminal',
     label: '终端'
   },
   {
-    prop: 'user_id',
+    prop: 'userId',
     label: '用户ID'
   },
   {
@@ -110,11 +128,11 @@ const tableConfig: ColumnConfig[] = [
     label: '操作',
     operates: [
       {
-        cmd: 'detail',
+        cmd: TableOperateType.DETAIL,
         label: '详情'
       },
       {
-        cmd: 'play',
+        cmd: TableOperateType.PLAY,
         label: '播放',
         condition: {
           prop: 'events',
@@ -124,14 +142,6 @@ const tableConfig: ColumnConfig[] = [
     ]
   }
 ];
-
-const filterMap = {
-  platform: {
-    browser: '浏览器端',
-    wechat: '微信小程序',
-    nodejs: 'NodeJS'
-  }
-};
 
 function tagType(type: EventTypes) {
   switch (type) {
@@ -152,6 +162,5 @@ export default function useListConfig() {
     filterFormItems,
     tableConfig,
     tagType,
-    filterMap
   };
 }

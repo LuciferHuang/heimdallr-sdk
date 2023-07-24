@@ -36,6 +36,7 @@ const tableConfig: ColumnConfig[] = [
   {
     prop: "id",
     label: "项目ID",
+    width: 320,
     plugins: ["copy"],
   },
   {

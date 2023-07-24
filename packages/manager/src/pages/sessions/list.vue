@@ -9,34 +9,33 @@
       :table-config="tableConfig"
       :datas="state.tableData"
       :all-items="state.allItems"
-      :filter-map="filterMap"
       @selected="selectHandle"
       @sort-change="sortHandle"
       @page="pageHandle"
       @operate="operateHandle"
     ></page-table>
   </panel>
-  <el-drawer v-model="state.isDrawerShow" :title="getDetail().path" size="45%">
+  <el-drawer v-model="state.isDrawerShow" :title="detail.path" size="45%">
     <el-descriptions title="详情" :column="2" border>
-      <el-descriptions-item label="用户id">{{ getDetail().user_id }}</el-descriptions-item>
-      <el-descriptions-item label="ip地址">{{ getDetail().ip }}</el-descriptions-item>
-      <el-descriptions-item label="语言">{{ getDetail().language }}</el-descriptions-item>
-      <el-descriptions-item label="省份">{{ getDetail().province }}</el-descriptions-item>
-      <el-descriptions-item label="页面标题">{{ getDetail().page_title }}</el-descriptions-item>
-      <el-descriptions-item label="页面路径">{{ getDetail().path }}</el-descriptions-item>
-      <el-descriptions-item label="进入时间">{{ getDetail().etime }}</el-descriptions-item>
-      <el-descriptions-item label="离开时间">{{ getDetail().ltime }}</el-descriptions-item>
+      <el-descriptions-item label="用户id">{{ detail.userId }}</el-descriptions-item>
+      <el-descriptions-item label="ip地址">{{ detail.ip }}</el-descriptions-item>
+      <el-descriptions-item label="语言">{{ detail.language }}</el-descriptions-item>
+      <el-descriptions-item label="省份">{{ detail.province }}</el-descriptions-item>
+      <el-descriptions-item label="页面标题">{{ detail.pageTitle }}</el-descriptions-item>
+      <el-descriptions-item label="页面路径">{{ detail.path }}</el-descriptions-item>
+      <el-descriptions-item label="进入时间">{{ detail.etime }}</el-descriptions-item>
+      <el-descriptions-item label="离开时间">{{ detail.ltime }}</el-descriptions-item>
     </el-descriptions>
     <br />
     <el-timeline>
-      <el-timeline-item v-for="(item, index) in getDetail().log" :key="index" :timestamp="item.otime">
+      <el-timeline-item v-for="(item, index) in detail.log" :key="index" :timestamp="item.otime">
         <el-tag class="mg-r-8" :type="tagType(item.type)">{{ item.type }}</el-tag>
         <el-tag :type="tagType(item.type)">{{ item.sub_type }}</el-tag>
         <p>{{ item.data }}</p>
       </el-timeline-item>
     </el-timeline>
   </el-drawer>
-  <el-dialog v-model="state.isPlayerShow" class="session-play-dia" :title="getDetail().path" width="840px">
+  <el-dialog v-model="state.isPlayerShow" class="session-play-dia" :title="detail.path" width="840px">
     <div v-if="state.isPlayerShow" id="sessionPlayWrap"></div>
   </el-dialog>
 </template>
@@ -48,7 +47,6 @@ import { ElAffix, ElDrawer, ElDescriptions, ElDescriptionsItem, ElTag, ElTimelin
 import useConfig from './hooks/useListConfig';
 // 表格功能
 import useTableFeature from './hooks/useListTable';
-import { formatDate } from 'helper/utils';
 
 export default defineComponent({
   name: 'logList',
@@ -74,8 +72,7 @@ export default defineComponent({
     // 供模板使用
     return {
       ...useConfig(), // 引入配置
-      ...tableFeature,
-      formatDate
+      ...tableFeature
     };
   }
 });

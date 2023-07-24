@@ -1,29 +1,12 @@
-import { nextTick, reactive } from 'vue';
+import { computed, nextTick, reactive } from 'vue';
 import { ElMessage } from 'element-plus';
 import http from 'helper/http';
 import { DEFAULT_PAGE_SIZE } from 'config/others';
 import { copy, cusToRefs, formatDate, decodeRecordEvents } from 'helper/utils';
 import rrwebPlayer from 'rrweb-player';
 import 'rrweb-player/dist/style.css';
-
-interface LogType {
-  otime: string;
-  type: string;
-  sub_type: string;
-  data: any;
-}
-
-export interface DetailType {
-  ip?: string;
-  user_id?: string;
-  province?: string;
-  language?: string;
-  path?: string;
-  page_title?: string;
-  etime?: string;
-  ltime?: string;
-  log?: LogType[];
-}
+import { Session, tableDeserialize } from '@/models/session';
+import { TableOperateType } from './useListConfig';
 
 export default function useListTable() {
   const state = reactive({
@@ -78,10 +61,7 @@ export default function useListTable() {
       .get(url)
       .then((res: any) => {
         const { total = 0, list = [] } = res;
-        state.tableData = list.map((ele) => ({
-          ...ele,
-          stay_time: ele.stay_time / 1000
-        }));
+        state.tableData = tableDeserialize(list);
         state.allItems = total;
       })
       .catch(() => {});
@@ -113,10 +93,10 @@ export default function useListTable() {
     }
   }
   // 表格操作
-  function operateHandle(cmd, row) {
-    const { id, path, page_title, etime, ltime, ip, user_id, province, language, events = '' } = row;
+  function operateHandle(cmd: TableOperateType, row: Session) {
+    const { id, path, pageTitle, etime, ltime, ip, userId, province, language, events = '' } = row;
     switch (cmd) {
-      case 'detail':
+      case TableOperateType.DETAIL:
         // 弹出详情
         state.detail = {};
         http
@@ -127,10 +107,10 @@ export default function useListTable() {
             state.detail = {
               path,
               ip,
-              user_id,
+              userId,
               province,
               language,
-              page_title,
+              pageTitle,
               etime,
               ltime,
               log: list || []
@@ -138,7 +118,7 @@ export default function useListTable() {
           })
           .catch(() => {});
         break;
-      case 'play':
+      case TableOperateType.PLAY:
         if (!events) {
           ElMessage.warning('录屏不存在');
           return;
@@ -169,12 +149,10 @@ export default function useListTable() {
         break;
     }
   }
-  function getDetail() {
-    return (state.detail as DetailType) || {};
-  }
+  const detail = computed(() => state.detail || {});
   return {
     state,
-    getDetail,
+    detail,
     loadData,
     pageHandle,
     selectHandle,

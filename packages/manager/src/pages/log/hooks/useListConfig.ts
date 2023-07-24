@@ -100,17 +100,15 @@ const tableConfig: ColumnConfig[] = [
   {
     prop: 'platform',
     width: 108,
-    label: '平台',
-    plugins: ['filter']
+    label: '平台'
   },
   {
     prop: 'type',
     width: 108,
-    label: '类型',
-    plugins: ['filter']
+    label: '类型'
   },
   {
-    prop: 'sub_type',
+    prop: 'subType',
     width: 158,
     label: '子类型'
   },
@@ -120,14 +118,10 @@ const tableConfig: ColumnConfig[] = [
     label: '应用'
   },
   {
-    prop: 'session_id',
-    width: 158,
+    prop: 'sessionId',
+    width: 320,
     label: '会话ID',
     plugins: ['copy']
-  },
-  {
-    prop: 'data',
-    label: '上报信息'
   },
   {
     prop: 'otime',
@@ -154,23 +148,6 @@ const tableConfig: ColumnConfig[] = [
   }
 ];
 
-const filterMap = {
-  type: {
-    api: '请求',
-    dom: 'UI操作',
-    performance: '性能',
-    route: '路由',
-    error: '错误',
-    console: '控制台输出',
-    customer: '用户上报'
-  },
-  platform: {
-    browser: '浏览器端',
-    wechat: '微信小程序',
-    nodejs: 'NodeJS'
-  }
-};
-
 const levelTypeMap = {
   fatal: 'danger',
   error: 'danger',
@@ -185,7 +162,6 @@ export default function useListConfig() {
     tableOprates,
     filterFormItems,
     tableConfig,
-    filterMap,
     levelTypeMap
   };
 }

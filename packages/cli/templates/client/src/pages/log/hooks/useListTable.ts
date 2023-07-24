@@ -3,25 +3,7 @@ import { ElMessage } from 'element-plus';
 import http from 'helper/http';
 import { DEFAULT_PAGE_SIZE } from 'config/others';
 import { copy, cusToRefs, formatDate } from 'helper/utils';
-
-interface BreadcrumbType {
-  time: string;
-  type: string;
-  message: string;
-  level: string;
-}
-
-export interface DetailType {
-  path?: string;
-  type?: string;
-  sub_type?: string;
-  ascription_name?: string;
-  ctime?: string;
-  page_title?: string;
-  user_agent?: string;
-  data?: any;
-  breadcrumb?: BreadcrumbType[];
-}
+import { detailDeserialize, LogDetail, tableDeserialize } from '@/models/log';
 
 export default function useListTable() {
   const state = reactive({
@@ -78,7 +60,7 @@ export default function useListTable() {
       .get(url)
       .then((res: any) => {
         const { total = 0, list = [] } = res;
-        state.tableData = list;
+        state.tableData = tableDeserialize(list);
         state.allItems = total;
       })
       .catch(() => {});
@@ -120,7 +102,7 @@ export default function useListTable() {
           .get(`/log/detail?id=${id}`)
           .then((res: any) => {
             state.isDrawerShow = true;
-            state.detail = res;
+            state.detail = detailDeserialize(res);
           })
           .catch(() => {});
         break;
@@ -129,7 +111,7 @@ export default function useListTable() {
     }
   }
   // tag类型
-  function tagTypeFilter(type) {
+  function tagTypeFilter(type: string) {
     switch (type) {
       case 'error':
         return 'danger';
@@ -143,33 +125,30 @@ export default function useListTable() {
         return '';
     }
   }
-  const detail = computed(() => {
-    return (state.detail as DetailType) || {};
-  });
-  const codeDetail = computed(() => {
-    return state.codeDetail || {};
-  });
+  const detail = computed(() => state.detail || {});
+  const codeDetail = computed(() => state.codeDetail || {});
   async function showCode() {
     if (state.codeVisible) {
       state.codeVisible = false;
       return;
     }
-    const { data, ascription_name: app } = state.detail;
+    const { data, ascription: app } = state.detail as LogDetail;
     try {
       const { lineno: line, colno: col, filename: file } = JSON.parse(data);
       state.codeLoading = true;
       const res = await http.get(`/sourcemap/search?lineno=${line}&colno=${col}&filename=${file}&appname=${app}`);
-      state.codeLoading = false;
+      const code = Array.isArray(res) ? res.join('\n') : res;
       state.codeVisible = true;
       state.codeDetail = {
         line,
         col,
         file,
-        code: res.join('\n')
+        code
       };
     } catch (error) {
       ElMessage.error(error.message || '请求失败，请稍后重试');
     }
+    state.codeLoading = false;
   }
   function drawerClose() {
     state.codeLoading = false;

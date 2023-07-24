@@ -4,7 +4,7 @@
   "description": "<%= description %>",
   "author": "<%= author %>",
   "scripts": {
-    "dev": "cross-env NODE_ENV=development vite",
+    "dev": "cross-env NODE_ENV=development vite --open",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview"
   },
@@ -21,13 +21,14 @@
     "js-md5": "^0.7.3",
     "qs": "^6.10.1",
     "sortablejs": "^1.14.0",
+    "rrweb-player": "^1.0.0-alpha.4",
+    "type-json-mapper": "^1.2.6",
     "vue": "^3.2.40",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.6.0",
     "@vue/compiler-sfc": "^3.2.6",
-    "@heimdallr-sdk/types": "^0.0.15",
     "cross-env": "^7.0.3",
     "path": "^0.12.7",
     "sass": "^1.39.0",

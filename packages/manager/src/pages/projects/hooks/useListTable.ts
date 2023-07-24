@@ -1,15 +1,16 @@
-import { reactive } from "vue";
-import { ElMessage } from "element-plus";
-import http from "helper/http";
-import { DEFAULT_PAGE_SIZE } from "config/others";
-import { copy, cusToRefs, formatDate } from "helper/utils";
+import { reactive } from 'vue';
+import { ElMessage } from 'element-plus';
+import http from 'helper/http';
+import { DEFAULT_PAGE_SIZE } from 'config/others';
+import { copy, cusToRefs, formatDate } from 'helper/utils';
+import { tableDeserialize } from '@/models/project';
 
 export default function useListTable() {
   const state = reactive({
     tableData: [],
     form: {},
     allItems: 0,
-    isDrawerShow: false,
+    isDrawerShow: false
   });
   // 翻页
   const page = { index: 1, size: DEFAULT_PAGE_SIZE };
@@ -37,14 +38,12 @@ export default function useListTable() {
       let paramValue = value;
       if (value) {
         if (Array.isArray(value)) {
-          paramValue = value
-            .map((time) => formatDate(new Date(time), "yyyy-MM-dd hh:mm:ss"))
-            .join("+");
+          paramValue = value.map((time) => formatDate(new Date(time), 'yyyy-MM-dd hh:mm:ss')).join('+');
         }
         pre += `&${cur}=${encodeURIComponent(paramValue)}`;
       }
       return pre;
-    }, "");
+    }, '');
     const { index, size } = page;
     state.tableData = [];
     const url = `/project/list?psize=${size}&pindex=${index}${paramStr}`;
@@ -52,7 +51,8 @@ export default function useListTable() {
       .get(url)
       .then((res: any) => {
         const { total = 0, list = [] } = res;
-        state.tableData = list;
+        state.tableData = tableDeserialize(list);
+        console.log(state.tableData);
         state.allItems = total;
       })
       .catch(() => {});
@@ -65,19 +65,19 @@ export default function useListTable() {
   // 批量操作
   function batchHandle(cmd: string) {
     switch (cmd) {
-      case "copy":
+      case 'copy':
         if (!selected.length) {
-          ElMessage.warning("至少选择一项");
+          ElMessage.warning('至少选择一项');
           return;
         }
         copy(
           selected
             .map(({ id }) => id)
             .filter((k) => k)
-            .join("|")
+            .join('|')
         )
-          ? ElMessage.success("已复制成功，可使用快捷键 CTRL+V 粘贴")
-          : ElMessage.error("复制失败，请稍后重试");
+          ? ElMessage.success('已复制成功，可使用快捷键 CTRL+V 粘贴')
+          : ElMessage.error('复制失败，请稍后重试');
         break;
         break;
       default:
@@ -90,6 +90,6 @@ export default function useListTable() {
     pageHandle,
     selectHandle,
     batchHandle,
-    sortHandle,
+    sortHandle
   };
 }
