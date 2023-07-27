@@ -6,10 +6,12 @@ import router from './router'
 import heimdallr from '../../packages/browser/esm'
 import vuePlugin from '../../packages/vue/esm'
 import domPlugin from '../../packages/dom/esm'
+import fetchPlugin from '../../packages/fetch/esm'
 import xhrPlugin from '../../packages/xhr/esm'
 import hashPlugin from '../../packages/hash/esm'
 import historyPlugin from '../../packages/history/esm'
 import recordPlugin from '../../packages/record/esm'
+import perPlugin from '../../packages/performance/esm'
 
 import './assets/main.css'
 
@@ -37,9 +39,11 @@ heimdallr({
       vue: app
     }),
     domPlugin(),
+    fetchPlugin(),
     xhrPlugin(),
     hashPlugin(),
     historyPlugin(),
-    recordPlugin()
+    recordPlugin(),
+    perPlugin()
   ]
 })

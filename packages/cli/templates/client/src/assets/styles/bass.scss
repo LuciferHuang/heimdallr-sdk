@@ -13,6 +13,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
+.el-sub-menu__title {
+  padding-right: unset;
+}
 ::-webkit-scrollbar{
     width: 8px;
     height: 8px;

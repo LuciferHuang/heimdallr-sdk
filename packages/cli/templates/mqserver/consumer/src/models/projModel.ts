@@ -47,7 +47,7 @@ class ProjModel {
     try {
       const condition: ConditionType = { where: query };
       const skip = (pindex - 1) * Number(psize);
-      if (skip) {
+      if (skip && psize) {
         condition.skip = skip;
         condition.take = Number(psize);
       }

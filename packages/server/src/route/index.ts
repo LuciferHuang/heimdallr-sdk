@@ -27,13 +27,15 @@ router.get('/sourcemap/search', smSearch);
 router.get('/session/list', sessionList);
 
 router.get('/test', (req, res) => {
-  res.send({
-    code: 0,
-    data: {
-      mesaage: '测试接口'
-    },
-    msg: 'succeed'
-  });
+  setTimeout(() => {
+    res.send({
+      code: 0,
+      data: {
+        mesaage: '测试接口'
+      },
+      msg: 'succeed'
+    });
+  }, 4000)
 });
 
 // resource

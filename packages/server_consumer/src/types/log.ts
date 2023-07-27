@@ -1,6 +1,6 @@
 export interface LogItem {
   id?: string;
-  otime: string;
+  otime: Date;
   type: string;
   sub_type: string;
   session_id: string;
@@ -11,5 +11,5 @@ export interface LogItem {
   page_title: string;
   user_agent: string;
   language: string;
-  platform: string
+  platform: string;
 }

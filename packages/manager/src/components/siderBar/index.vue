@@ -125,18 +125,12 @@ export default defineComponent({
 </script>
 <style lang="scss">
 .mini {
-  width: 50px !important;
+  width: 64px !important;
   .sider-fold .el-icon {
     transform: rotate(180deg);
   }
-  .el-menu--collapse {
-    width: 100% !important;
-    .el-submenu__title,
-    .el-menu-item .el-tooltip {
-      padding: 0 15px !important;
-    }
-  }
 }
+
 .sider-bar {
   width: 180px;
   height: 100%;
@@ -146,7 +140,6 @@ export default defineComponent({
   text-align: center;
   user-select: none;
   font-size: 13px;
-  transition: 0.158s;
   z-index: 2;
   .sider-fold {
     height: 30px;

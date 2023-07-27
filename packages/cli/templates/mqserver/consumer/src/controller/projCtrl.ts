@@ -4,21 +4,22 @@ import ProjModel from '../models/projModel';
 
 const TAG = '[@heimdallr-sdk/server-consumer|projCtrl]:';
 
-const mq = new Rabbit('<%= rabbit_host %>');
+const mq = new Rabbit('localhost');
 const projModel = new ProjModel();
 
 export async function init(req, res) {
   const appInfo = { ...req.query };
-  const { id, name } = appInfo;
+  const { id, name, ctime } = appInfo;
   if (!id && !name) {
     res.send(failResponse('missing id or name'));
     return;
   }
-  const { data: count } = await projModel.count({ name });
-  if (count) {
-    res.send(successResponse(appInfo, 'already exist'));
+  const { data: projects } = await projModel.find(1, 1, { name });
+  if (projects && projects.length) {
+    res.send(successResponse(projects[0], 'already exist'));
     return;
   }
+  appInfo.ctime = new Date(ctime);
   const { status, msg } = await projModel.add([appInfo]);
   if (status) {
     res.send(successResponse(appInfo, msg));

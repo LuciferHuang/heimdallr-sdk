@@ -8,8 +8,8 @@ export interface Session {
     stay_time?: number;
     terminal?: string;
     language?: string;
-    etime?: string;
-    ltime?: string;
+    etime?: Date;
+    ltime?: Date;
     platform?: string;
     events?: string;
   }

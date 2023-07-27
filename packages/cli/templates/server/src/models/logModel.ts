@@ -1,5 +1,12 @@
 import { PrismaClient } from '@prisma/client';
-import { LogItem, ModelResponseType } from '../types';
+import { IAnyObject, LogItem, ModelResponseType } from '../types';
+
+interface LogCodition {
+  where?: IAnyObject;
+  orderBy?: any[];
+  skip?: number;
+  take?: number;
+}
 
 class LogModel {
   prisma: any;
@@ -68,12 +75,15 @@ class LogModel {
       if (order) {
         orderBy.push(order);
       }
-      const result = await this.prisma.log.findMany({
-        skip,
-        take: Number(psize),
+      const condition: LogCodition = {
         where: query,
         orderBy
-      });
+      };
+      if (pindex && psize) {
+        condition.skip = skip;
+        condition.take = Number(psize);
+      }
+      const result = await this.prisma.log.findMany(condition);
       return {
         status: true,
         data: result,

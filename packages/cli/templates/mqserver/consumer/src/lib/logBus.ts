@@ -34,6 +34,7 @@ export async function add(message: string): Promise<InterfaceResponseType<IAnyOb
     if (!id || !app_id) {
       return failResponse('missing id or app_id');
     }
+    const otime = new Date(time);
     // 面包屑
     let bcIds = [];
     const breadcrumb = JSON.parse(breadcrumbJson);
@@ -78,8 +79,8 @@ export async function add(message: string): Promise<InterfaceResponseType<IAnyOb
               stay_time: 0,
               terminal: isMobileDevice(user_agent) ? DeviceType.MOBILE : DeviceType.PC,
               language,
-              etime: time,
-              ltime: '',
+              etime: otime,
+              ltime: otime,
               events: '',
               platform
             }
@@ -97,13 +98,13 @@ export async function add(message: string): Promise<InterfaceResponseType<IAnyOb
             const { etime } = targetSession;
             let stayTime = 0;
             if (etime) {
-              stayTime = new Date(time).getTime() - new Date(etime).getTime();
+              stayTime = otime.getTime() - etime.getTime();
             }
             response = await sessionModel.modify(
               { id: session_id },
               {
                 stay_time: stayTime,
-                ltime: time
+                ltime: otime
               }
             );
           }
@@ -141,7 +142,7 @@ export async function add(message: string): Promise<InterfaceResponseType<IAnyOb
     const logInfo: LogItem = {
       ascription_id: app_id,
       session_id,
-      otime: time,
+      otime,
       type,
       sub_type,
       breadcrumb: JSON.stringify(bcIds),

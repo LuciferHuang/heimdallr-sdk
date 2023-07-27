@@ -12,7 +12,7 @@ model Project {
     name   String @unique
     leader String
     desc   String
-    ctime  String
+    ctime  DateTime
 }
 
 model Session {
@@ -27,15 +27,15 @@ model Session {
     terminal   String
     language   String
     events     String   @db.LongText
-    etime      String
-    ltime      String
+    etime      DateTime
+    ltime      DateTime
     ctime      DateTime @default(now()) @updatedAt
 }
 
 model Log {
     id            String   @unique
     ctime         DateTime @default(now()) @updatedAt
-    otime         String
+    otime         DateTime
     type          String
     sub_type      String
     session_id    String
@@ -55,5 +55,5 @@ model BreadCrumb {
     type     String
     message  String
     level    String
-    time     String
+    time     DateTime
 }

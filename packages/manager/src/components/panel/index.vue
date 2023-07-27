@@ -4,6 +4,7 @@
       <h4 class="title">{{ title }}</h4>
       <span v-if="plugins.includes('more')" class="sub-text" @click="more">查看更多</span>
       <span v-if="plugins.includes('collapse')" class="sub-text" @click="collapseHandle">{{ collapse ? '展开' : '收起' }}</span>
+      <slot name="header-operate"/>
     </div>
     <div class="panel-bd" :class="{ 'collapse-bd': collapse }">
       <el-icon v-if="collapse" class="collapse-bar" @click="collapseHandle"><ArrowRightBold /></el-icon>

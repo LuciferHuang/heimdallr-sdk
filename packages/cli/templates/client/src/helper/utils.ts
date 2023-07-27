@@ -12,9 +12,7 @@ export const getDateRange = (index: number, format = 'yyyy-MM-dd'): string[] => 
   const minuts = date.getTime() + 1000 * 60 * 60 * 24 * index;
   newDate.setTime(minuts); // 新日期
   const arr = [];
-  const unixDb = newDate.getTime() - 24 * 60 * 60 * 1000;
-  const unixDe = new Date().getTime() - 24 * 60 * 60 * 1000;
-  for (let k = unixDb; k <= unixDe; ) {
+  for (let k = newDate.getTime(); k <= date.getTime(); ) {
     k = k + 24 * 60 * 60 * 1000;
     arr.push(formatDate(new Date(k), format));
   }

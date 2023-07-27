@@ -21,6 +21,7 @@ import siderBar from "components/siderBar/index.vue";
     padding: 18px;
     height: 100%;
     overflow-y: scroll;
+    overflow-x: hidden;
     .head-icon {
       width: 5px;
       height: 23px;

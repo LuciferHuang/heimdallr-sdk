@@ -94,7 +94,6 @@ const tableConfig: ColumnConfig[] = [
   {
     prop: 'id',
     label: 'ID',
-    width: 320,
     plugins: ['copy']
   },
   {
@@ -114,12 +113,10 @@ const tableConfig: ColumnConfig[] = [
   },
   {
     prop: 'ascription',
-    width: 158,
     label: '应用'
   },
   {
     prop: 'sessionId',
-    width: 320,
     label: '会话ID',
     plugins: ['copy']
   },

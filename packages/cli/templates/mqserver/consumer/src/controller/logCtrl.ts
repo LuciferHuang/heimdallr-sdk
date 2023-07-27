@@ -3,7 +3,7 @@ import { add as logAdd, list as logList, detail as logDetail } from '../lib/logB
 
 const TAG = '[@heimdallr-sdk/server-consumer|logCtrl]:';
 
-const mq = new Rabbit('<%= rabbit_host %>');
+const mq = new Rabbit('localhost');
 
 /**
  * 列表

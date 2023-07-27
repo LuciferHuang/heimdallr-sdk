@@ -57,6 +57,7 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
     res.send(failResponse('missing id or app_id'));
     return;
   }
+  const otime = new Date(time);
   try {
     // 面包屑
     let bcIds = [];
@@ -67,7 +68,7 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
         level: ele.level,
         message: ele.message,
         event_id: ele.eventId,
-        time: `${ele.time}`,
+        time: new Date(ele.time),
         id: generateUUID()
       }));
       const { status: bcStatus } = await bcModel.add(bcs);
@@ -100,8 +101,8 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
               stay_time: 0,
               terminal: isMobileDevice(user_agent) ? DeviceType.MOBILE : DeviceType.PC,
               language,
-              etime: time,
-              ltime: '',
+              etime: otime,
+              ltime: otime,
               events: '',
               platform
             }
@@ -119,13 +120,13 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
             const { etime } = targetSession;
             let stayTime = 0;
             if (etime) {
-              stayTime = new Date(time).getTime() - new Date(etime).getTime();
+              stayTime = otime.getTime() - etime.getTime();
             }
             response = await sessionModel.modify(
               { id: session_id },
               {
                 stay_time: stayTime,
-                ltime: time
+                ltime: otime
               }
             );
           }
@@ -164,7 +165,7 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
     const logInfo: LogItem = {
       ascription_id: app_id,
       session_id,
-      otime: time,
+      otime,
       type,
       sub_type,
       breadcrumb: JSON.stringify(bcIds),

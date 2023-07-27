@@ -7,6 +7,11 @@
     <title>Vite App</title>
   </head>
   <body>
+    <script>
+      // 模拟慢页面
+      const stopTime = Date.now() + 2000;
+      while(Date.now() < stopTime);
+    </script>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

@@ -2,7 +2,7 @@
   <header class="top-bar">
     <div class="heade-left" @click="toIndex">
       <el-icon><Watermelon /></el-icon>
-      <span class="mg-l-8"><%= name %></span>
+      <span class="mg-l-8">监控后台</span>
     </div>
     <div class="heade-right">
       <div class="heade-user mg-l-18">

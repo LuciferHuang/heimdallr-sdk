@@ -23,11 +23,11 @@
   },
   "dependencies": {
     "@prisma/client": "^4.8.1",
-    "portfinder": "^1.0.32",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "express-formidable": "^1.2.0",
     "express-ip": "^1.0.4",
+    "portfinder": "^1.0.32",
     "prisma": "^4.2.0",
     "source-map": "^0.7.4"
   },
