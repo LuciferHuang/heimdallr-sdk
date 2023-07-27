@@ -1,15 +1,12 @@
 {
   "name": "@heimdallr-sdk/page-crash-worker",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "@heimdallr-sdk/page-crash-worker",
   "license": "MIT",
   "author": "LuciferHuang",
   "main": "dist/page_crash_worker.iife.js",
-  "module": "esm/index.js",
-  "types": "esm/index.d.ts",
   "files": [
-    "dist",
-    "esm"
+    "dist"
   ],
   "homepage": "https://github.com/LuciferHuang/heimdallr-sdk/blob/main/packages/page_crash_worker/README.md",
   "repository": {

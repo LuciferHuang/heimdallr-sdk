@@ -4,7 +4,7 @@
 
 ## Usage
 
-link: `https://cdn.jsdelivr.net/npm/@heimdallr-sdk/page-crash-worker@0.0.19/dist/page_crash_worker.iife.js`
+link: `https://cdn.jsdelivr.net/npm/@heimdallr-sdk/page-crash-worker@0.0.20/dist/page_crash_worker.iife.js`
 
 ### npm
 
@@ -24,7 +24,7 @@ heimdallr({
     },
     plugins: [
         page_crashPlugin({
-            pageCrashWorkerUrl: 'https://cdn.jsdelivr.net/npm/@heimdallr-sdk/page-crash-worker@0.0.19/dist/page_crash_worker.iife.js'
+            pageCrashWorkerUrl: 'https://cdn.jsdelivr.net/npm/@heimdallr-sdk/page-crash-worker@0.0.20/dist/page_crash_worker.iife.js'
         }),
     ],
 });
@@ -48,7 +48,7 @@ heimdallr({
         },
         plugins: [
             HEIMDALLR_PAGE_CRASH({
-                pageCrashWorkerUrl: 'https://cdn.jsdelivr.net/npm/@heimdallr-sdk/page-crash-worker@0.0.19/dist/page_crash_worker.iife.js'
+                pageCrashWorkerUrl: 'https://cdn.jsdelivr.net/npm/@heimdallr-sdk/page-crash-worker@0.0.20/dist/page_crash_worker.iife.js'
             }),
         ],
     };
