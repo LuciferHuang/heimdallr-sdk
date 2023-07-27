@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/page-crash-worker",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "description": "@heimdallr-sdk/page-crash-worker",
   "license": "MIT",
   "author": "LuciferHuang",
@@ -32,9 +32,7 @@
   },
   "scripts": {
     "dev": "rollup --config rollup.config.dev.js -w",
-    "build": "run-p build:bundle build:esm",
-    "build:bundle": "rimraf dist && rollup --config",
-    "build:esm": "rimraf esm && tsc -p tsconfig.json"
+    "build": "rimraf dist && rollup --config"
   },
   "dependencies": {
     "@heimdallr-sdk/types": "^0.0.15",
