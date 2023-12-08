@@ -69,10 +69,17 @@ export abstract class Core<O extends BaseOptionsType> {
   use(plugins: BasePluginType[]) {
     const { uploadUrl, enabled } = this.context;
     const sub = new Subscribe();
+    const map = new Map<string, number>();
     for (const plugin of plugins) {
-      plugin.monitor.call(this, sub.notify.bind(sub, plugin.name));
+      const { name, monitor, transform } = plugin || {};
+      if(!name || !monitor || !transform || map.has(name)) {
+        this.log(`The plugin name [${name}] is duplicate, please modify it.`);
+        return;
+      }
+      map.set(name, 1);
+      monitor.call(this, sub.notify.bind(sub, name));
       const callback = (...args: any[]) => {
-        const pluginDatas = plugin.transform.apply(this, args);
+        const pluginDatas = transform.apply(this, args);
         const datas = this.transform(pluginDatas);
         if (!datas) {
           return;
@@ -87,7 +94,7 @@ export abstract class Core<O extends BaseOptionsType> {
         }
         this.nextTick(this.report, this, uploadUrl, { app_id: this.appID, ...datas });
       };
-      sub.watch(plugin.name, callback);
+      sub.watch(name, callback);
     }
   }
 
