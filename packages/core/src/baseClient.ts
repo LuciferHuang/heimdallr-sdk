@@ -19,14 +19,14 @@ export abstract class Core<O extends BaseOptionsType> {
   private isReady: Boolean;
 
   constructor(options: O) {
+    this.options = options;
+    this.bindOptions();
     if (!this.isRightEnv()) {
       this.log('Client does not match the environment');
       return;
     }
     this.isReady = false;
     this.taskQueue = [];
-    this.options = options;
-    this.bindOptions();
     this.initAPP().then((id) => {
       // 处理应用id
       if (id && this.appID !== id) {

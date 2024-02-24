@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/wx",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A SDK For Monitoring wechat applet",
   "license": "MIT",
   "author": "LuciferHuang",
@@ -36,7 +36,7 @@
     "build:esm": "rimraf esm && tsc -p tsconfig.json"
   },
   "dependencies": {
-    "@heimdallr-sdk/core": "^0.0.23",
+    "@heimdallr-sdk/core": "^0.0.24",
     "@heimdallr-sdk/types": "^0.0.15",
     "@heimdallr-sdk/utils": "^0.0.19"
   }
