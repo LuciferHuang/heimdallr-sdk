@@ -14,7 +14,8 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: '介绍', link: '/intro/framework' },
-      { text: '使用', link: '/usage/browser' }
+      { text: '使用', link: '/usage/browser' },
+      { text: '赞助', link: '/sponsor/index' }
     ],
 
     sidebar: [

@@ -74,3 +74,15 @@ Build all packages
 ```bash
 yarn build
 ```
+
+## Sponsor
+
+持续优化更新中...
+
+完全开源，绝不收费！！！
+
+如果对您有所帮助，那就小小支持一下吧 😘
+
+|Alipay|Wechat|
+|-|-|
+|<img style="width: 200px" src="./docs/sponsor/alipay.jpg"/>|<img style="width: 193px" src="./docs/sponsor/wechat.jpg"/>|
