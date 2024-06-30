@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://github.com/LuciferHuang/heimdallr-sdk/compare/v0.0.16...v0.1.0) (2024-06-30)
+
+
+### Features
+
+* [@heimdallr-sdk/manager] add type-json-mapper ([6dae3e9](https://github.com/LuciferHuang/heimdallr-sdk/commit/6dae3e9aa6be6acec40eb32f9aed16b52af9d653))
+
+
+### Bug Fixes
+
+* [@heimdallr-sdk/core] excute log function before bindOptions ([765d06f](https://github.com/LuciferHuang/heimdallr-sdk/commit/765d06f9983320fa81a8750ce0166aee899db1ea))
+* [@heimdallr-sdk/wx] Lifecycle called twice ([e341361](https://github.com/LuciferHuang/heimdallr-sdk/commit/e3413612ba3aa592686fc881b4e9cba150e8d100))
+
+
+### Performance Improvements
+
+* [@heimdallr-sdk/core] 增加插件重名检查 ([6a0ed30](https://github.com/LuciferHuang/heimdallr-sdk/commit/6a0ed30f3173b0d4f862b576cada0329904fd557))
+* [@heimdallr-sdk/manager] [@heimdallr-sdk/server] improve data analysis ([cf98ee7](https://github.com/LuciferHuang/heimdallr-sdk/commit/cf98ee7fa4e388c82fd59ddf837155b5cb3c2a38))
+
+
+### Reverts
+
+* Revert "fix: [@heimdallr-sdk/utils] fix formatDate formatNumber (#9)" (#19) ([8bbd533](https://github.com/LuciferHuang/heimdallr-sdk/commit/8bbd533f5cd56fc74f554df37c5579025bc809b6)), closes [#9](https://github.com/LuciferHuang/heimdallr-sdk/issues/9) [#19](https://github.com/LuciferHuang/heimdallr-sdk/issues/19)
+
+
+### Others
+
+* [@heimdallr-sdk/page-crash-worker] change the primary entry point ([b387b80](https://github.com/LuciferHuang/heimdallr-sdk/commit/b387b80a855c51c9aa2b0510029f88d1ebf71211))
+* [@heimdallr-sdk/page-crash-worker] remove umd outputs ([8ea576f](https://github.com/LuciferHuang/heimdallr-sdk/commit/8ea576ffb91462fe3dbc0d6a0b45308005b795ca))
+
+
+### Docs
+
+* [@heimdallr-sdk/page-crash-worker] update usage ([cd5b70c](https://github.com/LuciferHuang/heimdallr-sdk/commit/cd5b70c1131811055bbdc4ae1b155826398db7e8))
+* add sponsor ([8547e92](https://github.com/LuciferHuang/heimdallr-sdk/commit/8547e927a4072fbd2e2e8143eec038b03fc0c32c))
+
+
+### Code Refactoring
+
+* 优化上报数据 ([0b02aa0](https://github.com/LuciferHuang/heimdallr-sdk/commit/0b02aa05b63799dcceb6a356a19a7c81582230ac))
+
 ### [0.0.16](https://github.com/LuciferHuang/heimdallr-sdk/compare/v0.0.15...v0.0.16) (2023-06-29)
 
 
