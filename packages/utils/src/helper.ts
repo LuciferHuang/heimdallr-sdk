@@ -30,7 +30,7 @@ export const formatDate = (format = 'Y-M-D h:m:s', timestamp: number = Date.now(
     m: date.getMinutes(),
     s: date.getSeconds()
   };
-  const formatNumber = (n) => (n >= 10 ? n : '0' + n);
+  const formatNumber = (n) => (n > 10 ? n : '0' + n);
   const res = (format || 'Y-M-D h:m:s')
     .replace('Y', dateInfo.Y)
     .replace('M', dateInfo.M)
