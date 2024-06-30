@@ -1,3 +1,5 @@
+import { CodeErrorOptions } from '../types/index';
+import { parseStackFrames } from '../lib/parseErrorStk';
 import {
   BasePluginType,
   BrowserErrorTypes,
@@ -5,14 +7,18 @@ import {
   ReportDataType,
   BrowserBreadcrumbTypes,
   ConsoleTypes,
-  BreadcrumbLevel
+  BreadcrumbLevel,
+  IAnyObject,
+  StoreType
 } from '@heimdallr-sdk/types';
-import { generateUUID, formatDate } from '@heimdallr-sdk/utils';
+import { generateUUID, getStore, setStore } from '@heimdallr-sdk/utils';
 import { CodeErrorType, ResourceErrorType } from '../types';
+
+const ERROR_CACHE = 'HEIMDALLR_SDK_ERROR_CACHE';
 
 interface CollectedType {
   category: EventTypes;
-  data: Event;
+  data: ErrorEvent;
 }
 
 interface ResourceTarget {
@@ -21,76 +27,98 @@ interface ResourceTarget {
   localName?: string;
 }
 
-const errorPlugin: BasePluginType = {
-  name: 'jsErrorPlugin',
-  monitor(notify: (data: CollectedType) => void) {
-    window.addEventListener(
-      'error',
-      (e: Event) => {
-        e.preventDefault();
-        this.log(e, ConsoleTypes.ERROR);
-        notify({
-          category: EventTypes.ERROR,
-          data: e
+const getErrorUid = (input: IAnyObject) => window.btoa(encodeURIComponent(JSON.stringify(input)));
+
+const errorPlugin = (options: CodeErrorOptions): BasePluginType => {
+  const { stkLimit = 3 } = options;
+  return {
+    name: 'jsErrorPlugin',
+    monitor(notify: (data: CollectedType) => void) {
+      window.addEventListener(
+        'error',
+        (e: ErrorEvent) => {
+          e.preventDefault();
+          this.log(e, ConsoleTypes.ERROR);
+          notify({
+            category: EventTypes.ERROR,
+            data: e
+          });
+        },
+        true
+      );
+    },
+    transform(collectedData: CollectedType): ReportDataType<ResourceErrorType | CodeErrorType> {
+      const { category, data } = collectedData;
+      const { localName, src, href } = (data.target as ResourceTarget) || {};
+      const lid = generateUUID();
+      let errorCaches = getStore<Array<string>>(StoreType.SESSION, ERROR_CACHE);
+      if (!Array.isArray(errorCaches)) {
+        errorCaches = [];
+      }
+      if (localName) {
+        // 资源加载错误
+        const resourceData = {
+          source: localName,
+          href: src || href
+        };
+        // 上报用户行为栈
+        this.breadcrumb.unshift({
+          lid,
+          bt: BrowserBreadcrumbTypes.RESOURCE,
+          l: BreadcrumbLevel.FATAL,
+          msg: `Unable to load "${resourceData.href}"`,
+          t: this.getTime()
         });
-      },
-      true
-    );
-  },
-  transform(collectedData: CollectedType): ReportDataType<ResourceErrorType | CodeErrorType> {
-    const { category, data } = collectedData;
-    const { localName, src, href } = (data.target as ResourceTarget) || {};
-    const id = generateUUID();
-    const time = formatDate();
-    if (localName) {
-      // 资源加载错误
-      const resourceData = {
-        source_type: localName,
-        href: src || href
-      };
+        const errorUid = getErrorUid(resourceData);
+        if (errorCaches.includes(errorUid)) {
+          return null;
+        }
+        errorCaches.push(errorUid);
+        setStore(StoreType.SESSION, ERROR_CACHE, errorCaches);
+        return {
+          lid,
+          t: this.getTime(),
+          e: category,
+          dat: {
+            st: BrowserErrorTypes.RESOURCEERROR,
+            ...resourceData
+          }
+        };
+      }
+      // 代码错误
+      const { message: msg, error } = data;
       // 上报用户行为栈
       this.breadcrumb.unshift({
-        eventId: id,
-        type: BrowserBreadcrumbTypes.RESOURCE,
-        level: BreadcrumbLevel.FATAL,
-        message: `Unable to load "${resourceData.href}"`
+        lid,
+        bt: BrowserBreadcrumbTypes.CODE_ERROR,
+        l: BreadcrumbLevel.ERROR,
+        msg,
+        t: this.getTime()
       });
-      const breadcrumb = this.breadcrumb.getStack();
+      const frames = parseStackFrames(error, stkLimit);
+      const stk = frames.map(({ lineno: lin, colno: col, filename: file, functionName: fn }) => ({ lin, col, file, fn }));
+      const [topStk] = stk;
+      const errorUid = getErrorUid({
+        msg,
+        ...topStk
+      });
+      if (errorCaches.includes(errorUid)) {
+        return null;
+      }
+      errorCaches.push(errorUid);
+      setStore(StoreType.SESSION, ERROR_CACHE, errorCaches);
       return {
-        id,
-        time,
-        type: category,
-        breadcrumb,
-        data: {
-          sub_type: BrowserErrorTypes.RESOURCEERROR,
-          ...resourceData
+        lid,
+        t: this.getTime(),
+        e: category,
+        dat: {
+          st: BrowserErrorTypes.CODEERROR,
+          msg,
+          stk
         }
       };
     }
-    // 代码错误
-    const { message, lineno, colno, filename } = data as ErrorEvent;
-    // 上报用户行为栈
-    this.breadcrumb.unshift({
-      eventId: id,
-      type: BrowserBreadcrumbTypes.CODE_ERROR,
-      level: BreadcrumbLevel.ERROR,
-      message
-    });
-    const breadcrumb = this.breadcrumb.getStack();
-    return {
-      id,
-      time,
-      type: category,
-      breadcrumb,
-      data: {
-        sub_type: BrowserErrorTypes.CODEERROR,
-        message,
-        lineno,
-        colno,
-        filename
-      }
-    };
-  }
+  };
 };
 
 export default errorPlugin;

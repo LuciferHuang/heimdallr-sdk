@@ -11,7 +11,7 @@ interface lgt {
 
 interface WhereConditionType {
   type?: string;
-  sub_type?: string;
+  sub_type?: number;
   ascription_id?: string;
   OR?: WhereConditionType[];
   otime?: lgt;
@@ -42,21 +42,21 @@ async function projGet(projId: string, start: Date, end?: Date): Promise<ProjRes
     ascription_id: projId,
     OR: [
       {
-        type: 'error'
+        type: '2'
       },
       {
-        sub_type: 'error'
+        sub_type: 91
       }
     ]
   };
   const perWhere: WhereConditionType = {
     ascription_id: projId,
-    type: 'performance',
-    sub_type: 'fmp'
+    type: '3',
+    sub_type: 31
   };
   const apiWhere: WhereConditionType = {
     ascription_id: projId,
-    type: 'api'
+    type: '4'
   };
   if (start) {
     errWhere.otime = {
@@ -153,21 +153,21 @@ async function totalGet(start?: Date, end?: Date): Promise<TotalResultType> {
     otime: {},
     OR: [
       {
-        type: 'error'
+        type: '2'
       },
       {
-        sub_type: 'error'
+        sub_type: 91
       }
     ]
   };
   const perWhere: WhereConditionType = {
     otime: {},
-    type: 'performance',
-    sub_type: 'fmp'
+    type: '3',
+    sub_type: 31
   };
   const apiWhere: WhereConditionType = {
     otime: {},
-    type: 'api'
+    type: '4'
   };
   if (start) {
     errWhere.otime.gt = start;

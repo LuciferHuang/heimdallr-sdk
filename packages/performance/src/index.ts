@@ -1,6 +1,6 @@
 import { BasePluginType, EventTypes, PerTypes, ReportDataType } from '@heimdallr-sdk/types';
 import { PerformanceBasicMsgType, PerformanceFeat, PerformanceOptions, PerformanceSingleMsgType, PerformanceVitalsMsgType } from './types';
-import { formatDate, generateUUID } from '@heimdallr-sdk/utils';
+import { generateUUID } from '@heimdallr-sdk/utils';
 import getBasic from './lib/basic';
 import getVitals from './lib/vitals';
 import getResources from './lib/resources';
@@ -21,7 +21,7 @@ function perPlugin(options: PerformanceOptions = {}): BasePluginType {
         const fmpTiming = new FMPTiming();
         fmpTiming.initObserver().then((fmp) => {
           notify({
-            sub_type: PerTypes.FMP,
+            st: PerTypes.FMP,
             value: fmp
           });
         });
@@ -30,7 +30,7 @@ function perPlugin(options: PerformanceOptions = {}): BasePluginType {
       if (!performancOff.includes(PerformanceFeat.VITALS)) {
         getVitals().then((vitals) => {
           notify({
-            sub_type: PerTypes.VITALS,
+            st: PerTypes.VITALS,
             ...vitals
           });
         });
@@ -41,14 +41,14 @@ function perPlugin(options: PerformanceOptions = {}): BasePluginType {
           // 基础参数
           if (!performancOff.includes(PerformanceFeat.BASIC)) {
             notify({
-              sub_type: PerTypes.BASIC,
+              st: PerTypes.BASIC,
               ...getBasic()
             });
           }
           // 资源耗时
           if (!performancOff.includes(PerformanceFeat.RESOURCE)) {
             notify({
-              sub_type: PerTypes.RESOURCE,
+              st: PerTypes.RESOURCE,
               value: getResources()
             });
           }
@@ -57,7 +57,7 @@ function perPlugin(options: PerformanceOptions = {}): BasePluginType {
             fpsTool.run();
             setTimeout(() => {
               notify({
-                sub_type: PerTypes.FPS,
+                st: PerTypes.FPS,
                 value: fpsTool.get()
               });
               fpsTool.destroy();
@@ -69,10 +69,10 @@ function perPlugin(options: PerformanceOptions = {}): BasePluginType {
     },
     transform(collectedData: CollectedData): ReportDataType<CollectedData> {
       return {
-        id: generateUUID(),
-        time: formatDate(),
-        type: EventTypes.PERFORMANCE,
-        data: {
+        lid: generateUUID(),
+        t: this.getTime(),
+        e: EventTypes.PERFORMANCE,
+        dat: {
           ...collectedData
         }
       };

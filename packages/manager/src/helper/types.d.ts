@@ -24,3 +24,6 @@ export declare interface Option {
   value: string | number;
   label: string;
 }
+export interface IAnyObject {
+  [key: string]: any;
+}

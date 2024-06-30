@@ -1,5 +1,5 @@
-import { BasePluginType, BrowserErrorTypes, ClientInfoType, PlatformTypes, StoreKeyType, StoreType } from '@heimdallr-sdk/types';
-import { generateUUID, getStore } from '@heimdallr-sdk/utils';
+import { BasePluginType, ClientInfoType, PlatformTypes, StoreKeyType, StoreType } from '@heimdallr-sdk/types';
+import { generateUUID, getStore, getCookie } from '@heimdallr-sdk/utils';
 
 export interface PageCrashPluginOptions {
   /**
@@ -14,7 +14,7 @@ function pageCrashPlugin(options: PageCrashPluginOptions = {}): BasePluginType {
   const { pageCrashWorkerUrl } = options;
   const HEARTBEAT_INTERVAL = 5 * 1000; // 5秒一次
   return {
-    name: BrowserErrorTypes.PAGECRASH,
+    name: 'pageCrashPlugin',
     monitor() {
       if (Worker) {
         if (!pageCrashWorkerUrl) {
@@ -25,18 +25,23 @@ function pageCrashPlugin(options: PageCrashPluginOptions = {}): BasePluginType {
         const { uploadUrl } = this.context;
         const workerSessionId = generateUUID();
         const { userAgent, language } = navigator;
-        const { title } = document;
+        const { title, documentElement, body } = document;
         const { href } = location;
-        const id = getStore(StoreType.LOCAL, StoreKeyType.APP);
-        const sessionID = getStore(StoreType.LOCAL, StoreKeyType.SESSION);
+        const { innerWidth, innerHeight } = window;
+        const aid = getStore<string>(StoreType.LOCAL, StoreKeyType.APP);
+        const sid = getStore<string>(StoreType.LOCAL, StoreKeyType.SESSION_ID);
+        const uid = getCookie(StoreKeyType.USER_ID)
         const clientInfo: ClientInfoType = {
-          app_id: id, // 应用id
-          session_id: sessionID, // 会话id
-          platform: PlatformTypes.BROWSER,
-          page_title: title, // 页面标题
-          path: href, // 页面路径
-          language, // 站点语言
-          user_agent: userAgent // 浏览器标识
+          aid, // 应用id
+          sid, // 会话id
+          uid,
+          p: PlatformTypes.BROWSER,
+          ttl: title, // 页面标题
+          url: href, // 页面路径
+          lan: language, // 站点语言
+          ua: userAgent, // 浏览器标识
+          ws: `${innerWidth}x${innerHeight}`,
+          ds: `${documentElement.clientWidth || body.clientWidth}x${documentElement.clientHeight || body.clientHeight}`
         };
         const data = {
           sendUrl: uploadUrl,

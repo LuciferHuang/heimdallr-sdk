@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/page-crash-worker",
-  "version": "0.0.20",
+  "version": "0.0.21",
   "description": "@heimdallr-sdk/page-crash-worker",
   "license": "MIT",
   "author": "LuciferHuang",
@@ -32,7 +32,7 @@
     "build": "rimraf dist && rollup --config"
   },
   "dependencies": {
-    "@heimdallr-sdk/types": "^0.0.15",
-    "@heimdallr-sdk/utils": "^0.0.19"
+    "@heimdallr-sdk/types": "^0.0.16",
+    "@heimdallr-sdk/utils": "^0.0.20"
   }
 }

@@ -5,6 +5,14 @@ defineProps<{
 function clickHandler() {
   throw new Error('冲冲冲')
 }
+function clickHandler2() {
+  Promise.reject('Hello, world!')
+}
+function clickHandler3() {
+  const img = document.createElement('img');
+  img.src = './test.png';
+  document.body.appendChild(img)
+}
 </script>
 
 <template>
@@ -16,6 +24,8 @@ function clickHandler() {
       <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>. What's next?
     </h3>
     <button @click="clickHandler">抛出错误</button>
+    <button @click="clickHandler2">promise错误</button>
+    <button @click="clickHandler3">资源加载错误</button>
   </div>
 </template>
 

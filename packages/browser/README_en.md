@@ -18,6 +18,7 @@ Report using sendBeacon API (post) by default
 |app|Object|Application Information|APPInfo|-|
 |enabled|Boolean|Whether to send events to the background|true/false|true|
 |maxBreadcrumbs|Number|Bread crumb maximum level|-|5|
+|stkLimit|Number|error stack depth|-|3|
 |userIdentify|Customer|User ID|-|-|
 |plugins|Array|Plug-in Collection|-|-|
 |debug|Boolean|Does the console display SDK output information|true/false|false|
@@ -28,7 +29,7 @@ Report using sendBeacon API (post) by default
 |-|-|-|-|
 |host|String|Report Interface Domain Name Address|-|
 |init|String|Application Initialization Interface Address|-|
-|upload|String|Log reporting interface address|-|
+|report|String|Log reporting interface address|-|
 
 ### APPInfo
 
@@ -55,7 +56,7 @@ Report using sendBeacon API (post) by default
         dsn: {
             host: 'localhost:8888',
             init: '/project/init',
-            upload: '/log/upload'
+            report: '/log/report'
         },
         app: {
             name: 'playgroundAPP',
@@ -79,7 +80,7 @@ heimdallr({
     dsn: {
         host: 'localhost:8888',
         init: '/project/init',
-        upload: '/log/upload'
+        report: '/log/report'
     },
     app: {
         name: 'playgroundAPP',

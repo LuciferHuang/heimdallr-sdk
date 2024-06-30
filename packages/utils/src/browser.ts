@@ -1,6 +1,6 @@
 import { StoreType, StoreTypes, TAG } from '@heimdallr-sdk/types';
 
-function getStoreIns(type: StoreTypes) {
+const getStoreIns = (type: StoreTypes) => {
   let store = null;
   switch (type) {
     case StoreType.LOCAL:
@@ -13,7 +13,7 @@ function getStoreIns(type: StoreTypes) {
       break;
   }
   return store;
-}
+};
 
 /**
  * 读取 localStorage 或 sessionStorage
@@ -22,7 +22,7 @@ function getStoreIns(type: StoreTypes) {
  * @param {boolean} needParse 是否需要解析json串
  * @return
  */
-export function getStore(type: StoreTypes, keyPath: string, needParse = true): any {
+export const getStore = <T>(type: StoreTypes, keyPath: string, needParse = true) => {
   if (!type || !keyPath) {
     return '';
   }
@@ -44,8 +44,8 @@ export function getStore(type: StoreTypes, keyPath: string, needParse = true): a
   } catch (err) {
     console.error(TAG, err);
   }
-  return result;
-}
+  return result as T;
+};
 
 /**
  * 存入 localStorage 或 sessionStorage
@@ -53,7 +53,7 @@ export function getStore(type: StoreTypes, keyPath: string, needParse = true): a
  * @param {string} key
  * @param {any} data
  */
-export function setStore(type: StoreType, key: string, data: any): void {
+export const setStore = (type: StoreType, key: string, data: any) => {
   if (!key) {
     return;
   }
@@ -62,7 +62,7 @@ export function setStore(type: StoreType, key: string, data: any): void {
     return;
   }
   store.setItem(key, JSON.stringify(data));
-}
+};
 
 /**
  * 写入cookies
@@ -70,36 +70,35 @@ export function setStore(type: StoreType, key: string, data: any): void {
  * @param {any} value
  * @param {number} days 保存天数
  */
-export function setCookie(key: string, value: any, days: number): void {
+export const setCookie = (key: string, value: any, days: number) => {
   if (!key || !value || !days) {
     return;
   }
   const exp = new Date(); // 获得当前时间
   exp.setTime(exp.getTime() + days * 24 * 60 * 60 * 1000); // 换成毫秒
   document.cookie = `${key}=${encodeURIComponent(value)};expires=${exp.toUTCString()}`;
-}
+};
 /**
  * 读取cookie
  * @param {string} key
  * @returns {string}
  */
-export function getCookie(key: string): string {
+export const getCookie = (key: string) => {
   if (!key) {
     return '';
   }
   const arr = document.cookie.match(new RegExp(`(^| )${key}=([^;]*)(;|$)`));
   if (arr != null) {
     return decodeURIComponent(arr[2]);
-  } else {
-    return '';
   }
-}
+  return '';
+};
 
 /**
  * 删除指定cookie
  * @param key
  */
-export function delCookie(key: string): void {
+export const delCookie = (key: string) => {
   if (!key) {
     return;
   }
@@ -109,4 +108,4 @@ export function delCookie(key: string): void {
   if (cval != null) {
     document.cookie = `${key}=${cval};expires=${exp.toUTCString()}`;
   }
-}
+};

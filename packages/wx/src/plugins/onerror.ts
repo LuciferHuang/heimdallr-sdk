@@ -1,4 +1,4 @@
-import { generateUUID, formatDate, replaceOld } from '@heimdallr-sdk/utils';
+import { generateUUID, replaceOld } from '@heimdallr-sdk/utils';
 import {
   BasePluginType,
   EventTypes,
@@ -28,7 +28,7 @@ function errorPlugin(): BasePluginType {
               }
               const [error] = args;
               client.log(error, ConsoleTypes.ERROR);
-              notify({ error });
+              notify({ err: error });
             };
           },
           true
@@ -37,23 +37,24 @@ function errorPlugin(): BasePluginType {
       };
     },
     transform(collectedData: WxErrorDataType): ReportDataType<WxErrorMsgType> {
-      const { error } = collectedData;
-      const id = generateUUID();
+      const { err } = collectedData;
+      const lid = generateUUID();
       this.breadcrumb.unshift({
-        eventId: id,
-        type: WxBreadcrumbTypes.ERROR,
-        level: BreadcrumbLevel.ERROR,
-        data: { error }
+        lid,
+        bt: WxBreadcrumbTypes.ERROR,
+        l: BreadcrumbLevel.ERROR,
+        msg: err,
+        t: this.getTime()
       });
       const breadcrumb = this.breadcrumb.getStack();
       return {
-        id,
-        time: formatDate(),
-        type: EventTypes.ERROR,
-        breadcrumb,
-        data: {
-          sub_type: WxErrorTypes.UNCAUGHTEXCEPTION,
-          error
+        lid,
+        t: this.getTime(),
+        e: EventTypes.ERROR,
+        b: breadcrumb,
+        dat: {
+          st: WxErrorTypes.UNCAUGHTEXCEPTION,
+          err
         }
       };
     }

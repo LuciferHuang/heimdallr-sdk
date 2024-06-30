@@ -3,7 +3,15 @@ import { ElMessage } from 'element-plus';
 import http from 'helper/http';
 import { DEFAULT_PAGE_SIZE } from 'config/others';
 import { copy, cusToRefs, formatDate } from 'helper/utils';
+import { logType as logTypeMap, subType as subTypeMap } from 'helper/config/filters'
 import { detailDeserialize, LogDetail, tableDeserialize } from '@/models/log';
+
+const detailLabel = {
+  type: '类型',
+  subType: '子类',
+  ascription: '应用',
+  otime: '发生时间'
+};
 
 export default function useListTable() {
   const state = reactive({
@@ -16,6 +24,7 @@ export default function useListTable() {
     isDrawerShow: false,
     codeDetail: {}
   });
+
   // 翻页
   const page = { index: 1, size: DEFAULT_PAGE_SIZE };
   function pageHandle({ pindex, psize }) {
@@ -23,6 +32,7 @@ export default function useListTable() {
     page.size = psize;
     loadData();
   }
+
   // 排序
   let sortParams: any = {
     orderParam: 'order',
@@ -30,10 +40,12 @@ export default function useListTable() {
     sortVal: 'otime',
     order: 'desc'
   };
+
   function sortHandle(params) {
     sortParams = params;
     loadData();
   }
+
   // 加载数据
   function loadData() {
     const params = cusToRefs(state.form);
@@ -65,11 +77,13 @@ export default function useListTable() {
       })
       .catch(() => {});
   }
+
   // 多选
   let selected = [];
   function selectHandle(val) {
     selected = val;
   }
+
   // 批量操作
   function batchHandle(cmd: string) {
     switch (cmd) {
@@ -91,6 +105,7 @@ export default function useListTable() {
         break;
     }
   }
+
   // 表格操作
   function operateHandle(cmd, row) {
     const { id } = row;
@@ -102,7 +117,52 @@ export default function useListTable() {
           .get(`/log/detail?id=${id}`)
           .then((res: any) => {
             state.isDrawerShow = true;
-            state.detail = detailDeserialize(res);
+            const detailRes = detailDeserialize(res);
+            const fields = [];
+            let arrayData = [];
+            const { path, subType, data } = detailRes;
+            Object.keys(detailRes).forEach((key) => {
+              if (!['data', 'path'].includes(key)) {
+                const lable = detailLabel[key] || key;
+                const val =  detailRes[key]
+                fields.push({
+                  label: detailLabel[key] || key,
+                  val: logTypeMap[val] || subTypeMap[val] || val
+                });
+              }
+            });
+            try {
+              const dataRes = JSON.parse(data);
+              switch (typeof dataRes) {
+                case 'object':
+                  if (subType === 35) {
+                    arrayData = dataRes.value;
+                  } else {
+                    Object.keys(dataRes).forEach((key) => {
+                      fields.push({
+                        label: key,
+                        val: dataRes[key]
+                      });
+                    });
+                  }
+                  break;
+                default:
+                  fields.push({
+                    label: 'data',
+                    val: dataRes
+                  });
+                  break;
+              }
+            } catch (error) {
+              console.error(error);
+            }
+            state.detail = {
+              fields,
+              path,
+              subType,
+              data: subType === 21 ? data : null,
+              arrayData
+            };
           })
           .catch(() => {});
         break;
@@ -110,23 +170,26 @@ export default function useListTable() {
         break;
     }
   }
+
   // tag类型
   function tagTypeFilter(type: string) {
     switch (type) {
-      case 'error':
+      case '错误':
         return 'danger';
-      case 'api':
+      case '请求':
         return 'warning';
-      case 'vue':
+      case 'Vue':
         return 'success';
-      case 'customer':
+      case '用户上报':
         return 'info';
       default:
         return '';
     }
   }
+
   const detail = computed(() => state.detail || {});
   const codeDetail = computed(() => state.codeDetail || {});
+
   async function showCode() {
     if (state.codeVisible) {
       state.codeVisible = false;
@@ -150,10 +213,12 @@ export default function useListTable() {
     }
     state.codeLoading = false;
   }
+
   function drawerClose() {
     state.codeLoading = false;
     state.codeVisible = false;
   }
+
   return {
     state,
     detail,

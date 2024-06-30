@@ -7,7 +7,7 @@ import {
   EventTypes,
   ReportDataType
 } from '@heimdallr-sdk/types';
-import { generateUUID, formatDate } from '@heimdallr-sdk/utils';
+import { generateUUID } from '@heimdallr-sdk/utils';
 import { PromiseErrorType } from '../types';
 
 interface CollectedType {
@@ -16,7 +16,7 @@ interface CollectedType {
 }
 
 const PromiseErrorPlugin: BasePluginType = {
-  name: BrowserErrorTypes.UNHANDLEDREJECTION,
+  name: 'promiseErrorPlugin',
   monitor(notify: (data: CollectedType) => void) {
     window.addEventListener('unhandledrejection', (e: PromiseRejectionEvent) => {
       e.preventDefault();
@@ -32,28 +32,27 @@ const PromiseErrorPlugin: BasePluginType = {
       category,
       data: { reason }
     } = collectedData;
-    let message: string;
+    let msg: string;
     if (typeof reason === 'string') {
-      message = reason;
+      msg = reason;
     } else if (typeof reason === 'object' && reason.stack) {
-      message = reason.stack;
+      msg = reason.stack;
     }
-    const id = generateUUID();
+    const lid = generateUUID();
     this.breadcrumb.unshift({
-      eventId: id,
-      type: BrowserBreadcrumbTypes.UNHANDLEDREJECTION,
-      level: BreadcrumbLevel.ERROR,
-      message
+      lid,
+      bt: BrowserBreadcrumbTypes.UNHANDLEDREJECTION,
+      l: BreadcrumbLevel.ERROR,
+      msg,
+      t: this.getTime()
     });
-    const breadcrumb = this.breadcrumb.getStack();
     return {
-      id,
-      time: formatDate(),
-      type: category,
-      breadcrumb,
-      data: {
-        sub_type: BrowserErrorTypes.UNHANDLEDREJECTION,
-        message
+      lid,
+      t: this.getTime(),
+      e: category,
+      dat: {
+        st: BrowserErrorTypes.UNHANDLEDREJECTION,
+        msg,
       }
     };
   }

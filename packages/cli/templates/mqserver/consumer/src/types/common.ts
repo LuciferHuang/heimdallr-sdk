@@ -28,26 +28,26 @@ export interface IPInfo {
 }
 
 export enum DeviceType {
-  MOBILE = 'mobile',
-  PC = 'pc'
+  MOBILE = 1,
+  PC
 }
 export enum EventTypes {
-  API = 'api',
-  DOM = 'dom',
-  PERFORMANCE = 'performance',
-  ROUTE = 'route',
-  ERROR = 'error',
-  CONSOLE = 'console',
-  CUSTOMER = 'customer',
-  VUE = 'vue',
-  LIFECYCLE = 'lifeCycle',
-  EXTEND = 'extend',
-  RECORD = 'record'
+  LIFECYCLE = 1,
+  ERROR,
+  PERFORMANCE,
+  API,
+  DOM,
+  ROUTE,
+  CONSOLE,
+  RECORD,
+  VUE,
+  CUSTOMER,
+  EXTEND,
 }
 export enum PageLifeType {
-  LOAD = 'enter',
-  UNLOAD = 'leave'
+  LOAD = 11,
+  UNLOAD
 }
 export enum RecordTypes {
-  SESSION = 'session'
+  SESSION = 81
 }

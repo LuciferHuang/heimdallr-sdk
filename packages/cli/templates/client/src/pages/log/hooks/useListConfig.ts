@@ -1,3 +1,5 @@
+import { logType, platform } from '@/helper/config/filters';
+import { Obj2Options } from '@/helper/utils';
 import { FilterItem } from 'components/filterGroup';
 import { OperateBtn } from 'components/tableOprate';
 import { ColumnConfig } from 'components/tableView';
@@ -24,59 +26,13 @@ const filterFormItems: FilterItem[] = [
     prop: 'platform',
     label: '平台',
     renderType: 'select',
-    options: [
-      {
-        value: 'browser',
-        label: '浏览器端'
-      },
-      {
-        value: 'wechat',
-        label: '微信小程序'
-      },
-      {
-        value: 'nodejs',
-        label: 'NodeJS'
-      }
-    ]
+    options: Obj2Options(platform)
   },
   {
     prop: 'type',
     label: '类型',
     renderType: 'select',
-    options: [
-      {
-        value: 'api',
-        label: '请求'
-      },
-      {
-        value: 'dom',
-        label: 'UI操作'
-      },
-      {
-        value: 'performance',
-        label: '性能'
-      },
-      {
-        value: 'route',
-        label: '路由'
-      },
-      {
-        value: 'error',
-        label: '错误'
-      },
-      {
-        value: 'console',
-        label: '控制台输出'
-      },
-      {
-        value: 'customer',
-        label: '用户上报'
-      },
-      {
-        value: 'vue',
-        label: 'Vue'
-      },
-    ]
+    options: Obj2Options(logType)
   }
 ];
 
@@ -113,7 +69,7 @@ const tableConfig: ColumnConfig[] = [
   },
   {
     prop: 'ascription',
-    label: '应用'
+    label: '项目'
   },
   {
     prop: 'sessionId',
@@ -145,20 +101,11 @@ const tableConfig: ColumnConfig[] = [
   }
 ];
 
-const levelTypeMap = {
-  fatal: 'danger',
-  error: 'danger',
-  warn: 'warning',
-  info: 'info',
-  debug: ''
-};
-
 export default function useListConfig() {
   return {
     dataPath: 'list',
     tableOprates,
     filterFormItems,
-    tableConfig,
-    levelTypeMap
+    tableConfig
   };
 }

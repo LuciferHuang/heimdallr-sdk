@@ -82,10 +82,13 @@
       </section>
       <section>
         <h1>2. Log</h1>
-        <h2>upload <span>[POST/GET]</span></h2>
+        <h2>
+          report
+          <span>[POST/GET]</span>
+        </h2>
         <div class="api-container">
           <h3>url</h3>
-          <p>/log/upload</p>
+          <p>/log/report</p>
           <h3>params</h3>
           <table border>
             <thead>
@@ -95,47 +98,47 @@
             </thead>
             <tbody>
               <tr>
-                <td>app_id</td>
+                <td>aid</td>
                 <td>string</td>
                 <td>应用id</td>
               </tr>
               <tr>
-                <td>id</td>
+                <td>lid</td>
                 <td>string</td>
                 <td>日志id</td>
               </tr>
               <tr>
-                <td>time</td>
+                <td>t</td>
                 <td>string</td>
                 <td>上报时间</td>
               </tr>
               <tr>
-                <td>data</td>
+                <td>dat</td>
                 <td>string</td>
                 <td>上报信息（json字符串）</td>
               </tr>
               <tr>
-                <td>breadcrumb</td>
+                <td>b</td>
                 <td>string</td>
                 <td>面包屑（json字符串）</td>
               </tr>
               <tr>
-                <td>path</td>
+                <td>url</td>
                 <td>string</td>
                 <td>页面路径</td>
               </tr>
               <tr>
-                <td>language</td>
+                <td>lan</td>
                 <td>string</td>
                 <td>浏览器语言</td>
               </tr>
               <tr>
-                <td>user_agent</td>
+                <td>ua</td>
                 <td>string</td>
                 <td>浏览器 userAgent</td>
               </tr>
               <tr>
-                <td>page_title</td>
+                <td>ttl</td>
                 <td>string</td>
                 <td>页面标题</td>
               </tr>

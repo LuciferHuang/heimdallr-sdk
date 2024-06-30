@@ -4,14 +4,16 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import heimdallr from '../../packages/browser/esm'
-import vuePlugin from '../../packages/vue/esm'
+import consolePlugin from '../../packages/console/esm'
+import cusPlugin from '../../packages/customer/esm'
 import domPlugin from '../../packages/dom/esm'
 import fetchPlugin from '../../packages/fetch/esm'
-import xhrPlugin from '../../packages/xhr/esm'
 import hashPlugin from '../../packages/hash/esm'
 import historyPlugin from '../../packages/history/esm'
-import recordPlugin from '../../packages/record/esm'
 import perPlugin from '../../packages/performance/esm'
+import recordPlugin from '../../packages/record/esm'
+import vuePlugin from '../../packages/vue/esm'
+import xhrPlugin from '../../packages/xhr/esm'
 
 import './assets/main.css'
 
@@ -27,23 +29,25 @@ heimdallr({
   dsn: {
     host: 'localhost:8001',
     init: '/project/init',
-    upload: '/log/upload'
+    report: '/log/report'
   },
   app: {
-    name: 'playground',
+    name: 'viteAPP',
     leader: 'LuciferHuang',
-    desc: 'playground vue3 project'
+    desc: 'viteAPP'
   },
   plugins: [
+    hashPlugin(),
+    historyPlugin(),
     vuePlugin({
       vue: app
     }),
     domPlugin(),
     fetchPlugin(),
     xhrPlugin(),
-    hashPlugin(),
-    historyPlugin(),
     recordPlugin(),
-    perPlugin()
+    perPlugin(),
+    // consolePlugin(),
+    cusPlugin()
   ]
 })

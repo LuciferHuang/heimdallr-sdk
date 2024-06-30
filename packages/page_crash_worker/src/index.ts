@@ -1,5 +1,5 @@
 import { BrowserBreadcrumbTypes, BrowserErrorTypes, EventTypes, BreadcrumbLevel } from '@heimdallr-sdk/types';
-import { formatDate, get } from '@heimdallr-sdk/utils';
+import { get } from '@heimdallr-sdk/utils';
 import { CrashErrorType } from './types';
 
 // 运行在 webWorker
@@ -40,31 +40,31 @@ class PageCrashWorker {
   checkCrash(data: CrashErrorType) {
     const now = Date.now();
     const { sendUrl, clientInfo } = data;
-    const href = clientInfo.path;
+    const href = clientInfo.url;
     for (const id in this.pages) {
       const page = this.pages[id];
       if (now - page.t > this.CRASH_THRESHOLD) {
         delete this.pages[id];
         // 用户行为栈
-        const breadcrumb = [
+        const b = [
           {
-            eventId: id,
-            type: BrowserBreadcrumbTypes.CRASH,
-            level: BreadcrumbLevel.FATAL,
-            message: `Crash on ${href}`,
-            time: new Date().getTime()
+            id,
+            bt: BrowserBreadcrumbTypes.CRASH,
+            l: BreadcrumbLevel.FATAL,
+            msg: `Crash on ${href}`,
+            t: new Date().getTime()
           },
           ...this.stack
         ];
         // 上报 crash
         get(sendUrl, {
-          id,
-          time: formatDate(),
-          type: EventTypes.ERROR,
-          breadcrumb,
+          lid: id,
+          t: new Date().getTime(),
+          e: EventTypes.ERROR,
+          b,
           ...clientInfo,
-          data: {
-            sub_type: BrowserErrorTypes.PAGECRASH,
+          dat: {
+            st: BrowserErrorTypes.PAGECRASH,
             href
           }
         });

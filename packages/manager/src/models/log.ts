@@ -1,4 +1,4 @@
-import { logType, platform } from '@/helper/config/filters';
+import { logType, platform, subType } from '@/helper/config/filters';
 import { deepMapperProperty, deserialize, deserializeArr, filterMapperProperty, mapperProperty } from 'type-json-mapper';
 
 // 未声明的属性字段将不会被添加
@@ -6,11 +6,11 @@ import { deepMapperProperty, deserialize, deserializeArr, filterMapperProperty, 
 export class Log {
   @mapperProperty('id')
   public id: string;
-  @filterMapperProperty('platform', (val: string) => platform[val])
+  @filterMapperProperty('platform', (val: number) => platform[val])
   public platform: string;
-  @filterMapperProperty('type', (val: string) => logType[val])
+  @filterMapperProperty('type', (val: number) => logType[val])
   public type: string;
-  @mapperProperty('sub_type')
+  @filterMapperProperty('sub_type', (val: number) => subType[val])
   public subType: string;
   @mapperProperty('ascription')
   public ascription: string;
@@ -36,25 +36,14 @@ export class LogDetail {
   public path: string;
   @mapperProperty('type')
   public type: string;
-  @mapperProperty('sub_type')
-  public subType: string;
+  @mapperProperty('sub_type', 'int')
+  public subType: number;
   @mapperProperty('ascription_name')
   public ascription: string;
   @mapperProperty('otime', 'datetime')
   public otime: string;
-  @mapperProperty('page_title')
-  public pageTitle: string;
-  @mapperProperty('user_agent')
-  public userAgent: string;
   @mapperProperty('data')
   public data: string;
-  @deepMapperProperty('breadcrumb', Breadcrumb)
-  public breadcrumb: Breadcrumb[];
-
-  constructor() {
-    // 缺省值
-    this.breadcrumb = [];
-  }
 }
 
 export const tableDeserialize = (tableData: Log[]) => deserializeArr(Log, tableData);

@@ -26,10 +26,16 @@ export interface VueConfiguration {
 
 export interface VueReportDataType extends ReportDataMsgType {
   name: string;
-  message: string;
+  /** 报错信息 */
+  msg: string;
+  /** 报错hook */
   hook: string;
-  stack: string;
-  lineno?: number;
-  colno?: number;
-  filename?: string;
+  /** 错误栈 */
+  stk: string;
+  /** 报错行 */
+  lin?: number;
+  /** 报错列 */
+  col?: number;
+  /** 报错文件名 */
+  fn?: string;
 }

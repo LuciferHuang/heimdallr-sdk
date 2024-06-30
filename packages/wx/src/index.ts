@@ -1,24 +1,19 @@
 import { Core } from '@heimdallr-sdk/core';
-import {
-  IAnyObject,
-  PageLifeType,
-  EventTypes,
-  voidFun,
-  WxBreadcrumbTypes,
-  PlatformTypes
-} from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, replaceOld } from '@heimdallr-sdk/utils';
+import { IAnyObject, PageLifeType, EventTypes, voidFun, WxBreadcrumbTypes, PlatformTypes } from '@heimdallr-sdk/types';
+import { generateUUID, replaceOld } from '@heimdallr-sdk/utils';
 import { Breadcrumb } from '@heimdallr-sdk/core';
 import { WxContextType, WxOptionsType, WxSettingType, WxTrackTypes } from './types';
 import { getStorageSync } from './utils';
 import errorPlugin from './plugins/onerror';
 
-class WxClient extends Core<WxOptionsType> {
+export class WxClient extends Core<WxOptionsType> {
   private wxContext: WxContextType;
   private wxSettings: WxSettingType;
+  private diff: number;
   public readonly breadcrumb: Breadcrumb<WxOptionsType>;
   constructor(options: WxOptionsType) {
     super(options);
+    this.diff = 0;
     this.wxContext = {};
     this.breadcrumb = new Breadcrumb(options);
   }
@@ -38,14 +33,15 @@ class WxClient extends Core<WxOptionsType> {
   async initAPP() {
     await this.getWxSettings();
     const { initUrl, app } = this.context;
-    const ctime = formatDate();
+    const ctime = this.getTime();
     const params = {
       id: generateUUID(),
       ...app,
       ctime
     };
     const res = await this.report(initUrl, params);
-    const { data: { data = {} } = {} } = res as any;
+    const { header, data: { data = {} } = {} } = res as any;
+    this.setDiff(header['Date']);
     const { id = '' } = data || {};
     return id;
   }
@@ -53,8 +49,8 @@ class WxClient extends Core<WxOptionsType> {
   getWxSettings() {
     return Promise.all([(wx as any).getRendererUserAgent(), wx.getSystemInfo()]).then(([userAgent, info]) => {
       this.wxSettings = {
-        user_agent: userAgent,
-        language: info.language
+        ua: userAgent,
+        lan: info.language
       };
     });
   }
@@ -86,8 +82,8 @@ class WxClient extends Core<WxOptionsType> {
     }
     const preDatas = this.getWxContext();
     return {
-      time: formatDate(),
-      platform: PlatformTypes.WECHAT,
+      t: this.getTime(),
+      p: PlatformTypes.WECHAT,
       ...preDatas,
       ...this.wxSettings,
       ...datas
@@ -98,6 +94,18 @@ class WxClient extends Core<WxOptionsType> {
     wx.nextTick(() => {
       cb.call(ctx, ...args);
     });
+  }
+
+  setDiff(date: string) {
+    const serverDate = new Date(date);
+    const inDiff = Date.now() - serverDate.getTime();
+    if (!this.diff || this.diff > inDiff) {
+      this.diff = inDiff;
+    }
+  }
+
+  getTime() {
+    return Date.now() - (this.diff || 0);
   }
 
   // lifecycle
@@ -128,20 +136,21 @@ class WxClient extends Core<WxOptionsType> {
         }
         const sessionId = generateUUID();
         const userInfo = getStorageSync(userStoreKey);
-        client.setWxContext({ session_id: sessionId, user_info: userInfo, path: this.route });
-        const id = generateUUID();
+        client.setWxContext({ sid: sessionId, ui: userInfo, url: this.route });
+        const lid = generateUUID();
         const datas = client.transform({
-          id,
-          type: EventTypes.LIFECYCLE,
-          data: {
-            sub_type: PageLifeType.LOAD,
+          lid,
+          e: EventTypes.LIFECYCLE,
+          dat: {
+            st: PageLifeType.LOAD,
             href: this.route
           }
         });
         client.breadcrumb.unshift({
-          eventId: id,
-          type: WxBreadcrumbTypes.LIFECYCLE,
-          message: `Enter "${this.route}"`
+          lid,
+          bt: WxBreadcrumbTypes.LIFECYCLE,
+          msg: `Enter "${this.route}"`,
+          t: client.getTime()
         });
         client.lifecycleReport.call(client, datas);
       };
@@ -155,19 +164,20 @@ class WxClient extends Core<WxOptionsType> {
         if (original) {
           original.apply(this);
         }
-        const id = generateUUID();
+        const lid = generateUUID();
         const datas = client.transform({
-          id,
-          type: EventTypes.LIFECYCLE,
-          data: {
-            sub_type: PageLifeType.UNLOAD,
+          lid,
+          e: EventTypes.LIFECYCLE,
+          dat: {
+            st: PageLifeType.UNLOAD,
             href: this.route
           }
         });
         client.breadcrumb.unshift({
-          eventId: id,
-          type: WxBreadcrumbTypes.LIFECYCLE,
-          message: `Leave "${this.route}"`
+          lid,
+          bt: WxBreadcrumbTypes.LIFECYCLE,
+          msg: `Leave "${this.route}"`,
+          t: client.getTime()
         });
         client.lifecycleReport.call(client, datas);
         client.clearWxContext();
@@ -192,26 +202,27 @@ const init = (options: WxOptionsType) => {
     // 手动在页面 onShow/onHide 添加埋点
     track: (type: WxTrackTypes, path: string) => {
       const { userStoreKey } = client.getClientOptions();
-      const id = generateUUID();
+      const lid = generateUUID();
       switch (type) {
         case 'show':
           {
             // 页面显示
             const sessionId = generateUUID();
             const userInfo = getStorageSync(userStoreKey);
-            client.setWxContext({ session_id: sessionId, user_info: userInfo, path });
+            client.setWxContext({ sid: sessionId, ui: userInfo, url: path });
             const datas = client.transform({
-              id,
-              type: EventTypes.LIFECYCLE,
-              data: {
-                sub_type: PageLifeType.LOAD,
+              lid,
+              e: EventTypes.LIFECYCLE,
+              dat: {
+                st: PageLifeType.LOAD,
                 href: path
               }
             });
             client.breadcrumb.unshift({
-              eventId: id,
-              type: WxBreadcrumbTypes.LIFECYCLE,
-              message: `Enter "${path}"`
+              lid,
+              bt: WxBreadcrumbTypes.LIFECYCLE,
+              msg: `Enter "${path}"`,
+              t: client.getTime()
             });
             client.lifecycleReport.call(client, datas);
           }
@@ -220,17 +231,18 @@ const init = (options: WxOptionsType) => {
           {
             // 页面隐藏
             const datas = client.transform({
-              id,
-              type: EventTypes.LIFECYCLE,
-              data: {
-                sub_type: PageLifeType.UNLOAD,
+              lid,
+              e: EventTypes.LIFECYCLE,
+              dat: {
+                st: PageLifeType.UNLOAD,
                 href: path
               }
             });
             client.breadcrumb.unshift({
-              eventId: id,
-              type: WxBreadcrumbTypes.LIFECYCLE,
-              message: `Leave "${path}"`
+              lid,
+              bt: WxBreadcrumbTypes.LIFECYCLE,
+              msg: `Leave "${path}"`,
+              t: client.getTime()
             });
             client.lifecycleReport.call(client, datas);
             client.clearWxContext();

@@ -1,16 +1,16 @@
 import {
   BasePluginType,
-  BrowserBreadcrumbTypes,
   CustomerOptionType,
   EventTypes,
   PageLifeType,
   ReportDataType,
+  StoreKeyType,
   StoreType
 } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, getCookie, getStore, getDeepPropByDot } from '@heimdallr-sdk/utils';
+import { generateUUID, getCookie, getStore, getDeepPropByDot, setStore } from '@heimdallr-sdk/utils';
 import { LifecycleDataType, LifeCycleMsgType, LifecycleOptions } from '../types';
 
-function getStoreUserId(userIdentify: CustomerOptionType = {}) {
+function getStoreUserId(userIdentify: CustomerOptionType = {}): string {
   const { name = '', postion = '' } = userIdentify;
   switch (postion) {
     case StoreType.LOCAL:
@@ -19,11 +19,25 @@ function getStoreUserId(userIdentify: CustomerOptionType = {}) {
     case StoreType.COOKIE:
       return getCookie(name);
     case StoreType.GLOBAL:
-      return getDeepPropByDot(name, window);
+      return getDeepPropByDot(name, window) as string;
     default:
       break;
   }
   return '';
+}
+
+function getIds(userIdentify: CustomerOptionType) {
+  let acc = '';
+  const { name: userPath, postion: userPosi } = userIdentify;
+  if (userPath && userPosi) {
+    acc = getStoreUserId(userIdentify);
+    if (!acc) {
+      this.log(`${userPath} does not exist on ${userPosi}`);
+    }
+  }
+  return {
+    acc
+  };
 }
 
 function lifeCyclePlugin(options: LifecycleOptions = {}): BasePluginType {
@@ -31,62 +45,46 @@ function lifeCyclePlugin(options: LifecycleOptions = {}): BasePluginType {
   return {
     name: 'lifeCyclePlugin',
     monitor(notify: (data: LifecycleDataType) => void) {
-      const { name: userPath, postion: userPosi } = userIdentify;
-      this.sessionID = generateUUID();
       window.addEventListener('load', () => {
-        const user_id = getStoreUserId(userIdentify) || '';
-        if (userPath && userPosi && !user_id) {
-          this.log(`${userPath} does not exist on ${userPosi}`);
+        this.sessionID = getStore(StoreType.SESSION, StoreKeyType.SESSION_ID);
+        if (!this.sessionID) {
+          this.sessionID = generateUUID();
+          setStore(StoreType.SESSION, StoreKeyType.SESSION_ID, this.sessionID);
         }
         notify({
-          type: PageLifeType.LOAD,
-          session_id: this.sessionID,
-          user_id,
-          href: location.href
+          lt: PageLifeType.LOAD,
+          href: location.href,
+          ...getIds(userIdentify)
         });
       });
       window.addEventListener('unload', () => {
-        const user_id = getStoreUserId(userIdentify) || '';
-        if (userPath && userPosi && !user_id) {
-          this.log(`${userPath} does not exist on ${userPosi}`);
-        }
         notify({
-          type: PageLifeType.UNLOAD,
-          session_id: this.sessionID,
-          user_id,
-          href: location.href
+          lt: PageLifeType.UNLOAD,
+          href: location.href,
+          ...getIds(userIdentify)
         });
       });
     },
     transform(collectedData: LifecycleDataType): ReportDataType<LifeCycleMsgType> {
-      const id = generateUUID();
-      // 添加用户行为栈
-      const { type, href } = collectedData;
-      let action = '';
-      switch (type) {
-        case PageLifeType.LOAD:
-          action = 'Enter';
-          break;
+      const lid = generateUUID();
+      const { lt } = collectedData;
+      let b = [];
+      switch (lt) {
         case PageLifeType.UNLOAD:
-          action = 'Leave';
+          b = [...this.breadcrumb.getStack()];
           break;
         default:
           break;
       }
-      this.breadcrumb.unshift({
-        eventId: id,
-        type: BrowserBreadcrumbTypes.LIFECYCLE,
-        message: `${action || type} "${href}"`
-      });
+      delete collectedData.lt;
       // 上报数据
-      const subType = type;
-      delete collectedData.type;
       return {
-        id,
-        time: formatDate(),
-        type: EventTypes.LIFECYCLE,
-        data: {
-          sub_type: subType,
+        lid,
+        t: this.getTime(),
+        e: EventTypes.LIFECYCLE,
+        b,
+        dat: {
+          st: lt,
           ...collectedData
         }
       };

@@ -1,3 +1,4 @@
+import { deserializeArr } from 'type-json-mapper';
 import { computed, nextTick, reactive } from 'vue';
 import { ElMessage } from 'element-plus';
 import http from 'helper/http';
@@ -7,6 +8,7 @@ import rrwebPlayer from 'rrweb-player';
 import 'rrweb-player/dist/style.css';
 import { Session, tableDeserialize } from '@/models/session';
 import { TableOperateType } from './useListConfig';
+import { Breadcrumb } from '@/models/log';
 
 export default function useListTable() {
   const state = reactive({
@@ -94,15 +96,14 @@ export default function useListTable() {
   }
   // 表格操作
   function operateHandle(cmd: TableOperateType, row: Session) {
-    const { id, path, pageTitle, etime, ltime, ip, userId, province, language, events = '' } = row;
+    const { id, path, pageTitle, etime, ltime, ip, userId, province, language, events = '', docSize, winSize, userAgent } = row;
     switch (cmd) {
       case TableOperateType.DETAIL:
         // 弹出详情
         state.detail = {};
         http
-          .get(`/log/list?pindex=1&psize=100&session_id=${id}&sort=otime&order=desc`)
+          .get(`/session/detail?id=${id}`)
           .then((res: any) => {
-            const { list } = res;
             state.isDrawerShow = true;
             state.detail = {
               path,
@@ -113,7 +114,10 @@ export default function useListTable() {
               pageTitle,
               etime,
               ltime,
-              log: list || []
+              docSize,
+              winSize,
+              userAgent,
+              breadcrumb: deserializeArr(Breadcrumb, res || [])
             };
           })
           .catch(() => {});

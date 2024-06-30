@@ -1,9 +1,7 @@
 <template>
   <filter-group :filters="filterFormItems" v-model="state.form" @search="loadData"></filter-group>
   <panel class="mg-t-18">
-    <el-affix :offset="88">
-      <table-oprate class="mg-b-12" :button-grop="tableOprates" @trigger="batchHandle"></table-oprate>
-    </el-affix>
+    <table-oprate class="mg-b-12" :button-grop="tableOprates" @trigger="batchHandle"></table-oprate>
     <page-table
       selectable
       :table-config="tableConfig"
@@ -18,18 +16,16 @@
   <!-- 日志详情 -->
   <el-drawer v-model="state.isDrawerShow" :title="detail.path" size="45%" @close="drawerClose">
     <el-descriptions title="详情" :column="2" border>
-      <el-descriptions-item label="类型">
-        <el-tag :type="tagTypeFilter(detail.type)">{{ detail.type }}</el-tag>
+      <el-descriptions-item v-for="item in detail.fields" :key="item.label" :label="item.label">
+        <el-tag v-if="item.label === '类型'" :type="tagTypeFilter(item.val)">{{ item.val }}</el-tag>
+        <span v-else>{{ item.val }}</span>
       </el-descriptions-item>
-      <el-descriptions-item label="子类">{{ detail.subType }}</el-descriptions-item>
-      <el-descriptions-item label="应用">{{ detail.ascription }}</el-descriptions-item>
-      <el-descriptions-item label="发生时间">{{ detail.otime }}</el-descriptions-item>
-      <el-descriptions-item label="页面标题">{{ detail.pageTitle }}</el-descriptions-item>
-      <el-descriptions-item label="页面路径">{{ detail.path }}</el-descriptions-item>
-      <el-descriptions-item label="userAgent">{{ detail.userAgent }}</el-descriptions-item>
-      <el-descriptions-item label="data">{{ detail.data }}</el-descriptions-item>
     </el-descriptions>
-    <template v-if="detail.subType === 'error'">
+    <el-table v-if="(detail.arrayData || []).length" :data="(detail.arrayData || [])" stripe style="width: 100%">
+      <el-table-column prop="f" label="资源地址" />
+      <el-table-column prop="t" label="耗时(ms)" :width="88"/>
+    </el-table>
+    <template v-if="detail.subType === 21">
       <br />
       <el-popover :visible="state.codeVisible" placement="bottom" :title="`文件：${codeDetail.file}`" :width="400" trigger="mual">
         <div class="source-content">
@@ -42,30 +38,20 @@
         </template>
       </el-popover>
     </template>
-    <br />
-    <br />
-    <el-timeline>
-      <el-timeline-item v-for="(item, index) in detail.breadcrumb" :key="index" :timestamp="item.time">
-        <el-tag effect="dark" :type="levelTypeMap[item.level]" class="mg-r-8">{{ item.type }}</el-tag>
-        <el-tag :type="levelTypeMap[item.level]">{{ item.level }}</el-tag>
-        <p>{{ item.message }}</p>
-      </el-timeline-item>
-    </el-timeline>
   </el-drawer>
 </template>
 <script lang="ts">
 import { defineAsyncComponent, defineComponent } from 'vue';
 // 组件
 import {
-  ElAffix,
   ElDrawer,
   ElDescriptions,
   ElDescriptionsItem,
   ElTag,
-  ElTimeline,
-  ElTimelineItem,
   ElPopover,
-  ElButton
+  ElButton,
+  ElTable,
+  ElTableColumn
 } from 'element-plus';
 // 配置
 import useConfig from './hooks/useListConfig';
@@ -75,15 +61,14 @@ import useTableFeature from './hooks/useListTable';
 export default defineComponent({
   name: 'logList',
   components: {
-    ElAffix,
     ElDrawer,
     ElDescriptions,
     ElDescriptionsItem,
     ElTag,
-    ElTimeline,
-    ElTimelineItem,
     ElPopover,
     ElButton,
+    ElTable,
+    ElTableColumn,
     filterGroup: defineAsyncComponent(() => import('components/filterGroup/index.vue')),
     tableOprate: defineAsyncComponent(() => import('components/tableOprate/index.vue')),
     pageTable: defineAsyncComponent(() => import('components/pageTable/index.vue')),

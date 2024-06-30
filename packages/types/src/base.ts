@@ -19,27 +19,46 @@ export interface Dsn {
   /**
    * 信息上报接口地址
    */
-  upload: string;
+  report: string;
 }
 
 export interface ReportDataType<T> {
-  id: string;
-  time: string;
-  type: EventTypes;
-  data: T;
-  breadcrumb?: BreadcrumbPushData[];
+  /** 日志id */
+  lid: string;
+  /** 时间戳 */
+  t: number;
+  /** 上报类型 */
+  e: EventTypes;
+  /** 上报详细数据 */
+  dat: T;
+  /** 面包屑 */
+  b?: BreadcrumbPushData[];
 }
 
 export interface ReportDataMsgType {
-  sub_type: BrowserSubTypes | string;
+  /** 子类型 */
+  st: BrowserSubTypes | number | string;
 }
 
 export interface ClientInfoType {
-  platform: PlatformTypes;
-  app_id?: string;
-  session_id?: string;
-  page_title?: string;
-  path?: string;
-  language?: string;
-  user_agent?: string
+  /** 端 */
+  p?: PlatformTypes;
+  /** 应用id */
+  aid?: string;
+  /** 会话id */
+  sid?: string;
+  /** 独立用户id */
+  uid?: string;
+  /** 页面标题 */
+  ttl?: string;
+  /** 当前页面完整url */
+  url?: string;
+  /** 语言 */
+  lan?: string;
+  /** 窗口分辨率 */
+  ws?: string;
+  /** 文档分辨率 */
+  ds?: string;
+  /** userAgent */
+  ua?: string;
 }

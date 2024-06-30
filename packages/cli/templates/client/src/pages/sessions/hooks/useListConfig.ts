@@ -53,9 +53,14 @@ const filterFormItems: FilterItem[] = [
   },
   {
     renderType: 'input',
-    label: '用户ID',
+    label: '虚拟用户ID',
     prop: 'user_id'
-  }
+  },
+  {
+    renderType: 'input',
+    label: '用户ID',
+    prop: 'account'
+  },
 ];
 
 const tableOprates: OperateBtn[] = [
@@ -104,11 +109,15 @@ const tableConfig: ColumnConfig[] = [
   },
   {
     prop: 'userId',
-    label: '用户ID'
+    label: '虚拟用户ID'
   },
   {
     prop: 'ip',
     label: 'IP地址'
+  },
+  {
+    prop: 'account',
+    label: '用户ID'
   },
   {
     prop: 'etime',
@@ -155,12 +164,46 @@ function tagType(type: EventTypes) {
   }
 }
 
+const levelTypeMap = {
+  1: 'danger',
+  2: 'danger',
+  3: 'warning',
+  4: '',
+  5: 'success'
+};
+
+const levelTransMap = {
+  1: 'FATAL',
+  2: 'ERROR',
+  3: 'WARN',
+  4: 'INFO',
+  5: 'DEBUG'
+}
+
+const breadcrumbTransMap = {
+  11: 'ROUTE',
+  12: 'CLICK',
+  13: 'CONSOLE',
+  14: 'XHR',
+  15: 'FETCH',
+  16: 'UNHANDLEDREJECTION',
+  17: 'RESOURCE',
+  18: 'CODE_ERROR',
+  19: 'CUSTOMER',
+  20: 'FRAMEWORK',
+  21: 'LIFECYCLE',
+  22: 'CRASH',
+}
+
 export default function useListConfig() {
   return {
     dataPath: 'list',
     tableOprates,
     filterFormItems,
     tableConfig,
+    levelTypeMap,
+    levelTransMap,
+    breadcrumbTransMap,
     tagType,
   };
 }

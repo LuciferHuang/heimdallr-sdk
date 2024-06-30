@@ -11,7 +11,7 @@
   >
     <template #poster="scope">
       <el-popover trigger="hover" placement="right" popper-class="popover-img">
-        <img :src="scope.row.poster"/>
+        <img :src="scope.row.poster" />
         <!-- <img :src="scope.row.poster" @error="picerr($event)" /> -->
         <template #reference>
           <img class="table-img" :src="scope.row.poster" />
@@ -20,28 +20,26 @@
       </el-popover>
     </template>
   </table-view>
-  <el-affix position="bottom" :offset="36">
-    <div class="pagger" v-if="pagger">
-      <span class="all-page">
-        共
-        {{ allItems }}
-        条数据
-      </span>
-      <el-pagination
-        background
-        @current-change="currentChangeHandle"
-        @size-change="sizeChangeHandle"
-        :page-size="state.pageSize"
-        :page-sizes="pageSizes"
-        :layout="pageConfig.join(',')"
-        :total="allItems"
-      ></el-pagination>
-    </div>
-  </el-affix>
+  <div class="pagger" v-if="pagger">
+    <span class="all-page">
+      共
+      {{ allItems }}
+      条数据
+    </span>
+    <el-pagination
+      background
+      @current-change="currentChangeHandle"
+      @size-change="sizeChangeHandle"
+      :page-size="state.pageSize"
+      :page-sizes="pageSizes"
+      :layout="pageConfig.join(',')"
+      :total="allItems"
+    ></el-pagination>
+  </div>
 </template>
 <script lang="ts">
 import { defineComponent, watch, reactive, PropType } from 'vue';
-import { ElPopover, ElPagination, ElAffix } from 'element-plus';
+import { ElPopover, ElPagination } from 'element-plus';
 import { DEFAULT_PAGE_SIZE } from 'config/others';
 import { picerr } from 'helper/utils';
 import tableView from 'components/tableView/index.vue';
@@ -51,8 +49,7 @@ export default defineComponent({
   components: {
     tableView,
     ElPopover,
-    ElPagination,
-    ElAffix
+    ElPagination
   },
   props: {
     pagger: {

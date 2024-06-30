@@ -1,12 +1,12 @@
 import { PrismaClient } from '@prisma/client';
-import { ModelResponseType, BreadCrumb } from '../types';
+import { ModelResponseType, BreadCrumbRes } from '../types';
 
 class BreadCrumbModel {
   prisma: any;
   constructor() {
     this.prisma = new PrismaClient({});
   }
-  async add(datas: BreadCrumb[]): Promise<ModelResponseType<BreadCrumb>> {
+  async add(datas: BreadCrumbRes[]): Promise<ModelResponseType<BreadCrumbRes>> {
     try {
       const result = await this.prisma.breadCrumb.createMany({
         data: datas,
@@ -26,10 +26,13 @@ class BreadCrumbModel {
       };
     }
   }
-  async find(query = {}): Promise<ModelResponseType<BreadCrumb[]>> {
+  async find(query = {}): Promise<ModelResponseType<BreadCrumbRes[]>> {
     try {
       const result = await this.prisma.breadCrumb.findMany({
-        where: query
+        where: query,
+        orderBy: {
+          time: 'desc'
+        }
       });
       return {
         status: true,

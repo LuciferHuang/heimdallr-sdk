@@ -1,5 +1,5 @@
 import { BasePluginType, EventTypes, ReportDataType, ConsoleTypes } from '@heimdallr-sdk/types';
-import { generateUUID, formatDate } from '@heimdallr-sdk/utils';
+import { generateUUID } from '@heimdallr-sdk/utils';
 import { NodeErrorTypes, UncaughtExceptionDataType } from '../types';
 interface CollectedType {
   category: EventTypes;
@@ -19,19 +19,19 @@ function uncaughtExceptionPlugin(): BasePluginType {
       });
     },
     transform(collectedData: CollectedType): ReportDataType<UncaughtExceptionDataType> {
-      const { category, data } = collectedData;
-      const id = generateUUID();
-      const time = formatDate();
-      const { message, name, stack = '' } = data;
+      const {
+        category,
+        data: { message, name, stack = '' }
+      } = collectedData;
       return {
-        id,
-        time,
-        type: category,
-        data: {
-          sub_type: NodeErrorTypes.UNCAUGHTEXCEPTION,
+        lid: generateUUID(),
+        t: Date.now(),
+        e: category,
+        dat: {
+          st: NodeErrorTypes.UNCAUGHTEXCEPTION,
           name,
-          message,
-          stack
+          msg: message,
+          stk: stack
         }
       };
     }

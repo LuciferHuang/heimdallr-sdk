@@ -1,7 +1,7 @@
 import { VueInstance } from "@heimdallr-sdk/types"
 
 export enum VueTypes {
-  ERROR = 'error'
+  ERROR = 91
 }
 
 export interface VueOptions {

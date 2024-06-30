@@ -1,44 +1,16 @@
 import { IAnyObject } from '@heimdallr-sdk/types';
 
 /**
- * 生成UUID
- * @return {string}  {string}
+ * 生成UUID v4
+ * @return {string} 生成的UUID字符串
  */
-export function generateUUID(): string {
-  let d = new Date().getTime();
-  const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    const r = (d + Math.random() * 16) % 16 | 0;
-    d = Math.floor(d / 16);
-    return (c == 'x' ? r : (r & 0x3) | 0x8).toString(16);
+export const generateUUID = () => {
+  const template = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
+  return template.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
   });
-  return uuid;
-}
-
-/**
- * 格式化日期时间
- * @param {string} format
- * @param {number} timestamp - 时间戳
- * @return {string}
- */
-export const formatDate = (format = 'Y-M-D h:m:s', timestamp: number = Date.now()): string => {
-  const date = new Date(timestamp || Date.now());
-  const dateInfo = {
-    Y: `${date.getFullYear()}`,
-    M: `${date.getMonth() + 1}`,
-    D: `${date.getDate()}`,
-    h: date.getHours(),
-    m: date.getMinutes(),
-    s: date.getSeconds()
-  };
-  const formatNumber = (n) => (n >= 10 ? n : '0' + n);
-  const res = (format || 'Y-M-D h:m:s')
-    .replace('Y', dateInfo.Y)
-    .replace('M', dateInfo.M)
-    .replace('D', dateInfo.D)
-    .replace('h', formatNumber(dateInfo.h))
-    .replace('m', formatNumber(dateInfo.m))
-    .replace('s', formatNumber(dateInfo.s));
-  return res;
 };
 
 /**
@@ -46,20 +18,19 @@ export const formatDate = (format = 'Y-M-D h:m:s', timestamp: number = Date.now(
  *
  * @export
  * @param {Function} fn 需要节流的函数
- * @param {number} delay 节流的时间间隔
- * @return {*}  {Function} 返回一个包含节流功能的函数
+ * @param {number} delay 节流的时间间隔（毫秒）
+ * @return {(...args: any[]) => void} 返回一个包含节流功能的函数
  */
-export function throttle(fn: Function, delay: number): Function {
-  let canRun = true;
-  return function (...args: any) {
-    if (!canRun) return;
-    fn.apply(this, args);
-    canRun = false;
-    setTimeout(() => {
-      canRun = true;
-    }, delay);
+export const throttle = <T extends (...args: any[]) => void>(fn: T, delay: number): ((...args: Parameters<T>) => void) => {
+  let lastCall = 0;
+  return function (...args: Parameters<T>) {
+    const now = Date.now();
+    if (now - lastCall >= delay) {
+      lastCall = now;
+      fn.apply(this, args);
+    }
   };
-}
+};
 
 /**
  * 重写对象上面的某个属性
@@ -70,7 +41,7 @@ export function throttle(fn: Function, delay: number): Function {
  * @param {(...args: any[]) => any} replacement 以原有的函数作为参数，执行并重写原有函数
  * @param {boolean} isForced 是否强制重写（可能原先没有该属性）
  */
-export function replaceOld(source: IAnyObject, name: string, replacement: (...args: any[]) => any, isForced?: boolean): void {
+export const replaceOld = (source: IAnyObject, name: string, replacement: (...args: any[]) => any, isForced?: boolean) => {
   if (source === undefined) return;
   if (name in source || isForced) {
     const original = source[name];
@@ -79,45 +50,44 @@ export function replaceOld(source: IAnyObject, name: string, replacement: (...ar
       source[name] = wrapped;
     }
   }
-}
+};
 
 /**
  * 保留指定位数的小数
  * @param num 原数据
  * @param decimal 小数位数
- * @returns
+ * @returns {number} 格式化后的数字，或原始输入
  */
-export function formatDecimal(num: number, decimal: number): number {
-  if (!num) {
-    return num;
+ export const formatDecimal = (num: number, decimal: number) => {
+  if (!isFinite(num) || isNaN(num)) {
+    return num; // 对于 NaN 和 Infinity 直接返回原始数值
   }
-  let str = num.toString();
-  const index = str.indexOf('.');
-  if (index !== -1) {
-    str = str.substring(0, decimal + index + 1);
-  } else {
-    str = str.substring(0);
+
+  if (!Number.isInteger(decimal) || decimal < 0) {
+    return num; // 如果小数位数无效，返回原始数值
   }
-  return parseFloat(str);
+
+  return parseFloat(num.toFixed(decimal));
 }
+
 
 /**
  * 计算字符串大小
  * @param str
  * @returns 字节
  */
-export function countBytes(str: string): number {
+export const countBytes = (str: string) => {
   const encoder = new TextEncoder();
   return encoder.encode(str).length;
-}
+};
 
 /**
  * 根据字节大小拆分字符串
- * @param str 
+ * @param str
  * @param maxBytes 最大字节数
  * @returns
  */
-export function splitStringByBytes(str: string, maxBytes: number): Array<string> {
+export const splitStringByBytes = (str: string, maxBytes: number): Array<string> => {
   const encoder = new TextEncoder();
   const bytes = encoder.encode(str);
   const decoder = new TextDecoder();
@@ -132,4 +102,4 @@ export function splitStringByBytes(str: string, maxBytes: number): Array<string>
     start = end;
   }
   return chunks;
-}
+};

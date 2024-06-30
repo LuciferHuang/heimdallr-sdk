@@ -1,9 +1,9 @@
 import { BaseOptionsType, ClientInfoType, IAnyObject, InterfaceResponseType, ReportDataMsgType } from '@heimdallr-sdk/types';
 
 export interface UncaughtExceptionDataType extends ReportDataMsgType {
-  message: string;
+  msg: string;
   name: string;
-  stack?: string;
+  stk?: string;
 }
 
 export interface NodeReportPayloadDataType extends ClientInfoType {

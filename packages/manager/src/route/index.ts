@@ -24,5 +24,5 @@ const routes = [
 export const router = createRouter({
   history: createWebHashHistory(),
   // @ts-ignore
-  routes: routes,
+  routes,
 });

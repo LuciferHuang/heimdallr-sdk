@@ -19,8 +19,8 @@ export interface PerformanceBasicMsgType extends ReportDataMsgType {
   fcp: number; // 渲染出第一个内容，首屏结束时间
 }
 interface ResourceType {
-  name: string;
-  time: number;
+  f: string;
+  t: number;
 }
 
 export interface PerformanceSingleMsgType extends ReportDataMsgType {

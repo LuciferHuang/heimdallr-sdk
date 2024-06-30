@@ -49,9 +49,9 @@ export abstract class Core<O extends BaseOptionsType> {
       return;
     }
 
-    const { host, init, upload = '' } = dsn;
+    const { host, init, report = '' } = dsn;
     const initUrl = formateUrlPath(host, init);
-    const uploadUrl = formateUrlPath(host, upload);
+    const uploadUrl = formateUrlPath(host, report);
 
     this.context = {
       app,
@@ -77,9 +77,16 @@ export abstract class Core<O extends BaseOptionsType> {
         return;
       }
       map.set(name, 1);
-      monitor.call(this, sub.notify.bind(sub, name));
+      try {
+        monitor.call(this, sub.notify.bind(sub, name));
+      } catch (error) {
+        this.log(error, ConsoleTypes.ERROR);
+      }
       const callback = (...args: any[]) => {
         const pluginDatas = transform.apply(this, args);
+        if (!pluginDatas) {
+          return;
+        }
         const datas = this.transform(pluginDatas);
         if (!datas) {
           return;
@@ -92,7 +99,7 @@ export abstract class Core<O extends BaseOptionsType> {
           this.taskQueue.push(datas);
           return;
         }
-        this.nextTick(this.report, this, uploadUrl, { app_id: this.appID, ...datas });
+        this.nextTick(this.report, this, uploadUrl, { aid: this.appID, ...datas });
       };
       sub.watch(name, callback);
     }
@@ -105,7 +112,7 @@ export abstract class Core<O extends BaseOptionsType> {
     const { uploadUrl } = this.context;
     while (this.taskQueue.length) {
       const task = this.taskQueue.shift();
-      this.nextTick(this.report, this, uploadUrl, { app_id: this.appID, ...task });
+      this.nextTick(this.report, this, uploadUrl, { aid: this.appID, ...task });
     }
   }
 

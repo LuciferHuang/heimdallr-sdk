@@ -1,7 +1,7 @@
 import { BasePluginType, BrowserBreadcrumbTypes, DomTypes, EventTypes, ReportDataType } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, throttle } from '@heimdallr-sdk/utils';
+import { generateUUID, throttle } from '@heimdallr-sdk/utils';
 import { DomMsgType, DomOptions } from './types';
-import { htmlElementAsString } from './utils';
+import { htmlElementAsString } from './lib';
 
 export interface DomCollectedType {
   category: DomTypes;
@@ -32,18 +32,19 @@ function domPlugin(options: DomOptions = {}): BasePluginType {
         return null;
       }
       // 添加用户行为栈
-      const id = generateUUID();
+      const lid = generateUUID();
       this.breadcrumb.unshift({
-        eventId: id,
-        type: BrowserBreadcrumbTypes.CLICK,
-        message: `Click ${htmlString}`
+        lid,
+        bt: BrowserBreadcrumbTypes.CLICK,
+        msg: `Click ${htmlString}`,
+        t: this.getTime()
       });
       return {
-        id,
-        time: formatDate(),
-        type: EventTypes.DOM,
-        data: {
-          sub_type: category,
+        lid,
+        t: this.getTime(),
+        e: EventTypes.DOM,
+        dat: {
+          st: category,
           ele: htmlString
         }
       };

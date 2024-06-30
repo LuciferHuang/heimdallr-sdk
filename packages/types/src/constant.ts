@@ -1,6 +1,7 @@
 export enum StoreKeyType {
-  SESSION = 'HEIMDALLR_SDK_SESSION_ID',
-  APP = 'HEIMDALLR_SDK_APP_ID'
+  SESSION_ID = 'HEIMDALLR_SDK_SESSION_ID',
+  USER_ID = 'HEIMDALLR_SDK_USER_ID',
+  APP = 'HEIMDALLR_SDK_APP_ID',
 }
 
 export enum MethodTypes {
@@ -11,35 +12,35 @@ export enum MethodTypes {
 }
 
 export enum EventTypes {
-  API = 'api',
-  DOM = 'dom',
-  PERFORMANCE = 'performance',
-  ROUTE = 'route',
-  ERROR = 'error',
-  CONSOLE = 'console',
-  CUSTOMER = 'customer',
-  VUE = 'vue',
-  LIFECYCLE = 'lifeCycle',
-  EXTEND = 'extend',
-  RECORD = 'record'
+  LIFECYCLE = 1,
+  ERROR,
+  PERFORMANCE,
+  API,
+  DOM,
+  ROUTE,
+  CONSOLE,
+  RECORD,
+  VUE,
+  CUSTOMER,
+  EXTEND,
 }
 
 export enum BrowserErrorTypes {
-  CODEERROR = 'code',
-  RESOURCEERROR = 'resource',
-  UNHANDLEDREJECTION = 'unhandledrejection',
-  PAGECRASH = 'pageCrash'
+  CODEERROR = 21,
+  RESOURCEERROR,
+  UNHANDLEDREJECTION,
+  PAGECRASH
 }
 
 export enum BrowserReportType {
-  BEACON = 'beacon',
-  IMG = 'img',
-  GET = 'get',
-  POST = 'post'
+  BEACON = 1,
+  IMG,
+  GET,
+  POST
 }
 
 export enum DomTypes {
-  CLICK = 'click'
+  CLICK = 51
 }
 
 export enum ConsoleTypes {
@@ -51,28 +52,28 @@ export enum ConsoleTypes {
 }
 
 export enum HttpTypes {
-  FETCH = 'fetch',
-  XHR = 'xhr'
+  XHR = 41,
+  FETCH,
 }
 
 export enum PerTypes {
-  FMP = 'fmp',
-  FPS = 'fps',
-  BASIC = 'basic',
-  VITALS = 'vitals',
-  RESOURCE = 'resource'
+  FMP = 31,
+  FPS,
+  BASIC,
+  VITALS,
+  RESOURCE
 }
 
 export enum RouteTypes {
-  HASH = 'hash',
-  HISTORY = 'history'
+  HASH = 61,
+  HISTORY
 }
 
 export enum CustomerTypes {
-  CUSTOMER = 'customer'
+  CUSTOMER = 111
 }
 
-export type BrowserSubTypes = BrowserErrorTypes | DomTypes | HttpTypes | ConsoleTypes | PerTypes | RouteTypes | CustomerTypes;
+export type BrowserSubTypes = PageLifeType | BrowserErrorTypes | DomTypes | HttpTypes | ConsoleTypes | PerTypes | RouteTypes | CustomerTypes;
 
 export type StoreTypes = 'local' | 'session' | 'cookie' | 'global';
 
@@ -84,41 +85,41 @@ export enum StoreType {
 }
 
 export enum PageLifeType {
-  LOAD = 'enter',
-  UNLOAD = 'leave'
+  LOAD = 11,
+  UNLOAD
 }
 
 export enum DeviceType {
-  MOBILE = 'mobile',
-  PC = 'pc'
+  MOBILE = 1,
+  PC
 }
 
 export enum PlatformTypes {
-  BROWSER = 'browser',
-  NODE = 'nodejs',
-  WECHAT = 'wechat'
+  BROWSER = 1,
+  WECHAT,
+  NODE,
 }
 
 export enum BrowserBreadcrumbTypes {
-  ROUTE = 'Route',
-  CLICK = 'UI.Click',
-  CONSOLE = 'Console',
-  XHR = 'Xhr',
-  FETCH = 'Fetch',
-  UNHANDLEDREJECTION = 'Unhandledrejection',
-  RESOURCE = 'Resource',
-  CODE_ERROR = 'CodeError',
-  CUSTOMER = 'Customer',
-  FRAMEWORK = 'Framework',
-  LIFECYCLE = 'LifeCycle',
-  CRASH = 'Crash'
+  ROUTE = 11,
+  CLICK,
+  CONSOLE,
+  XHR,
+  FETCH,
+  UNHANDLEDREJECTION,
+  RESOURCE,
+  CODE_ERROR,
+  CUSTOMER,
+  FRAMEWORK,
+  LIFECYCLE,
+  CRASH
 }
 
 export enum WxBreadcrumbTypes {
-  API = 'Api',
-  ROUTE = 'Route',
-  CLICK = 'UI.Click',
-  ERROR = 'Error',
-  LIFECYCLE = 'LifeCycle',
-  CUSTOMER = 'Customer'
+  API = 21,
+  ROUTE,
+  CLICK,
+  ERROR,
+  LIFECYCLE,
+  CUSTOMER
 }

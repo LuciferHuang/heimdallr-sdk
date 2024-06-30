@@ -9,27 +9,22 @@ export class Breadcrumb<O extends BaseOptionsType> {
   private readonly maxBreadcrumbs: number;
   private stack: BreadcrumbPushData[];
   constructor(options: Partial<O> = {}) {
-    this.maxBreadcrumbs = options.maxBreadcrumbs || 5;
+    this.maxBreadcrumbs = options.maxBreadcrumbs || 80;
     this.stack = [];
   }
   /**
    * 添加用户行为栈
-   *
    * @param {BreadcrumbPushData} data
    */
   unshift(data: BreadcrumbPushData): BreadcrumbPushData[] {
-    if (!data.time) {
-      data.time = new Date().getTime();
-    }
-    if (!data.level) {
-      data.level = BreadcrumbLevel.INFO;
+    if (!data.l) {
+      data.l = BreadcrumbLevel.INFO;
     }
     if (this.stack.length >= this.maxBreadcrumbs) {
       this.pop();
     }
     this.stack.unshift(data);
-    // make sure xhr fetch is behind button click
-    this.stack.sort((a, b) => b.time - a.time);
+    this.stack.sort((a, b) => b.t - a.t);
     return this.stack;
   }
 

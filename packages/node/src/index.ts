@@ -6,7 +6,7 @@ import {
   ConsoleTypes,
   PlatformTypes
 } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, obj2query } from '@heimdallr-sdk/utils';
+import { generateUUID, obj2query } from '@heimdallr-sdk/utils';
 // 基础插件
 import errorPlugin from './plugins/uncaughtException';
 import { NodeOptionsType, NodeReportPayloadDataType } from './types';
@@ -18,7 +18,7 @@ class NodeClient extends Core<NodeOptionsType> {
 
   async initAPP() {
     const { initUrl, app } = this.context;
-    const ctime = formatDate();
+    const ctime = Date.now();
     const params = {
       id: generateUUID(),
       ...app,
@@ -56,7 +56,7 @@ class NodeClient extends Core<NodeOptionsType> {
       return null;
     }
     return {
-      platform: PlatformTypes.NODE,
+      p: PlatformTypes.NODE,
       ...datas
     };
   }

@@ -14,12 +14,12 @@ export interface WxOptionsType extends BaseOptionsType {
 export type WxTrackTypes = 'show' | 'hide';
 
 export interface WxContextType {
-  session_id?: string;
-  path?: string;
-  user_info?: IAnyObject | string;
+  sid?: string;
+  url?: string;
+  ui?: IAnyObject | string;
 }
 
 export interface WxSettingType {
-  user_agent: string;
-  language: string;
+  ua: string;
+  lan: string;
 }

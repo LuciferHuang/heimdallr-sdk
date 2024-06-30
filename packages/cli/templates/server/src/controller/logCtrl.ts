@@ -40,80 +40,109 @@ export function uploadGet(req, res) {
  */
 async function uploadCtrl(res, param, ipInfo: IPInfo) {
   const {
-    app_id,
-    session_id,
-    id,
-    time,
-    type,
-    data: paramData = '{}',
-    platform,
-    breadcrumb: breadcrumbJson = '[]',
-    path = '',
-    language = '',
-    user_agent = '',
-    page_title = ''
+    aid,
+    sid,
+    lid,
+    uid,
+    t,
+    e,
+    dat: paramData = '{}',
+    p,
+    b: breadcrumbJson = '[]',
+    url = '',
+    lan = '',
+    ua = '',
+    ttl = '',
+    ws = '',
+    ds = ''
   } = param;
-  if (!id || !app_id) {
-    res.send(failResponse('missing id or app_id'));
+  if (!lid || !aid) {
+    res.send(failResponse('missing lid or aid'));
     return;
   }
-  const otime = new Date(time);
+  const otime = new Date(+t);
   try {
-    // 面包屑
-    let bcIds = [];
-    const breadcrumb = JSON.parse(breadcrumbJson);
-    if (breadcrumb.length) {
-      const bcs = breadcrumb.map((ele: BreadCrumb) => ({
-        type: ele.type,
-        level: ele.level,
-        message: ele.message,
-        event_id: ele.eventId,
-        time: new Date(ele.time),
-        id: generateUUID()
-      }));
-      const { status: bcStatus } = await bcModel.add(bcs);
-      if (bcStatus) {
-        bcIds = bcs.map(({ id }) => id);
-      }
-    }
-
     // 将入参转为数据库存储结构
     const paramObj = JSON.parse(paramData.replace(/\n/g, '\\n').replace(/\r/g, '\\r'));
-    const { sub_type, user_id = '', events = '' } = paramObj;
-    delete paramObj.sub_type;
+    const { st, acc = '', evs = [] } = paramObj;
+    // ip获取
+    const { error, ip, region = '' } = ipInfo;
+    if (error) {
+      console.error(TAG, error);
+    }
     // session
-    if ([EventTypes.LIFECYCLE, EventTypes.RECORD].includes(type)) {
-      const { error, ip, region = '' } = ipInfo;
-      if (error) {
-        console.error(TAG, error);
+    const newSession = {
+      id: sid,
+      user_id: `${uid}`,
+      account: `${acc}`,
+      ip,
+      province: region,
+      path: url,
+      page_title: ttl,
+      platform: p,
+      stay_time: 0,
+      terminal: `${isMobileDevice(ua) ? DeviceType.MOBILE : DeviceType.PC}`,
+      language: lan,
+      events: '',
+      breadcrumb: '',
+      user_agent: ua,
+      window_size: ws,
+      document_size: ds,
+      etime: otime,
+      ltime: otime
+    };
+    delete paramObj.st;
+    const { data = [] } = await sessionModel.find(1, 5, {
+      id: sid
+    });
+    const [targetSession] = data;
+    if (!targetSession) {
+      // session 不存在，新建
+      const addSessionRes = await sessionModel.add([newSession]);
+      if (!addSessionRes.status) {
+        res(failResponse(addSessionRes.msg));
+        return;
       }
-      let response = { status: false, msg: 'sub_type not found' };
-      switch (sub_type) {
+    }
+    if ([`${EventTypes.LIFECYCLE}`, `${EventTypes.RECORD}`].includes(e)) {
+      let response = { status: false, msg: 'st not found' };
+      switch (st) {
         case PageLifeType.LOAD:
-          response = await sessionModel.add([
-            {
-              id: session_id,
-              user_id: `${user_id}`,
-              ip,
-              province: region,
-              path,
-              page_title,
-              stay_time: 0,
-              terminal: isMobileDevice(user_agent) ? DeviceType.MOBILE : DeviceType.PC,
-              language,
-              etime: otime,
-              ltime: otime,
-              events: '',
-              platform
-            }
-          ]);
+          if (targetSession) {
+            // 已存在，更新一下
+            response = await sessionModel.modify(
+              { id: sid },
+              {
+                page_title: ttl,
+                language: lan,
+                user_agent: ua,
+                window_size: ws,
+                document_size: ds
+              }
+            );
+          } else {
+            response.status = true;
+          }
           break;
         case PageLifeType.UNLOAD:
           {
-            const { data = [] } = await sessionModel.find(1, 5, {
-              id: session_id
-            });
-            const [targetSession] = data;
+            // 面包屑
+            let bcIds = [];
+            const breadcrumb = JSON.parse(breadcrumbJson);
+            if (breadcrumb.length) {
+              const bcs = breadcrumb.map(({ lid, bt, msg, t, l }: BreadCrumb) => ({
+                type: bt,
+                level: l,
+                message: msg,
+                event_id: lid,
+                time: new Date(t),
+                id: generateUUID()
+              }));
+              const { status: bcStatus } = await bcModel.add(bcs);
+              if (bcStatus) {
+                bcIds = bcs.map(({ id }) => id);
+              }
+            }
             if (!targetSession || data.length > 1) {
               throw new Error('session not found');
             }
@@ -123,30 +152,29 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
               stayTime = otime.getTime() - etime.getTime();
             }
             response = await sessionModel.modify(
-              { id: session_id },
+              { id: sid },
               {
                 stay_time: stayTime,
-                ltime: otime
+                ltime: otime,
+                breadcrumb: JSON.stringify(bcIds)
               }
             );
           }
           break;
         case RecordTypes.SESSION:
           {
-            const { data = [] } = await sessionModel.find(1, 5, {
-              id: session_id
-            });
-            const [targetSession] = data;
-            if (!targetSession || data.length > 1) {
-              throw new Error('session not found');
+            if (!targetSession) {
+              // 不存在，新建
+              response = await sessionModel.add([{ ...newSession, events: JSON.stringify(evs) }]);
+            } else {
+              const oriEvents = JSON.parse(targetSession.events || '[]') || [];
+              response = await sessionModel.modify(
+                { id: sid },
+                {
+                  events: JSON.stringify(oriEvents.concat(evs))
+                }
+              );
             }
-            const oriEvents = JSON.parse(targetSession.events || '[]') || [];
-            response = await sessionModel.modify(
-              { id: session_id },
-              {
-                events: JSON.stringify(oriEvents.concat(events))
-              }
-            );
           }
           break;
 
@@ -163,23 +191,19 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
     }
 
     const logInfo: LogItem = {
-      ascription_id: app_id,
-      session_id,
+      ascription_id: aid,
+      session_id: sid,
       otime,
-      type,
-      sub_type,
-      breadcrumb: JSON.stringify(bcIds),
+      type: e,
+      sub_type: st,
       data: JSON.stringify(paramObj),
-      path,
-      language,
-      user_agent,
-      page_title,
-      platform
+      platform: p,
+      path: url
     };
-    const { data: count } = await logModel.count({ id });
+    const { data: count } = await logModel.count({ id: lid });
     if (count) {
       // 记录已存在，直接更新
-      const { status, msg } = await logModel.modify({ id }, logInfo);
+      const { status, msg } = await logModel.modify({ id: lid }, logInfo);
       if (status) {
         res.send(successResponse(null, msg));
         return;
@@ -190,7 +214,7 @@ async function uploadCtrl(res, param, ipInfo: IPInfo) {
     // 新增
     const { status, msg } = await logModel.add([
       {
-        id,
+        id: lid,
         ...logInfo
       }
     ]);
@@ -290,24 +314,6 @@ export async function detail(req, res) {
     if (!status) {
       throw new Error(msg);
     }
-    // 面包屑
-    let breadcrumb: BreadCrumb[] = [];
-    const [{ breadcrumb: bcJson = '[]' } = {}] = data || [];
-    const bcIds = JSON.parse(bcJson);
-    if (bcIds.length) {
-      const bcQuery = bcIds.map((id: string) => ({ id }));
-      const {
-        status,
-        data = [],
-        msg
-      } = await bcModel.find({
-        OR: bcQuery
-      });
-      if (!status) {
-        throw new Error(msg);
-      }
-      breadcrumb = data.sort((a, b) => bcIds.indexOf(a.id) - bcIds.indexOf(b.id));
-    }
     // 归属应用名称
     let ascription_name = '';
     const [{ ascription_id }] = data || [];
@@ -323,7 +329,6 @@ export async function detail(req, res) {
       successResponse(
         {
           ...data[0],
-          breadcrumb,
           ascription_name
         },
         msg

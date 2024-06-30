@@ -1,7 +1,7 @@
 import { BasePluginType, EventTypes, ReportDataType, WxBreadcrumbTypes, BreadcrumbLevel } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID } from '@heimdallr-sdk/utils';
+import { generateUUID } from '@heimdallr-sdk/utils';
 import { WxRouteDataType, WxRouteEvents, WxRouteMsgType } from './types';
-import { getCurrentRoute, getNavigateBackTargetUrl } from './utils';
+import { getCurrentRoute, getNavigateBackTargetUrl } from './lib';
 
 function wxRoutePlugin(): BasePluginType {
   return {
@@ -38,7 +38,7 @@ function wxRoutePlugin(): BasePluginType {
             const data = {
               from: getCurrentRoute(),
               to: toUrl,
-              sub_type: method
+              wt: method
             };
             notify(data);
             if (typeof options.complete === 'function' || typeof options.success === 'function' || typeof options.fail === 'function') {
@@ -51,8 +51,8 @@ function wxRoutePlugin(): BasePluginType {
                 | WechatMiniprogram.NavigateBackFailCallback = function (res) {
                 notify({
                   ...data,
-                  isFail: true,
-                  message: res.errMsg
+                  fail: true,
+                  msg: res.errMsg
                 });
                 if (typeof oriFail === 'function') {
                   return oriFail(res);
@@ -66,19 +66,23 @@ function wxRoutePlugin(): BasePluginType {
       });
     },
     transform(collectedData: WxRouteDataType): ReportDataType<WxRouteMsgType> {
-      const id = generateUUID();
-      const { to, from, sub_type, message: errMsg } = collectedData;
+      const lid = generateUUID();
+      const { to, from, wt, msg: errMsg } = collectedData;
       this.breadcrumb.unshift({
-        eventId: id,
-        type: WxBreadcrumbTypes.ROUTE,
-        level: errMsg ? BreadcrumbLevel.WARN : BreadcrumbLevel.INFO,
-        message: `from "${from}" to "${to}" by "${sub_type}"`
+        lid,
+        bt: WxBreadcrumbTypes.ROUTE,
+        l: errMsg ? BreadcrumbLevel.WARN : BreadcrumbLevel.INFO,
+        msg: `from "${from}" to "${to}" by "${wt}"`,
+        t: this.getTime()
       });
+      const { wt: st } = collectedData;
+      delete collectedData.wt;
       return {
-        id,
-        time: formatDate(),
-        type: EventTypes.ROUTE,
-        data: {
+        lid,
+        t: this.getTime(),
+        e: EventTypes.ROUTE,
+        dat: {
+          st,
           ...collectedData
         }
       };

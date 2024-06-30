@@ -1,11 +1,11 @@
 import { ReportDataMsgType } from "@heimdallr-sdk/types";
 
 export enum RecordTypes {
-  SESSION = 'session'
+  SESSION = 81
 }
 
 export interface RecordDataType {
-  events: any[] | string;
+  evs: any[] | string;
 }
 
 export interface RecordMsgType extends ReportDataMsgType, RecordDataType {}

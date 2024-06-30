@@ -1,6 +1,6 @@
 import { record } from 'rrweb';
 import { BasePluginType, EventTypes, ReportDataType, BrowserReportType } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, countBytes } from '@heimdallr-sdk/utils';
+import { generateUUID, countBytes } from '@heimdallr-sdk/utils';
 import { recordOptions } from 'rrweb/typings/types';
 import { eventWithTime } from '@rrweb/types';
 import { RecordDataType, RecordMsgType, RecordTypes } from './types';
@@ -45,19 +45,19 @@ function recordPlugin(options?: recordOptions<eventWithTime>): BasePluginType {
             }
             // sendBeacon 最大支持 64KB，预留 10KB ~ 15KB
             if (eventCurrentSize >= MIN_EVENTSIZE && eventCurrentSize <= MAX_EVENTSIZE) {
-              notify({ events });
+              notify({ evs: events });
               events = [];
             } else if (eventCurrentSize > MAX_EVENTSIZE) {
               client.report(
                 uploadUrl,
                 client.transform({
-                  app_id: client.appID,
-                  id: generateUUID(),
-                  time: formatDate(),
-                  type: EventTypes.RECORD,
-                  data: {
-                    sub_type: RecordTypes.SESSION,
-                    events
+                  aid: client.appID,
+                  lid: generateUUID(),
+                  t: client.getTime(),
+                  e: EventTypes.RECORD,
+                  dat: {
+                    st: RecordTypes.SESSION,
+                    evs: events
                   }
                 }),
                 BrowserReportType.POST
@@ -77,17 +77,17 @@ function recordPlugin(options?: recordOptions<eventWithTime>): BasePluginType {
           return;
         }
         notify({
-          events
+          evs: events
         });
       });
     },
     transform(collectedData: RecordDataType): ReportDataType<RecordMsgType> {
       return {
-        id: generateUUID(),
-        time: formatDate(),
-        type: EventTypes.RECORD,
-        data: {
-          sub_type: RecordTypes.SESSION,
+        lid: generateUUID(),
+        t: this.getTime(),
+        e: EventTypes.RECORD,
+        dat: {
+          st: RecordTypes.SESSION,
           ...collectedData
         }
       };

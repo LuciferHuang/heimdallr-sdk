@@ -53,7 +53,7 @@ export default function getBasic(): BasicType {
     domReady: formatDecimal(domContentLoadedEventEnd - fetchStart, 3),
     interactive: formatDecimal(domInteractive - fetchStart, 3),
     complete: formatDecimal(loadEventStart - fetchStart, 3),
-    httpHead: formatDecimal(transferSize - encodedBodySize, 3),
+    httpHead: formatDecimal(encodedBodySize - transferSize, 3),
     redirect: formatDecimal(redirectCount, 3),
     redirectTime: formatDecimal(redirectEnd - redirectStart, 3),
     duration: formatDecimal(duration, 3),

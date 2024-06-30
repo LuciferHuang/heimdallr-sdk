@@ -1,3 +1,4 @@
+import { BrowserClient } from '@heimdallr-sdk/browser'
 import {
   BasePluginType,
   BreadcrumbLevel,
@@ -11,7 +12,7 @@ import {
   voidFun,
   RequestPluginOptionType
 } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, getUrlPath, replaceOld } from '@heimdallr-sdk/utils';
+import { generateUUID, getUrlPath, replaceOld } from '@heimdallr-sdk/utils';
 
 function fetchPlugin(options: RequestPluginOptionType = {}): BasePluginType {
   const { ignoreUrls = [], reportResponds = false } = options;
@@ -19,19 +20,20 @@ function fetchPlugin(options: RequestPluginOptionType = {}): BasePluginType {
     name: 'fetchPlugin',
     monitor(notify: (data: HttpCollectDataType) => void) {
       const { initUrl, uploadUrl } = this.context;
+      const client = this as BrowserClient;
       const ignore = [...ignoreUrls, uploadUrl, initUrl].map((url) => getUrlPath(url));
-      replaceOld(window, HttpTypes.FETCH, (originalFetch: voidFun) => {
+      replaceOld(window, 'fetch', (originalFetch: voidFun) => {
         return function (url: string, config: Partial<Request> = {}): void {
-          const sTime = Date.now();
-          const method = (config && (config.method as MethodTypes)) || MethodTypes.GET;
+          const sTime = client.getTime();
+          const m = (config && (config.method as MethodTypes)) || MethodTypes.GET;
           const httpCollect: HttpCollectDataType = {
-            request: {
+            req: {
               url,
-              method,
-              data: config && config.body
+              m,
+              dat: config && config.body
             },
-            time: sTime,
-            response: {}
+            t: sTime,
+            res: {}
           };
           const headers = new Headers(config.headers || {});
           Object.assign(headers, {
@@ -45,13 +47,13 @@ function fetchPlugin(options: RequestPluginOptionType = {}): BasePluginType {
           return originalFetch.apply(window, [url, config]).then(
             (res: Response) => {
               const resClone = res.clone();
-              const eTime = Date.now();
-              httpCollect.elapsedTime = eTime - sTime;
-              httpCollect.response.status = resClone.status;
+              const eTime = client.getTime();
+              httpCollect.et = eTime - sTime;
+              httpCollect.res.sta = resClone.status;
               resClone.text().then((data) => {
                 if (isBlock) return;
                 if (reportResponds) {
-                  httpCollect.response.data = data;
+                  httpCollect.res.dat = data;
                 }
                 notify(httpCollect);
               });
@@ -59,9 +61,9 @@ function fetchPlugin(options: RequestPluginOptionType = {}): BasePluginType {
             },
             (err: Error) => {
               if (isBlock) return;
-              const eTime = Date.now();
-              httpCollect.elapsedTime = eTime - sTime;
-              httpCollect.response.status = 0;
+              const eTime = client.getTime();
+              httpCollect.et = eTime - sTime;
+              httpCollect.res.sta = 0;
               notify(httpCollect);
               throw err;
             }
@@ -70,25 +72,26 @@ function fetchPlugin(options: RequestPluginOptionType = {}): BasePluginType {
       });
     },
     transform(collectedData: HttpCollectDataType): ReportDataType<HttpCollectType> {
-      const id = generateUUID();
+      const lid = generateUUID();
       // 添加用户行为栈
       const {
-        request: { method, url, data: params },
-        elapsedTime = 0,
-        response: { status }
+        req: { m, url, dat: params },
+        et = 0,
+        res: { sta }
       } = collectedData;
       this.breadcrumb.unshift({
-        eventId: id,
-        type: BrowserBreadcrumbTypes.FETCH,
-        level: status != 200 ? BreadcrumbLevel.WARN : BreadcrumbLevel.INFO,
-        message: `${method} "${url}" width "${JSON.stringify(params)}" took ${elapsedTime / 1000} seconds`
+        lid,
+        bt: BrowserBreadcrumbTypes.FETCH,
+        l: sta != 200 ? BreadcrumbLevel.WARN : BreadcrumbLevel.INFO,
+        msg: `${m} "${url}" width "${JSON.stringify(params)}" took ${et} ms`,
+        t: this.getTime()
       });
       return {
-        id,
-        time: formatDate(),
-        type: EventTypes.API,
-        data: {
-          sub_type: HttpTypes.FETCH,
+        lid,
+        t: this.getTime(),
+        e: EventTypes.API,
+        dat: {
+          st: HttpTypes.FETCH,
           ...collectedData
         }
       };

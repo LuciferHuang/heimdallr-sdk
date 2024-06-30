@@ -1,5 +1,5 @@
 import { BasePluginType, BrowserBreadcrumbTypes, ConsoleTypes, EventTypes, ReportDataType } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, replaceOld } from '@heimdallr-sdk/utils';
+import { generateUUID, replaceOld } from '@heimdallr-sdk/utils';
 import { ConsoleDataMsgType, ConsoleMsgType } from './types';
 
 function consolePlugin(): BasePluginType {
@@ -28,20 +28,21 @@ function consolePlugin(): BasePluginType {
       });
     },
     transform(collectedData: ConsoleDataMsgType): ReportDataType<ConsoleMsgType> {
-      const id = generateUUID();
+      const lid = generateUUID();
       const { args, level } = collectedData;
       // 添加用户行为栈
       this.breadcrumb.unshift({
-        eventId: id,
-        type: BrowserBreadcrumbTypes.CONSOLE,
-        message: `Console output "${args.join(',')}" "${level}"`
+        lid,
+        bt: BrowserBreadcrumbTypes.CONSOLE,
+        msg: `Console output "${args.join(',')}" "${level}"`,
+        t: this.getTime()
       });
       return {
-        id,
-        time: formatDate(),
-        type: EventTypes.CONSOLE,
-        data: {
-          sub_type: collectedData.level,
+        lid,
+        t: this.getTime(),
+        e: EventTypes.CONSOLE,
+        dat: {
+          st: collectedData.level,
           ...collectedData
         }
       };

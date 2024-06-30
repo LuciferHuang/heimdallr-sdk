@@ -1,4 +1,4 @@
-import { formatDate, generateUUID } from '@heimdallr-sdk/utils';
+import { generateUUID, getStore, setStore } from '@heimdallr-sdk/utils';
 import {
   UnknownFunc,
   BasePluginType,
@@ -8,9 +8,15 @@ import {
   EventTypes,
   BrowserBreadcrumbTypes,
   ConsoleTypes,
-  BreadcrumbLevel
+  BreadcrumbLevel,
+  IAnyObject,
+  StoreType
 } from '@heimdallr-sdk/types';
 import { VueOptions, VueTypes } from './types';
+
+const ERROR_CACHE = 'HEIMDALLR_SDK_VUE_ERROR_CACHE';
+
+const getErrorUid = (input: IAnyObject) => window.btoa(encodeURIComponent(JSON.stringify(input)));
 
 function vuePlugin(options: VueOptions = {}): BasePluginType {
   function parseStack(stack: string) {
@@ -44,10 +50,10 @@ function vuePlugin(options: VueOptions = {}): BasePluginType {
         const { name, message, stack = '' } = error;
         notify({
           name,
-          message,
+          msg: message,
           hook: lifecycleHook,
-          stack,
-          sub_type: VueTypes.ERROR,
+          stk: stack,
+          st: VueTypes.ERROR,
           ...parseStack(stack)
         });
         if (debug) {
@@ -60,24 +66,32 @@ function vuePlugin(options: VueOptions = {}): BasePluginType {
         }
       };
     },
-    transform(data: VueReportDataType): ReportDataType<VueReportDataType> {
-      const id = generateUUID();
+    transform(dat: VueReportDataType): ReportDataType<VueReportDataType> {
+      const lid = generateUUID();
       // 添加用户行为栈
-      const { hook, stack } = data;
+      const { hook, msg } = dat;
       this.breadcrumb.unshift({
-        eventId: id,
-        type: BrowserBreadcrumbTypes.FRAMEWORK,
-        level: BreadcrumbLevel.FATAL,
-        message: `Error in Vue/${hook}: "${stack && stack.toString()}"`
+        lid,
+        bt: BrowserBreadcrumbTypes.FRAMEWORK,
+        l: BreadcrumbLevel.FATAL,
+        msg: `Error in Vue/${hook}: "${msg}"`,
+        t: this.getTime()
       });
-      const breadcrumb = this.breadcrumb.getStack();
-      this.breadcrumb.clear();
+      let errorCaches = getStore<Array<string>>(StoreType.SESSION, ERROR_CACHE);
+      if (!Array.isArray(errorCaches)) {
+        errorCaches = [];
+      }
+      const errorUid = getErrorUid(dat);
+      if (errorCaches.includes(errorUid)) {
+        return null;
+      }
+      errorCaches.push(errorUid);
+      setStore(StoreType.SESSION, ERROR_CACHE, errorCaches);
       return {
-        id,
-        time: formatDate(),
-        type: EventTypes.VUE,
-        breadcrumb,
-        data
+        lid,
+        t: this.getTime(),
+        e: EventTypes.VUE,
+        dat
       };
     }
   };

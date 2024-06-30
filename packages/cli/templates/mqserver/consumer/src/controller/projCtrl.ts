@@ -9,7 +9,7 @@ const projModel = new ProjModel();
 
 export async function init(req, res) {
   const appInfo = { ...req.query };
-  const { id, name, ctime } = appInfo;
+  const { id, name } = appInfo;
   if (!id && !name) {
     res.send(failResponse('missing id or name'));
     return;
@@ -19,7 +19,7 @@ export async function init(req, res) {
     res.send(successResponse(projects[0], 'already exist'));
     return;
   }
-  appInfo.ctime = new Date(ctime);
+  appInfo.ctime = new Date();
   const { status, msg } = await projModel.add([appInfo]);
   if (status) {
     res.send(successResponse(appInfo, msg));

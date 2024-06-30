@@ -1,3 +1,4 @@
+import { IAnyObject } from './types';
 import { toRefs } from 'vue';
 
 /**
@@ -218,8 +219,7 @@ export function objDeepCopy(obj: any) {
   }
   const keys = [...Object.keys(obj), ...Object.getOwnPropertySymbols(obj)];
   for (const key of keys) {
-    // eslint-disable-next-line no-prototype-builtins
-    if (obj.hasOwnProperty(key)) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
       const val = obj[key];
       newObj[key] = typeof val === 'object' ? objDeepCopy(val) : val;
     }
@@ -291,8 +291,8 @@ export const cusToRefs = (value) => {
 
 /**
  * 解析rrweb events，解码文本内容
- * @param events 
- * @returns 
+ * @param events
+ * @returns
  */
 export const decodeRecordEvents = (events: any[]) => {
   const deepTrans = (node: any) => {
@@ -310,4 +310,19 @@ export const decodeRecordEvents = (events: any[]) => {
     }
     return e;
   });
+};
+
+/**
+ * 对象转为选项数组
+ * @param obj
+ * @returns
+ */
+export const Obj2Options = (obj: IAnyObject) => {
+  if (typeof obj !== 'object') {
+    return [];
+  }
+  return Object.keys(obj).map((key) => ({
+    label: obj[key],
+    value: key
+  }));
 };

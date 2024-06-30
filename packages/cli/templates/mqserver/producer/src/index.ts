@@ -8,7 +8,9 @@ import { getUseablePort } from './lib/utils';
 const app = express();
 
 app.use(formidable());
-app.use(cors());
+app.use(cors({
+  exposedHeaders: 'date'
+}));
 app.use(expressIp().getIpInfoMiddleware);
 app.use(router);
 

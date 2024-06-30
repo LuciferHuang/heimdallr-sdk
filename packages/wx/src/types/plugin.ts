@@ -5,7 +5,7 @@ export enum WxErrorTypes {
 }
 
 export interface WxErrorDataType {
-  error: string;
+  err: string;
 }
 
 export interface WxErrorMsgType extends ReportDataMsgType, WxErrorDataType {}

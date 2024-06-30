@@ -8,7 +8,7 @@ import {
   ReportDataType,
   StoreType
 } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, getCookie, getStore, getDeepPropByDot } from '@heimdallr-sdk/utils';
+import { generateUUID, getCookie, getStore, getDeepPropByDot } from '@heimdallr-sdk/utils';
 
 export interface CustomerOptions {
   customers?: CustomerOptionType[];
@@ -23,7 +23,7 @@ function customerPlugin(options: CustomerOptions = {}): BasePluginType {
         // window挂载上报方法
         window['HEIMDALLR_REPORT'] = function (type: string, data: any) {
           notify({
-            sub_type: type,
+            st: type,
             data
           });
         };
@@ -51,26 +51,27 @@ function customerPlugin(options: CustomerOptions = {}): BasePluginType {
           }
         });
         notify({
-          sub_type: CustomerTypes.CUSTOMER,
+          st: CustomerTypes.CUSTOMER,
           ...customerData
         });
       });
     },
     transform(collectedData: IAnyMsgType): ReportDataType<IAnyMsgType> {
-      const id = generateUUID();
+      const lid = generateUUID();
       // 添加用户行为栈
       const breadData = { ...collectedData };
       delete breadData.sub_type;
       this.breadcrumb.unshift({
-        eventId: id,
-        type: BrowserBreadcrumbTypes.CUSTOMER,
-        message: `User report "${JSON.stringify(collectedData)}"`
+        lid,
+        bt: BrowserBreadcrumbTypes.CUSTOMER,
+        msg: `User report "${JSON.stringify(collectedData)}"`,
+        t: this.getTime()
       });
       return {
-        id,
-        time: formatDate(),
-        type: EventTypes.CUSTOMER,
-        data: collectedData
+        lid,
+        t: this.getTime(),
+        e: EventTypes.CUSTOMER,
+        dat: collectedData
       };
     }
   };

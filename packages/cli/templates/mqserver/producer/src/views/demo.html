@@ -13,14 +13,15 @@
     <script src="/crash-dist/page_crash.iife.js"></script>
     <script src="/performance-dist/performance.iife.js"></script>
     <script src="/xhr-dist/xhr.iife.js"></script>
+    <script src="/record-dist/record.iife.js"></script>
     <script async src="/browser-dist/browser.iife.js"></script>
     <script>
-      window.state = { a: {user:{name:"test"}}}
+      window.state = { a: { user: { name: 'test' } } };
       window.__HEIMDALLR_OPTIONS__ = {
         dsn: {
           host: 'localhost:8001',
           init: '/project/init',
-          upload: '/log/upload'
+          report: '/log/report'
         },
         app: {
           name: 'playgroundAPP',
@@ -35,7 +36,8 @@
           HEIMDALLR_HISTORY,
           HEIMDALLR_PAGE_CRASH,
           HEIMDALLR_PERFORMANCE,
-          HEIMDALLR_XHR
+          HEIMDALLR_XHR,
+          HEIMDALLR_RECORD
         ],
         userIdentify: {
           name: 'state.a.user.name',
@@ -109,7 +111,7 @@
       });
 
       customerDom.addEventListener('click', () => {
-        sHEIMDALLR_REPORT('customer-click', 'funny');
+        HEIMDALLR_REPORT('customer-click', 'funny');
       });
 
       fetchDom.addEventListener('click', () => {

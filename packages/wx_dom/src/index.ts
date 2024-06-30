@@ -1,5 +1,5 @@
 import { BasePluginType, EventTypes, ReportDataType, WxBreadcrumbTypes } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, replaceOld } from '@heimdallr-sdk/utils';
+import { generateUUID, replaceOld } from '@heimdallr-sdk/utils';
 import { WxDomDataType, WxDomMsgType } from './types';
 
 function wxDomPlugin(): BasePluginType {
@@ -23,10 +23,10 @@ function wxDomPlugin(): BasePluginType {
                   if (e && e.type && e.currentTarget) {
                     const { type, detail, currentTarget } = e;
                     notify({
-                      method: m,
-                      sub_type: type,
-                      detail,
-                      currentTarget
+                      m,
+                      dt: type,
+                      det: detail,
+                      ct: currentTarget
                     });
                   }
                   return originMethod.apply(this, args);
@@ -40,17 +40,21 @@ function wxDomPlugin(): BasePluginType {
       };
     },
     transform(collectedData: WxDomDataType): ReportDataType<WxDomMsgType> {
-      const id = generateUUID();
+      const lid = generateUUID();
       this.breadcrumb.unshift({
-        eventId: id,
-        type: WxBreadcrumbTypes.CLICK,
-        message: `Invoke "${collectedData.method}"`
+        lid,
+        bt: WxBreadcrumbTypes.CLICK,
+        msg: `Invoke "${collectedData.m}"`,
+        t: this.getTime()
       });
+      const { dt: st } = collectedData;
+      delete collectedData.dt;
       return {
-        id,
-        time: formatDate(),
-        type: EventTypes.DOM,
-        data: {
+        lid,
+        t: this.getTime(),
+        e: EventTypes.DOM,
+        dat: {
+          st,
           ...collectedData
         }
       };

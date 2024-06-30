@@ -1,4 +1,4 @@
-import { IAnyObject, TAG } from '@heimdallr-sdk/types';
+import { IAnyObject } from '@heimdallr-sdk/types';
 
 /**
  * 判断当前环境是否支持console
@@ -18,14 +18,20 @@ export const formateUrlPath = (host: string, path: string): string =>
   }`;
 
 /**
- * 获取url路径地址
- * @param {string} url - 域名地址
- * @return {string}
+ * 获取 URL 路径地址
+ * @param {string} url - 完整的 URL 地址
+ * @return {string} 返回路径部分
  */
-export const getUrlPath = (url: string): string => {
-  const path = `${(url || '').replace(/^http(s|):/, '').split('?')[0]}`;
-  const endIndex = path.length - 1;
-  return path[endIndex] === '/' ? path.substring(0, endIndex) : path;
+ export const getUrlPath = (url: string): string => {
+  try {
+    // 使用 URL 对象解析
+    const { pathname } = new URL(url);
+    // 确保路径不包含尾部斜杠
+    return pathname.endsWith('/') && pathname.length > 1 ? pathname.slice(0, -1) : pathname;
+  } catch (error) {
+    // 处理无效 URL 的情况
+    return '';
+  }
 };
 
 /**
@@ -33,20 +39,20 @@ export const getUrlPath = (url: string): string => {
  * @param url
  * @param query
  */
-export function setUrlQuery(url: string, query = {}) {
+export const setUrlQuery = (url: string, query = {}) => {
   const queryArr = [];
   Object.keys(query).forEach((k) => {
     queryArr.push(`${k}=${query[k]}`);
   });
   return `${url}${url.indexOf('?') !== -1 ? '&' : '?'}${queryArr.join('&')}`;
-}
+};
 
 /**
  * 获取对象属性值
  * @param {string} keyPath 属性路径
  * @param obj 目标对象
  */
-export function getDeepPropByDot(keyPath: string, obj: Object): any {
+export const getDeepPropByDot = (keyPath: string, obj: Object) => {
   if (!keyPath || !obj) {
     return null;
   }
@@ -56,23 +62,19 @@ export function getDeepPropByDot(keyPath: string, obj: Object): any {
   for (const key of paths) {
     const value = result[key];
     if (!value) {
-      console.warn(TAG, `${key} does not exist`);
       return null;
     }
     result = value;
   }
   return result;
-}
+};
 
 /**
- * 转换参数
- * @param data
- * @return {string}
+ * 将对象转换为 URL 查询字符串
+ * @param {IAnyObject} params - 请求参数
+ * @return {string} 查询字符串
  */
-export function obj2query(data: IAnyObject): string {
-  return Object.keys(data).reduce((pre, cur) => {
-    const val = data[cur];
-    pre += `${pre ? '&' : ''}${cur}=${typeof val === 'object' ? JSON.stringify(val) : val}`;
-    return pre;
-  }, '');
-}
+export const obj2query = (params: IAnyObject) =>
+  Object.keys(params)
+    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+    .join('&');

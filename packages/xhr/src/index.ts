@@ -1,3 +1,4 @@
+import { BrowserClient } from '@heimdallr-sdk/browser';
 import {
   BasePluginType,
   BreadcrumbLevel,
@@ -11,7 +12,7 @@ import {
   voidFun,
   RequestPluginOptionType
 } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, getUrlPath, replaceOld } from '@heimdallr-sdk/utils';
+import { generateUUID, getUrlPath, replaceOld } from '@heimdallr-sdk/utils';
 
 interface XMLHttp extends IAnyObject {
   httpCollect: HttpCollectDataType;
@@ -24,35 +25,36 @@ function XHRPlugin(options: RequestPluginOptionType = {}): BasePluginType {
     name: 'XHRPlugin',
     monitor(notify: (data: HttpCollectDataType) => void) {
       const { initUrl, uploadUrl } = this.context;
+      const client = this as BrowserClient;
       const ignore = [...ignoreUrls, uploadUrl, initUrl].map((url) => getUrlPath(url));
       replaceOld(originalXhrProto, 'open', (originalOpen: voidFun): voidFun => {
         return function (this: XMLHttp, ...args: any[]): void {
           this.httpCollect = {
-            request: {
-              method: args[0] ? args[0].toUpperCase() : args[0],
+            req: {
+              m: args[0] ? args[0].toUpperCase() : args[0],
               url: args[1]
             },
-            response: {},
-            time: Date.now()
+            res: {},
+            t: client.getTime()
           };
           originalOpen.apply(this, args);
         };
       });
       replaceOld(originalXhrProto, 'send', (originalSend: voidFun): voidFun => {
         return function (this: IAnyObject, ...args: any[]): void {
-          const { request } = this.httpCollect;
-          const { url } = request;
+          const { req } = this.httpCollect;
+          const { url } = req;
           this.addEventListener('loadend', function (this: XMLHttp) {
             const isBlock = ignore.includes(getUrlPath(url));
             if (isBlock) return;
             const { responseType, response, status } = this;
-            request.data = args[0];
-            const eTime = Date.now();
+            req.data = args[0];
+            const eTime = client.getTime();
             if (reportResponds && ['', 'json', 'text'].indexOf(responseType) !== -1) {
-              this.httpCollect.response.data = typeof response === 'object' ? JSON.stringify(response) : response;
+              this.httpCollect.res.dat = typeof response === 'object' ? JSON.stringify(response) : response;
             }
-            this.httpCollect.response.status = status;
-            this.httpCollect.elapsedTime = eTime - this.httpCollect.time;
+            this.httpCollect.res.sta = status;
+            this.httpCollect.et = eTime - this.httpCollect.t;
             notify(this.httpCollect);
           });
           originalSend.apply(this, args);
@@ -60,25 +62,26 @@ function XHRPlugin(options: RequestPluginOptionType = {}): BasePluginType {
       });
     },
     transform(collectedData: HttpCollectDataType): ReportDataType<HttpCollectType> {
-      const id = generateUUID();
+      const lid = generateUUID();
       // 添加用户行为栈
       const {
-        request: { method, url, data: params },
-        elapsedTime = 0,
-        response: { status }
+        req: { m, url, dat: params },
+        et = 0,
+        res: { sta }
       } = collectedData;
       this.breadcrumb.unshift({
-        eventId: id,
-        type: BrowserBreadcrumbTypes.XHR,
-        level: status != 200 ? BreadcrumbLevel.WARN : BreadcrumbLevel.INFO,
-        message: `${method} "${url}" width "${JSON.stringify(params)}" took ${elapsedTime / 1000} seconds`
+        lid,
+        bt: BrowserBreadcrumbTypes.XHR,
+        l: sta != 200 ? BreadcrumbLevel.WARN : BreadcrumbLevel.INFO,
+        msg: `${m} "${url}" width "${JSON.stringify(params)}" took ${et} ms`,
+        t: this.getTime()
       });
       return {
-        id,
-        time: formatDate(),
-        type: EventTypes.API,
-        data: {
-          sub_type: HttpTypes.XHR,
+        lid,
+        t: this.getTime(),
+        e: EventTypes.API,
+        dat: {
+          st: HttpTypes.XHR,
           ...collectedData
         }
       };

@@ -1,3 +1,4 @@
+import { WxClient } from '@heimdallr-sdk/wx'
 import {
   BasePluginType,
   EventTypes,
@@ -10,7 +11,7 @@ import {
   BreadcrumbLevel,
   RequestPluginOptionType
 } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, getUrlPath } from '@heimdallr-sdk/utils';
+import { generateUUID, getUrlPath } from '@heimdallr-sdk/utils';
 import { WxXhrTypes } from './types';
 
 function wxRequestPlugin(options: RequestPluginOptionType = {}): BasePluginType {
@@ -19,6 +20,7 @@ function wxRequestPlugin(options: RequestPluginOptionType = {}): BasePluginType 
     name: 'wxRequestPlugin',
     monitor(notify: (data: HttpCollectDataType) => void) {
       const { initUrl, uploadUrl } = this.context;
+      const client = this as WxClient;
       const ignore = [...ignoreUrls, uploadUrl, initUrl].map((url) => getUrlPath(url));
       [WxXhrTypes.REQUEST, WxXhrTypes.DOWNLOADFILE, WxXhrTypes.UPLOADFILE].forEach((hook) => {
         const originRequest = wx[hook];
@@ -61,16 +63,16 @@ function wxRequestPlugin(options: RequestPluginOptionType = {}): BasePluginType 
               default:
                 break;
             }
-            const sTime = Date.now();
+            const sTime = client.getTime();
             // 收集小程序的请求信息
             const httpCollect: HttpCollectDataType = {
-              request: {
+              req: {
                 url,
-                method,
-                data: reqData
+                m: method,
+                dat: reqData
               },
-              response: {},
-              time: sTime
+              res: {},
+              t: sTime
             };
             // 成功回调
             const oriSuccess = options.success;
@@ -78,13 +80,13 @@ function wxRequestPlugin(options: RequestPluginOptionType = {}): BasePluginType 
               | WechatMiniprogram.RequestSuccessCallback
               | WechatMiniprogram.DownloadFileSuccessCallback
               | WechatMiniprogram.UploadFileFailCallback = function (res) {
-              const eTime = Date.now();
+              const eTime = client.getTime();
               if (reportResponds) {
-                httpCollect.response.data = res.data;
+                httpCollect.res.dat = res.data;
               }
-              httpCollect.elapsedTime = eTime - sTime;
-              httpCollect.response.status = res.statusCode;
-              httpCollect.response.msg = res.errMsg;
+              httpCollect.et = eTime - sTime;
+              httpCollect.res.sta = res.statusCode;
+              httpCollect.res.msg = res.errMsg;
               notify(httpCollect);
               if (typeof oriSuccess === 'function') {
                 return oriSuccess(res);
@@ -96,10 +98,10 @@ function wxRequestPlugin(options: RequestPluginOptionType = {}): BasePluginType 
               | WechatMiniprogram.RequestFailCallback
               | WechatMiniprogram.DownloadFileFailCallback
               | WechatMiniprogram.UploadFileFailCallback = function (err) {
-              const eTime = Date.now();
-              httpCollect.elapsedTime = eTime - sTime;
-              httpCollect.response.msg = err.errMsg;
-              httpCollect.response.status = 0;
+              const eTime = client.getTime();
+              httpCollect.et = eTime - sTime;
+              httpCollect.res.msg = err.errMsg;
+              httpCollect.res.sta = 0;
               notify(httpCollect);
               if (typeof oriFail === 'function') {
                 return oriFail(err);
@@ -116,24 +118,25 @@ function wxRequestPlugin(options: RequestPluginOptionType = {}): BasePluginType 
       });
     },
     transform(collectedData: HttpCollectDataType): ReportDataType<HttpCollectType> {
-      const id = generateUUID();
+      const lid = generateUUID();
       const {
-        request: { method, url, data: params },
-        elapsedTime,
-        response: { status }
+        req: { m, url, dat: params },
+        et,
+        res: { sta }
       } = collectedData;
       this.breadcrumb.unshift({
-        eventId: id,
-        type: WxBreadcrumbTypes.API,
-        level: status === 0 ? BreadcrumbLevel.WARN : BreadcrumbLevel.INFO,
-        message: `${method} "${url}" width "${JSON.stringify(params)}" took ${elapsedTime / 1000} seconds`
+        lid,
+        bt: WxBreadcrumbTypes.API,
+        l: sta === 0 ? BreadcrumbLevel.WARN : BreadcrumbLevel.INFO,
+        message: `${m} "${url}" width "${JSON.stringify(params)}" took ${et} ms`,
+        t: this.getTime()
       });
       return {
-        id,
-        time: formatDate(),
-        type: EventTypes.API,
-        data: {
-          sub_type: HttpTypes.XHR,
+        lid,
+        t: this.getTime(),
+        e: EventTypes.API,
+        dat: {
+          st: HttpTypes.XHR,
           ...collectedData
         }
       };

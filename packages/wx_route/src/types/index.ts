@@ -13,9 +13,9 @@ export enum WxRouteEvents {
 export interface WxRouteDataType {
   from: string;
   to: string;
-  sub_type: WxRouteEvents | string;
-  isFail?: boolean;
-  message?: string;
+  wt: WxRouteEvents | string;
+  fail?: boolean;
+  msg?: string;
 }
 
 export interface WxRouteMsgType extends ReportDataMsgType, WxRouteDataType {}

@@ -5,9 +5,9 @@ import {
   ReportDataType,
   RouteTypes,
   RouteDataMsgType,
-  BrowserBreadcrumbTypes
+  BrowserBreadcrumbTypes,
 } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID } from '@heimdallr-sdk/utils';
+import { generateUUID } from '@heimdallr-sdk/utils';
 
 function hashPlugin(): BasePluginType {
   return {
@@ -25,20 +25,21 @@ function hashPlugin(): BasePluginType {
       });
     },
     transform(collectedData: RouteDataMsgType): ReportDataType<RouteMsgType> {
-      const id = generateUUID();
+      const lid = generateUUID();
       // 添加用户行为栈
       const { from, to } = collectedData;
       this.breadcrumb.unshift({
-        eventId: id,
-        type: BrowserBreadcrumbTypes.ROUTE,
-        message: `from "${from}" to "${to}" by hash`
+        lid,
+        bt: BrowserBreadcrumbTypes.ROUTE,
+        msg: `from "${from}" to "${to}" by hash`,
+        t: this.getTime()
       });
       return {
-        id,
-        time: formatDate(),
-        type: EventTypes.ROUTE,
-        data: {
-          sub_type: RouteTypes.HASH,
+        lid,
+        t: this.getTime(),
+        e: EventTypes.ROUTE,
+        dat: {
+          st: RouteTypes.HASH,
           ...collectedData
         }
       };

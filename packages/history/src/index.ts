@@ -6,10 +6,10 @@ import {
   RouteTypes,
   voidFun,
   BrowserBreadcrumbTypes,
-  RouteDataMsgType
+  RouteDataMsgType,
 } from '@heimdallr-sdk/types';
-import { formatDate, generateUUID, replaceOld } from '@heimdallr-sdk/utils';
-import { supportsHistory } from './utils';
+import { generateUUID, replaceOld } from '@heimdallr-sdk/utils';
+import { supportsHistory } from './lib';
 
 function historyPlugin(): BasePluginType {
   return {
@@ -48,23 +48,24 @@ function historyPlugin(): BasePluginType {
       replaceOld(window.history, 'replaceState', historyReplaceFn);
     },
     transform(collectedData: RouteDataMsgType): ReportDataType<RouteMsgType> {
-      const id = generateUUID();
+      const lid = generateUUID();
       // 添加用户行为栈
       const { from, to } = collectedData;
       if (from === to) {
         return;
       }
       this.breadcrumb.unshift({
-        eventId: id,
-        type: BrowserBreadcrumbTypes.ROUTE,
-        message: `from "${from}" to "${to}" by history`
+        lid,
+        bt: BrowserBreadcrumbTypes.ROUTE,
+        msg: `from "${from}" to "${to}" by history`,
+        t: this.getTime()
       });
       return {
-        id,
-        time: formatDate(),
-        type: EventTypes.ROUTE,
-        data: {
-          sub_type: RouteTypes.HISTORY,
+        lid,
+        t: this.getTime(),
+        e: EventTypes.ROUTE,
+        dat: {
+          st: RouteTypes.HISTORY,
           ...collectedData
         }
       };
