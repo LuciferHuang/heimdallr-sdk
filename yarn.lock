@@ -297,15 +297,6 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
-"@heimdallr-sdk/browser@^0.0.30":
-  version "0.0.30"
-  resolved "https://registry.yarnpkg.com/@heimdallr-sdk/browser/-/browser-0.0.30.tgz#e6b6face62b341440b1f7381da3b7ec610b54aaa"
-  integrity sha512-0ycFKfphSYOTfwiQ9jlkXLBfuGyHTuPRuxdBVBLuJJUJ5KS/hvraUAvbFvzKWRBrvggyViux4/x0X2vZ7/Gkig==
-  dependencies:
-    "@heimdallr-sdk/core" "^0.0.25"
-    "@heimdallr-sdk/types" "^0.0.16"
-    "@heimdallr-sdk/utils" "^0.0.20"
-
 "@highlightjs/vue-plugin@^2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@highlightjs/vue-plugin/-/vue-plugin-2.1.0.tgz#b7c41e3597a46975665b10cad57882cbde1d1594"
