@@ -1,7 +1,7 @@
 <template>
   <div class="login-wrap">
     <div class="loginBox">
-      <h2><%= name %></h2>
+      <h2>监控后台</h2>
       <el-form ref="formRef" :model="formProxy.form" :rules="rules">
         <el-form-item prop="user">
           <el-input
@@ -37,7 +37,7 @@
       </el-button>
     </div>
     <div class="footer">
-      <p class="copy-right">Copyright &copy; 2023 &nbsp;<%= name %></p>
+      <p class="copy-right">Copyright &copy; 2021 &nbsp;LuciferHuang</p>
     </div>
   </div>
 </template>

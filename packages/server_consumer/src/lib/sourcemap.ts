@@ -63,13 +63,19 @@ class TrySourceMap {
         return {
           status: true,
           msg: 'success',
-          data: lines.slice(line - 2, line + 1)
+          data: {
+            ...position,
+            code: lines.slice(line - 2, line + 1)
+          }
         };
       }
       return {
         status: true,
         msg: 'success',
-        data: lines
+        data: {
+          ...position,
+          code: lines
+        }
       };
     } catch (error) {
       return {

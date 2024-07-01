@@ -3,8 +3,9 @@ import { ElMessage } from 'element-plus';
 import http from 'helper/http';
 import { DEFAULT_PAGE_SIZE } from 'config/others';
 import { copy, cusToRefs, formatDate } from 'helper/utils';
-import { logType as logTypeMap, subType as subTypeMap } from 'helper/config/filters'
+import { logType as logTypeMap, subType as subTypeMap } from 'helper/config/filters';
 import { detailDeserialize, LogDetail, tableDeserialize } from '@/models/log';
+import { parseStackFrames } from '@/helper/parseErrorStk';
 
 const detailLabel = {
   type: '类型',
@@ -22,7 +23,7 @@ export default function useListTable() {
     codeLoading: false,
     codeVisible: false,
     isDrawerShow: false,
-    codeDetail: {}
+    errorCodes: []
   });
 
   // 翻页
@@ -120,11 +121,10 @@ export default function useListTable() {
             const detailRes = detailDeserialize(res);
             const fields = [];
             let arrayData = [];
-            const { path, subType, data } = detailRes;
+            const { path, subType, data, ascription } = detailRes;
             Object.keys(detailRes).forEach((key) => {
               if (!['data', 'path'].includes(key)) {
-                const lable = detailLabel[key] || key;
-                const val =  detailRes[key]
+                const val = detailRes[key];
                 fields.push({
                   label: detailLabel[key] || key,
                   val: logTypeMap[val] || subTypeMap[val] || val
@@ -160,8 +160,9 @@ export default function useListTable() {
               fields,
               path,
               subType,
-              data: subType === 21 ? data : null,
-              arrayData
+              data: [21, 91].includes(subType) ? data : null,
+              arrayData,
+              ascription
             };
           })
           .catch(() => {});
@@ -188,7 +189,7 @@ export default function useListTable() {
   }
 
   const detail = computed(() => state.detail || {});
-  const codeDetail = computed(() => state.codeDetail || {});
+  const errorCodes = computed(() => state.errorCodes || []);
 
   async function showCode() {
     if (state.codeVisible) {
@@ -197,17 +198,24 @@ export default function useListTable() {
     }
     const { data, ascription: app } = state.detail as LogDetail;
     try {
-      const { lineno: line, colno: col, filename: file } = JSON.parse(data);
       state.codeLoading = true;
-      const res = await http.get(`/sourcemap/search?lineno=${line}&colno=${col}&filename=${file}&appname=${app}`);
-      const code = Array.isArray(res) ? res.join('\n') : res;
+      const { stk } = JSON.parse(data);
+      const stks = parseStackFrames(stk);
+      const res = await Promise.all(
+        stks.map(({ lineno, colno, filename }) =>
+          http.get(`/sourcemap/search?lineno=${lineno}&colno=${colno}&filename=${filename}&appname=${app}`)
+        )
+      );
+      state.errorCodes = stks.map((_, idx) => {
+        const { column = '', line = '', source = '', code = [] } = (res[idx] as any) || { column: '', line: '', source: '', code: [] };
+        return {
+          line,
+          column,
+          source,
+          code: ((code as unknown as Array<string>) || []).join('\n')
+        };
+      });
       state.codeVisible = true;
-      state.codeDetail = {
-        line,
-        col,
-        file,
-        code
-      };
     } catch (error) {
       ElMessage.error(error.message || '请求失败，请稍后重试');
     }
@@ -230,7 +238,7 @@ export default function useListTable() {
     sortHandle,
     tagTypeFilter,
     showCode,
-    codeDetail,
+    errorCodes,
     drawerClose
   };
 }

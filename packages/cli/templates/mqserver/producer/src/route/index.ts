@@ -10,8 +10,8 @@ const router = express.Router(); // 创建路由对象
 
 router.get('/project/init', projInit);
 
-router.post('/log/upload', logPostUpload);
-router.get('/log/upload', logGetUpload);
+router.post('/log/report', logPostUpload);
+router.get('/log/report', logGetUpload);
 
 router.post('/sourcemap/upload', smUpload);
 

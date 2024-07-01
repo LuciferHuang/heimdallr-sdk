@@ -58,7 +58,7 @@
         dsn: {
             host: 'localhost:8888',
             init: '/project/init',
-            upload: '/log/upload'
+            report: '/log/report'
         },
         app: {
             name: 'playgroundAPP',
@@ -82,7 +82,7 @@ heimdallr({
     dsn: {
         host: 'localhost:8888',
         init: '/project/init',
-        upload: '/log/upload'
+        report: '/log/report'
     },
     app: {
         name: 'playgroundAPP',

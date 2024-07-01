@@ -27,7 +27,7 @@
 |-|-|-|-|
 |host|String|上报接口域名地址|-|
 |init|String|应用初始化接口地址|-|
-|upload|String|信息上报接口地址|-|
+|report|String|信息上报接口地址|-|
 
 ### APPInfo
 
@@ -48,25 +48,25 @@
 ```js
 const heimdallerOptions = {
     dsn: {
-            host: 'http://localhost:8888',
-            init: '/project/init',
-            upload: '/log/upload'
-        },
-        app: {
-            name: 'playgroundAPP',
-            leader: 'test',
-            desc: 'test proj'
-        },
-        sendFunc: (url, params) => {
-            return new Promise((rs, rj) => {
-                // do something
-                rs({
-                    code: 0,
-                    msg: 'success',
-                    data: 'hello world'
-                });
-            })
-        }
+        host: 'http://localhost:8888',
+        init: '/project/init',
+        report: '/log/report'
+    },
+    app: {
+        name: 'playgroundAPP',
+        leader: 'test',
+        desc: 'test proj'
+    },
+    sendFunc: (url, params) => {
+        return new Promise((rs, rj) => {
+            // do something
+            rs({
+                code: 0,
+                msg: 'success',
+                data: 'hello world'
+            });
+        })
+    }
 }
 ```
 
@@ -78,7 +78,7 @@ heimdallr({
     dsn: {
         host: 'http://localhost:8888',
         init: '/project/init',
-        upload: '/log/upload'
+        report: '/log/report'
     },
     app: {
         name: 'playgroundAPP',

@@ -25,7 +25,7 @@
 |-|-|-|-|
 |host|String|上报接口域名地址|-|
 |init|String|应用初始化接口地址|-|
-|upload|String|信息上报接口地址|-|
+|report|String|信息上报接口地址|-|
 
 ### APPInfo
 
@@ -48,7 +48,7 @@ const heimdallerOptions = {
     dsn: {
             host: 'http://localhost:8888',
             init: '/project/init',
-            upload: '/log/upload'
+            report: '/log/report'
         },
         app: {
             name: 'playgroundAPP',

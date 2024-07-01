@@ -32,9 +32,9 @@ heimdallr({
     report: '/log/report'
   },
   app: {
-    name: 'viteAPP',
+    name: 'playground',
     leader: 'LuciferHuang',
-    desc: 'viteAPP'
+    desc: 'playground'
   },
   plugins: [
     hashPlugin(),

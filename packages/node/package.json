@@ -1,6 +1,6 @@
 {
   "name": "@heimdallr-sdk/node",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "A SDK For Monitoring NodeJs Errors",
   "license": "MIT",
   "author": "LuciferHuang",

@@ -21,23 +21,20 @@
         <span v-else>{{ item.val }}</span>
       </el-descriptions-item>
     </el-descriptions>
-    <el-table v-if="(detail.arrayData || []).length" :data="(detail.arrayData || [])" stripe style="width: 100%">
+    <el-table v-if="(detail.arrayData || []).length" :data="detail.arrayData || []" stripe style="width: 100%">
       <el-table-column prop="f" label="资源地址" />
-      <el-table-column prop="t" label="耗时(ms)" :width="88"/>
+      <el-table-column prop="t" label="耗时(ms)" :width="88" />
     </el-table>
-    <template v-if="detail.subType === 21">
-      <br />
-      <el-popover :visible="state.codeVisible" placement="bottom" :title="`文件：${codeDetail.file}`" :width="400" trigger="mual">
-        <div class="source-content">
-          <pre><code>{{ codeDetail.code }}</code></pre>
-          <el-tag class="mg-r-8" type="info">行数：{{ codeDetail.line }}</el-tag>
-          <el-tag type="info">列数：{{ codeDetail.col }}</el-tag>
-        </div>
-        <template #reference>
-          <el-button :loading="state.codeLoading" @click="showCode">{{ state.codeVisible ? '隐藏错误代码' : '查看错误代码' }}</el-button>
-        </template>
-      </el-popover>
-    </template>
+    <el-button v-if="[21, 91].includes(detail.subType)" class="mg-t-12" :loading="state.codeLoading" @click="showCode">
+      {{ state.codeVisible ? '隐藏堆栈信息' : '查看堆栈信息' }}
+    </el-button>
+    <el-timeline v-if="state.codeVisible" style="max-width: 600px" class="mg-t-12">
+      <el-timeline-item v-for="(item, idx) in errorCodes" :key="idx" :timestamp="item.source" placement="top">
+        <el-tag class="mg-r-8">行数：{{ item.line }}</el-tag>
+        <el-tag>列数：{{ item.column }}</el-tag>
+        <highlightjs autodetect :code="item.code" />
+      </el-timeline-item>
+    </el-timeline>
   </el-drawer>
 </template>
 <script lang="ts">
@@ -48,7 +45,9 @@ import {
   ElDescriptions,
   ElDescriptionsItem,
   ElTag,
-  ElPopover,
+  ElCard,
+  ElTimeline,
+  ElTimelineItem,
   ElButton,
   ElTable,
   ElTableColumn
@@ -65,7 +64,9 @@ export default defineComponent({
     ElDescriptions,
     ElDescriptionsItem,
     ElTag,
-    ElPopover,
+    ElCard,
+    ElTimeline,
+    ElTimelineItem,
     ElButton,
     ElTable,
     ElTableColumn,

@@ -67,33 +67,67 @@ Manager 即监控服务的管理后台，私有包，不发布，同样可以通
 
 有以下四个模块：
 
-1. 总览
+### 1. 总览
 
-   ![总览](./overview.png)
+![总览](./overview.png)
 
-2. 应用列表
+### 2. 项目管理
 
-   ![应用/项目列表](./project-list.png)
+![应用/项目列表](./project-list.png)
 
-3. 会话
+### 3. 会话管理
 
-   ![会话列表](./session-list.png)
+#### 会话列表
 
-   ![会话详情](./session-detail.png)
-   详情不单开页面，在列表页右侧增加抽屉式弹层展示
+![会话列表](./session-list.png)
 
-   ![会话回放](./session-record.png)
-   （回放功能需引入 `@heimdallr-sdk/record` 插件）
+#### 会话详情
 
-4. 日志
+详情不单开页面，在列表页右侧增加抽屉式弹层展示
 
-   ![日志列表](./log-list.png)
+详情上半部分为基础信息，下半部分为面包屑
 
-   ![日志详情](./log-detail.png)
+![会话详情](./session-detail.png)
 
-5. 查看报错代码（sourcemap）
-   sourcemap 能力需配合插件使用
-   ![查看按钮](./code_show_button.jpg)
+#### 录屏回放
 
-   ![报错源码](./error_code.png)
+回放功能需引入 `@heimdallr-sdk/record` 插件
+
+![会话回放](./session-record.png)
+
+
+### 4. 日志
+
+#### 日志列表
+
+![日志列表](./log-list.png)
+
+#### 日志详情
+
+这里仅列举部分日志详情，更多信息欢迎下载体验
+
+请求日志
+
+![日志详情](./log-xhr-detail.png)
+
+资源加载日志
+
+![日志详情](./log-per-detail.png)
+
+错误日志
+
+![日志详情](./log-error-detail.png)
+
+### 5. 查看报错代码（sourcemap）
    
+在错误日志详情中，可点击 "查看堆栈信息" 按钮
+
+![查看按钮](./code_show_button.png)
+
+将展示详细的报错信息，包括：编译前的文件、行数、列数、报错代码信息
+
+![报错源码](./error_code.png)
+
+sourcemap 能力需配合插件使用
+- vite 项目：`@heimdallr-sdk/vite-plugin-sourcemap-upload`
+- webpack 项目: `@heimdallr-sdk/webpack-plugin-sourcemap-upload`

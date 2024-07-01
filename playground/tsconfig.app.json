@@ -5,6 +5,7 @@
   "compilerOptions": {
     "composite": true,
     "baseUrl": ".",
+    "allowJs": true,
     "paths": {
       "@/*": ["./src/*"],
       "@heimdallr-sdk/*": ["../packages/*/esm"],
