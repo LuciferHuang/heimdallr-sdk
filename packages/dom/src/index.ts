@@ -5,7 +5,8 @@ import { htmlElementAsString } from './lib';
 
 export interface DomCollectedType {
   category: DomTypes;
-  data: Document;
+  doc: Document;
+  ev: MouseEvent;
 }
 
 function domPlugin(options: DomOptions = {}): BasePluginType {
@@ -16,21 +17,24 @@ function domPlugin(options: DomOptions = {}): BasePluginType {
       const clickThrottle = throttle(notify, throttleDelayTime);
       document.addEventListener(
         'click',
-        function () {
+        function (ev) {
           clickThrottle({
             category: DomTypes.CLICK,
-            data: this
+            doc: this,
+            ev,
           });
         },
         true
       );
     },
     transform(collectedData: DomCollectedType): ReportDataType<DomMsgType> {
-      const { category, data } = collectedData;
-      const htmlString = htmlElementAsString(data.activeElement as HTMLElement);
+      const { category, doc, ev } = collectedData;
+      const active = doc.activeElement as HTMLElement;
+      const htmlString = htmlElementAsString(active);
       if (!htmlString) {
         return null;
       }
+      const { pageX, pageY } = ev;
       // 添加用户行为栈
       const lid = generateUUID();
       this.breadcrumb.unshift({
@@ -45,7 +49,9 @@ function domPlugin(options: DomOptions = {}): BasePluginType {
         e: EventTypes.DOM,
         dat: {
           st: category,
-          ele: htmlString
+          ele: htmlString,
+          x: pageX,
+          y: pageY
         }
       };
     }
