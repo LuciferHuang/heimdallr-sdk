@@ -7,8 +7,7 @@ import { nextTick } from './lib/nextTick';
 import jsErrorPlugin from './plugins/jsError';
 import promiseErrorPlugin from './plugins/promiseError';
 import lifeCyclePlugin from './plugins/lifeCycle';
-
-export class BrowserClient extends Core<BrowserOptionsType> {
+class BrowserClient extends Core<BrowserOptionsType> {
   private readonly breadcrumb: Breadcrumb<BrowserOptionsType>;
   private diff: number;
   protected sessionID: string;

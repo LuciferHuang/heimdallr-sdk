@@ -1,4 +1,3 @@
-import { BrowserClient } from '@heimdallr-sdk/browser'
 import {
   BasePluginType,
   BreadcrumbLevel,
@@ -20,7 +19,7 @@ function fetchPlugin(options: RequestPluginOptionType = {}): BasePluginType {
     name: 'fetchPlugin',
     monitor(notify: (data: HttpCollectDataType) => void) {
       const { initUrl, uploadUrl } = this.context;
-      const client = this as BrowserClient;
+      const client = this;
       const ignore = [...ignoreUrls, uploadUrl, initUrl].map((url) => getUrlPath(url));
       replaceOld(window, 'fetch', (originalFetch: voidFun) => {
         return function (url: string, config: Partial<Request> = {}): void {

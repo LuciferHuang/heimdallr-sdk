@@ -1,4 +1,3 @@
-import { BrowserClient } from '@heimdallr-sdk/browser';
 import {
   BasePluginType,
   BreadcrumbLevel,
@@ -25,7 +24,7 @@ function XHRPlugin(options: RequestPluginOptionType = {}): BasePluginType {
     name: 'XHRPlugin',
     monitor(notify: (data: HttpCollectDataType) => void) {
       const { initUrl, uploadUrl } = this.context;
-      const client = this as BrowserClient;
+      const client = this;
       const ignore = [...ignoreUrls, uploadUrl, initUrl].map((url) => getUrlPath(url));
       replaceOld(originalXhrProto, 'open', (originalOpen: voidFun): voidFun => {
         return function (this: XMLHttp, ...args: any[]): void {
